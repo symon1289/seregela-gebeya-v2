@@ -131,8 +131,8 @@ const Login = () => {
       // Verify OTP using Firebase
       const result = await confirmationResult.confirm(otpValue);
       console.log("User signed in:", result.user);
-      toast.success(t("login_successful")); // Notify user
-      navigate("/"); // Redirect to home page
+      toast.success(t("login_successful"));
+      navigate("/seregela-gebeya-v2");
     } catch (err: any) {
       console.error("Error verifying OTP:", err);
       setError(t("invalid_otp"));

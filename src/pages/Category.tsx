@@ -73,10 +73,10 @@ const Category: React.FC = () => {
         {activeCategory && (
           <Breadcrumb
             paths={[
-              { name: "Products", url: "/products" },
+              { name: "Products", url: "/seregela-gebeya-v2/products" },
               {
                 name: activeCategory.name,
-                url: `/category/${activeCategory.id}`,
+                url: `/seregela-gebeya-v2/category/${activeCategory.id}`,
               },
             ]}
           />

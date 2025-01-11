@@ -34,7 +34,7 @@ const CategoryGrid: React.FC = () => {
   const scroll = (direction: "left" | "right") => {
     const container = scrollContainerRef.current;
     if (container) {
-      const scrollAmount = 200; // Adjust scroll amount as needed
+      const scrollAmount = 200;
       container.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -69,7 +69,7 @@ const CategoryGrid: React.FC = () => {
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((category) => (
               <Link
-                to={`/category/${category.id}`}
+                to={`/seregela-gebeya-v2/category/${category.id}`}
                 key={category.id}
                 className="flex flex-col items-center group cursor-pointer "
               >

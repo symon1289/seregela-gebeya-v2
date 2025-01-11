@@ -88,9 +88,9 @@ const Cart = () => {
 
   const handleCheckout = () => {
     if (userData) {
-      navigate("/checkout/shipping");
+      navigate("/seregela-gebeya-v2/checkout/shipping");
     } else {
-      navigate("/login");
+      navigate("/seregela-gebeya-v2/login");
     }
   };
   return (

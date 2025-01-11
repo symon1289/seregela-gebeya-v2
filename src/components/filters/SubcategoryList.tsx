@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
@@ -11,8 +10,8 @@ interface SubcategoryListProps {
 }
 
 const SubcategoryList: React.FC<SubcategoryListProps> = () => {
-  const location = useLocation(); // Use useLocation to get the current URL
-  const { t } = useTranslation(); // Use translation hook
+  const location = useLocation();
+  const { t } = useTranslation();
   const [openCategories, setOpenCategories] = useState<Record<number, boolean>>(
     {}
   );
@@ -21,7 +20,6 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
     null
   );
 
-  // Use the useCategory hook
   const { categories, isLoading, error, hasMore, loadMore } = useCategory();
 
   useEffect(() => {
@@ -43,7 +41,7 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
     } else {
       setActiveCategoryId(parseInt(lastSegment));
     }
-  }, [categories, location.pathname]); // Use location.pathname instead of routeId
+  }, [categories, location.pathname]);
 
   const toggleCategory = (categoryId: number) => {
     setOpenCategories((prev) => ({
@@ -71,7 +69,11 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
   }
 
   if (categories.length === 0) {
-    return <div className="text-gray-500 text-sm">{t("no_categories_available")}</div>;
+    return (
+      <div className="text-gray-500 text-sm">
+        {t("no_categories_available")}
+      </div>
+    );
   }
 
   return (
@@ -91,7 +93,7 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
               }`}
             >
               <Link
-                to={`/category/${category.id}`}
+                to={`/seregela-gebeya-v2/category/${category.id}`}
                 className={`flex-1 px-3 py-2`}
               >
                 <span className="flex items-center justify-between">
@@ -109,9 +111,7 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
                   <ChevronDown
                     className={`w-4 h-4 transition-transform ${
                       openCategories[category.id] ? "rotate-180" : ""
-                    } ${
-                      category.id === activeCategoryId ? "text-white" : ""
-                    }`}
+                    } ${category.id === activeCategoryId ? "text-white" : ""}`}
                   />
                 </button>
               )}
@@ -123,7 +123,7 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
                   {category.subcategories.map((subcategory) => (
                     <Link
                       key={subcategory.id}
-                      to={`/subcategory/${subcategory.id}`}
+                      to={`/seregela-gebeya-v2/subcategory/${subcategory.id}`}
                       className={`block px-4 py-2 text-sm ${
                         subcategory.id === activeSubcategoryId
                           ? "bg-[#e7a334] text-white font-medium"

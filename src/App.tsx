@@ -27,7 +27,7 @@ function App() {
           <TopBar />
           <MainHeader />
           <Routes>
-            <Route path="/seregela-gebeya-v2/" element={<Home />} />
+            <Route path="/seregela-gebeya-v2" element={<Home />} />
             <Route path="/seregela-gebeya-v2/products" element={<Products />} />
             <Route path="/seregela-gebeya-v2/cart" element={<Cart />} />
             <Route

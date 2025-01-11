@@ -105,7 +105,7 @@ const Delivery: React.FC = () => {
 
       dispatch(saveDeliveryType(selectedDeliveryType));
 
-      navigate("/checkout/payment");
+      navigate("/seregela-gebeya-v2/checkout/payment");
     } else {
       if (!location.latitude) {
         if (!locationClicked) {

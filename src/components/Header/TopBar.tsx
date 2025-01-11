@@ -23,7 +23,7 @@ export default function TopBar() {
       <div className="max-w-screen-xl container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Link
-            to="/"
+            to="/seregela-gebeya-v2"
             className="flex items-center gap-1 text-gray-600 hover:text-[#e7a334]"
           >
             <Home size={16} />

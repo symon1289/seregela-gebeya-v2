@@ -41,25 +41,25 @@ const Footer = () => {
             <p className="text-white download-our-app">Stay in Touch With Us</p>
             <div className="flex space-x-4 justify-center md:justify-center lg:justify-start">
               <Link
-                to="/"
+                to="/seregela-gebeya-v2"
                 className="text-[#e7a334] bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
               >
                 <FaFacebookF size={24} />
               </Link>
               <Link
-                to="/"
+                to="/seregela-gebeya-v2"
                 className="text-[#e7a334] bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
               >
                 <ImLinkedin2 size={24} />
               </Link>
               <Link
-                to="/"
+                to="/seregela-gebeya-v2"
                 className="text-[#e7a334] bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
               >
                 <PiInstagramLogoFill size={24} />
               </Link>
               <Link
-                to="/"
+                to="/seregela-gebeya-v2"
                 className="text-[#e7a334] bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
               >
                 <BiLogoTelegram size={24} />
@@ -103,7 +103,7 @@ const Footer = () => {
                   .map((category) => (
                     <li className="li-footer-footer" key={category.id}>
                       <Link
-                        to={`/category/${category.id}`}
+                        to={`/seregela-gebeya-v2/category/${category.id}`}
                         className="hover:text-white transition-colors"
                       >
                         {t(category.name)}
@@ -129,12 +129,18 @@ const Footer = () => {
                 </Link>
               </li>
               <li className="li-footer-footer">
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link
+                  to="/seregela-gebeya-v2"
+                  className="hover:text-white transition-colors"
+                >
                   {t("shipping_policy")}
                 </Link>
               </li>
               <li className="li-footer-footer">
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link
+                  to="/seregela-gebeya-v2"
+                  className="hover:text-white transition-colors"
+                >
                   {t("return_policy")}
                 </Link>
               </li>
@@ -161,27 +167,42 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2 text-amber-100">
               <li className="li-footer-footer">
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link
+                  to="/seregela-gebeya-v2"
+                  className="hover:text-white transition-colors"
+                >
                   Our Story
                 </Link>
               </li>
               <li className="li-footer-footer">
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link
+                  to="/seregela-gebeya-v2"
+                  className="hover:text-white transition-colors"
+                >
                   Careers
                 </Link>
               </li>
               <li className="li-footer-footer">
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link
+                  to="/seregela-gebeya-v2"
+                  className="hover:text-white transition-colors"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li className="li-footer-footer">
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link
+                  to="/seregela-gebeya-v2"
+                  className="hover:text-white transition-colors"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li className="li-footer-footer">
-                <Link to="/" className="hover:text-white transition-colors">
+                <Link
+                  to="/seregela-gebeya-v2"
+                  className="hover:text-white transition-colors"
+                >
                   Blog
                 </Link>
               </li>

@@ -25,7 +25,7 @@ export default function WelcomeSection() {
           {t("welcome")}
         </h2>
         <div className="flex gap-2 mb-1">
-          <Link to="/login" className="w-full">
+          <Link to="/seregela-gebeya-v2/login" className="w-full">
             <button
               className="
               w-full 

@@ -88,13 +88,15 @@ const Navbar = () => {
   const handleSearchSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setIsSearchOpen(false);
-    navigate(`/products?name=${encodeURIComponent(searchQuery)}`);
+    navigate(
+      `/seregela-gebeya-v2/products?name=${encodeURIComponent(searchQuery)}`
+    );
   };
 
   const handleResultClick = (product: Product) => {
     setIsSearchOpen(false);
     setSearchQuery("");
-    navigate(`/products/${product.id}`);
+    navigate(`/seregela-gebeya-v2/products/${product.id}`);
   };
 
   useEffect(() => {
@@ -129,7 +131,7 @@ const Navbar = () => {
               )}
             </button>
             <Link
-              to="/"
+              to="/seregela-gebeya-v2"
               className="flex items-center justify-end h-[65px] w-[80px] md:w-[180px] lg:w-[220px]"
             >
               <img src={logomini} alt="Logo" className="w-[80px] h-[60px]" />
@@ -222,7 +224,7 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             {/* Cart */}
             <Link
-              to="/cart"
+              to="/seregela-gebeya-v2/cart"
               className="relative hover:text-gray-200 text-white rounded-lg px-1 py-2 "
             >
               <FaCartShopping size={24} />
@@ -235,7 +237,7 @@ const Navbar = () => {
 
             {/* Wishlist */}
             <Link
-              to="/wishlist"
+              to="/seregela-gebeya-v2/wishlist"
               className="relative hover:text-gray-200 text-white rounded-lg px-1 py-2 "
             >
               <FaHeart size={24} />
@@ -247,7 +249,7 @@ const Navbar = () => {
             </Link>
 
             <Link
-              to="/login"
+              to="/seregela-gebeya-v2/login"
               className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
             >
               <User size={24} />
@@ -281,7 +283,7 @@ const Navbar = () => {
               <div className="flex-1 overflow-y-auto py-4">
                 <div className="flex items-center justify-between p-4 border-b">
                   <Link
-                    to="/"
+                    to="/seregela-gebeya-v2"
                     className="flex items-center h-[61px] w-[80px] lg:w-[220px]"
                   >
                     <img src={logomini} alt="Logo" className="object-cover" />
@@ -295,7 +297,7 @@ const Navbar = () => {
                 </div>
                 {/* Account Link */}
                 <Link
-                  to="/login"
+                  to="/seregela-gebeya-v2/login"
                   className="flex items-center  gap-3 py-3 text-gray-900 hover:bg-gray-50"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
