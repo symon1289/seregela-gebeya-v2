@@ -28,7 +28,7 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  });
 
   const { products: hookSearchResults, isLoading } = useProducts({
     id: undefined,
@@ -71,12 +71,17 @@ const Navbar = () => {
       originalPrice: product.originalPrice.toString(),
     })
   );
-
+  const userData = localStorage.getItem("user");
+  const { first_name, last_name } = userData
+    ? JSON.parse(userData)
+    : { first_name: "", last_name: "" };
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const itemCount =
     cartItems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
-
+  const packagesitems = useSelector((state: RootState) => state.cart.packages);
+  const packagecount =
+    packagesitems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
   const { categories } = useCategory();
   const { t } = useTranslation();
 
@@ -167,7 +172,7 @@ const Navbar = () => {
 
                 {/* Search Results */}
                 {isSearchOpen && searchResults.length > 0 && !isLoading && (
-                  <div className="absolute top-full left-0 right-0 mt-0 bg-white rounded-lg shadow-lg z-[100]">
+                  <div className="absolute top-full left-0 right-0 mt-0 bg-white rounded-lg shadow-lg z-[100] max-h-96 overflow-y-auto">
                     <ul className="py-2">
                       {searchResults.map((product) => (
                         <li
@@ -183,7 +188,7 @@ const Navbar = () => {
                           <div>
                             <div className="text-gray-900">{product.name}</div>
                             <div className="text-sm text-gray-600">
-                              Birr{product.price}
+                              {t("birr")} {product.price}
                             </div>
                           </div>
                         </li>
@@ -228,11 +233,12 @@ const Navbar = () => {
               className="relative hover:text-gray-200 text-white rounded-lg px-1 py-2 "
             >
               <FaCartShopping size={24} />
-              {itemCount > 0 && (
-                <span className="absolute -top-1 -right-0  bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {itemCount}
-                </span>
-              )}
+              {itemCount > 0 ||
+                (packagecount > 0 && (
+                  <span className="absolute -top-1 -right-0  bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                    {itemCount}
+                  </span>
+                ))}
             </Link>
 
             {/* Wishlist */}
@@ -248,13 +254,24 @@ const Navbar = () => {
               )}
             </Link>
 
-            <Link
-              to="/seregela-gebeya-v2/login"
-              className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
-            >
-              <User size={24} />
-              <span>{t("login")}</span>
-            </Link>
+            {userData ? (
+              <Link
+                to="/seregela-gebeya-v2/profile"
+                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
+              >
+                <User size={24} />
+                <span>{first_name}</span>
+                <span>{last_name}</span>
+              </Link>
+            ) : (
+              <Link
+                to="/seregela-gebeya-v2/login"
+                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
+              >
+                <User size={24} />
+                <span>{t("login")}</span>
+              </Link>
+            )}
           </div>
         </div>
 

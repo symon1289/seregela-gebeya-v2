@@ -42,7 +42,7 @@ const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
                   </svg>
                 </a>
                 <Link
-                  to="/cart"
+                  to="/seregela-gebeya-v2/cart"
                   className="font-semibold text-gray-900 hover:underline"
                 >
                   Cart
@@ -94,7 +94,10 @@ const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
                 )}
               </a>
               {step2 ? (
-                <Link to="/checkout" className="font-semibold text-gray-900">
+                <Link
+                  to="/seregela-gebeya-v2/checkout"
+                  className="font-semibold text-gray-900"
+                >
                   Shipping
                 </Link>
               ) : (
@@ -129,7 +132,10 @@ const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
                 3
               </a>
               {step3 ? (
-                <Link to="/payment" className="font-semibold text-gray-900">
+                <Link
+                  to="/seregela-gebeya-v2/payment"
+                  className="font-semibold text-gray-900"
+                >
                   Payment
                 </Link>
               ) : (

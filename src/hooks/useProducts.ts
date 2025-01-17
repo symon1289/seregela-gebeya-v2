@@ -1,10 +1,7 @@
-import { Package } from './../types/product';
-
 import { useState, useEffect } from 'react';
 import { SortOption } from '../components/filters/SortFilter';
 import { Product,  } from '../types/product';
 import { useTranslation } from "react-i18next";
-import api from '../utils/axios';
 
 interface UseProductsProps {
   id: number | undefined;
@@ -26,14 +23,6 @@ interface UseProductsReturn {
   loadMore: () => void;
   handlePriceChange: (min: number, max: number) => void;
   handleSortChange: (value: SortOption['value']) => void;
-  popularProducts: Product[];
-  product: Product | null;
-  packages: Package[]; 
-  package: Package | null; 
-  getPopularProducts: () => Promise<void>;
-  getProductById: (id: string) => Promise<void>;
-  getPackages: () => Promise<void>;
-  getPackageById: (id: string) => Promise<void>;
 }
 
 export const useProducts = ({
@@ -52,10 +41,6 @@ export const useProducts = ({
   const [sortBy, setSortBy] = useState<SortOption['value']>("created_at");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const { i18n } = useTranslation();
-  const [popularProducts, setPopularProducts] = useState<Product[]>([]);
-  const [product, setProduct] = useState<Product | null>(null);
-  const [packages, setPackages] = useState<Package[]>([]); 
-  const [packageItem, setPackageItem] = useState<Package | null>(null); 
   useEffect(() => {
     let isMounted = true;
 
@@ -196,64 +181,6 @@ export const useProducts = ({
     setSortBy(value);
   };
 
-  const getPopularProducts = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get('popular-products');
-      setPopularProducts(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch popular products');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getProductById = async (id: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get(`products/${id}`);
-      setProduct(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch product');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  
-
-  const getPackages = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get('packages');
-      setPackages(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch packages');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getPackageById = async (id: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get(`packages/${id}`);
-      setPackageItem(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch package');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return {
     products,
     filteredProducts,
@@ -267,14 +194,6 @@ export const useProducts = ({
     loadMore,
     handlePriceChange,
     handleSortChange,
-    popularProducts,
-    product,
-    packages,
-    package: packageItem,
-    getPopularProducts,
-    getProductById,
-    getPackages,
-    getPackageById
     
   };
 };

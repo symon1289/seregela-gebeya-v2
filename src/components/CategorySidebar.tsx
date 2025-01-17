@@ -30,14 +30,13 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
   return (
     <div className="relative w-full shadow-lg h-[400px] z-[100]">
       <ul className="flex flex-col">
-        {/* All Products Link */}
         <li className="py-2 w-full hover:text-[#e9a83a] hover:bg-gray-100">
           <Link
             to="/seregela-gebeya-v2/products"
             className="flex items-center gap-2 hover:text-[#e9a83a] text-sm font-medium ml-4"
           >
             <Grid className="w-8 h-8" />
-            <span>{t("allProducts")}</span> {/* Translated text */}
+            <span>{t("allProducts")}</span>
           </Link>
         </li>
 

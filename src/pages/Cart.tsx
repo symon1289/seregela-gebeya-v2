@@ -6,6 +6,8 @@ import { RootState } from "../store/store";
 import {
   removeFromCart,
   updateQuantity,
+  updatePackageQuantity,
+  removePackageFromCart,
   clearCart,
 } from "../store/features/cartSlice";
 import { Trash2 } from "lucide-react";
@@ -20,6 +22,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart);
+  const packages = useSelector((state: RootState) => state.cart.packages);
   const userData = useSelector((state: RootState) => state.auth.user);
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: number]: boolean;
@@ -27,13 +30,15 @@ const Cart = () => {
 
   const { subtotal, shipping, grandTotal, freeShipping } = calculateCartTotals(
     cartItems.items,
-    cartItems.packages
+    packages
   );
 
   const handleRemoveFromCart = (id: number) => {
     dispatch(removeFromCart(id));
   };
-
+  const handleRemovePackageFromCart = (id: number) => {
+    dispatch(removePackageFromCart(id));
+  };
   const handleQuantityChange = (id: number, quantity: number) => {
     if (quantity === 0) {
       dispatch(removeFromCart(id));
@@ -41,7 +46,13 @@ const Cart = () => {
       dispatch(updateQuantity({ id, quantity }));
     }
   };
-
+  const handlePackageQuantityChange = (id: number, quantity: number) => {
+    if (quantity === 0) {
+      dispatch(removePackageFromCart(id));
+    } else {
+      dispatch(updatePackageQuantity({ id, quantity }));
+    }
+  };
   const toggleDropdown = (id: number) => {
     setOpenDropdowns((prev) => ({
       ...prev,
@@ -63,7 +74,7 @@ const Cart = () => {
     );
   };
 
-  if (cartItems.items.length === 0 && cartItems.packages.length === 0) {
+  if (cartItems.items.length === 0 && packages.length === 0) {
     return (
       <>
         {" "}
@@ -210,7 +221,7 @@ const Cart = () => {
               ))}
             </div>
             <div className="grid gap-6">
-              {cartItems.packages.map((item) => (
+              {packages.map((item) => (
                 <div
                   key={item.id}
                   className="bg-white rounded-lg shadow-sm p-4 flex gap-4"
@@ -242,14 +253,14 @@ const Cart = () => {
                             const value = parseInt(e.target.value);
                             if (!isNaN(value)) {
                               if (value > item.left_in_stock) {
-                                handleQuantityChange(
+                                handlePackageQuantityChange(
                                   item.id,
                                   item.left_in_stock
                                 );
                               } else if (value < 1) {
-                                handleQuantityChange(item.id, 1);
+                                handlePackageQuantityChange(item.id, 1);
                               } else {
-                                handleQuantityChange(item.id, value);
+                                handlePackageQuantityChange(item.id, value);
                               }
                             }
                           }}
@@ -285,7 +296,7 @@ const Cart = () => {
                             <button
                               key={num}
                               onClick={() => {
-                                handleQuantityChange(item.id, num);
+                                handlePackageQuantityChange(item.id, num);
                                 toggleDropdown(item.id);
                               }}
                               className={`w-full px-3 py-2 text-left hover:bg-gray-50 ${
@@ -299,7 +310,7 @@ const Cart = () => {
                       )}
                     </div>
                     <button
-                      onClick={() => handleRemoveFromCart(item.id)}
+                      onClick={() => handleRemovePackageFromCart(item.id)}
                       className="p-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                     >
                       <Trash2 size={20} />

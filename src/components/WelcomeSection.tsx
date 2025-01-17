@@ -8,6 +8,10 @@ import quality from "../assets/quality.png";
 import contact from "../assets/24-7.png";
 
 export default function WelcomeSection() {
+  const userData = localStorage.getItem("user");
+  const { first_name, last_name } = userData
+    ? JSON.parse(userData)
+    : { first_name: "", last_name: "" };
   return (
     <div
       className="bg-white shadow-lg 
@@ -25,9 +29,10 @@ export default function WelcomeSection() {
           {t("welcome")}
         </h2>
         <div className="flex gap-2 mb-1">
-          <Link to="/seregela-gebeya-v2/login" className="w-full">
-            <button
-              className="
+          {userData ? (
+            <Link to="/seregela-gebeya-v2/profile" className="w-full">
+              <button
+                className="
               w-full 
               bg-[#e7a334] 
               text-white 
@@ -41,10 +46,32 @@ export default function WelcomeSection() {
               duration-300
               text-sm sm:text-base
             "
-            >
-              {t("register_now")}
-            </button>
-          </Link>
+              >
+                {t("hello")} {first_name} {last_name}
+              </button>
+            </Link>
+          ) : (
+            <Link to="/seregela-gebeya-v2/login" className="w-full">
+              <button
+                className="
+            w-full 
+            bg-[#e7a334] 
+            text-white 
+            py-2 px-4 
+            rounded 
+            hover:bg-white 
+            hover:text-[#e7a334] 
+            border 
+            border-[#e7a334] 
+            transition-colors 
+            duration-300
+            text-sm sm:text-base
+          "
+              >
+                {t("register_now")}
+              </button>
+            </Link>
+          )}
         </div>
       </div>
 

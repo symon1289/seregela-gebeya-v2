@@ -11,7 +11,16 @@ export interface ShippingDetails {
     longitude: number,
 }
 export interface PaymentDetails {
-  payment_method: string
+   [key: number]: string; 
+}
+
+export interface DiscountType {
+  id: number,
+  name: string,
+  name_am: string,
+  description: string,
+  description_am: string,
+  discount: number
 }
  export interface DeliveryType {
    id: number,
@@ -28,7 +37,7 @@ export interface PaymentDetails {
 export interface OrderDetail {
     delivery_type_id: number,
     payment_method: string,
-    shipping_detail: ShippingDetails,
+    shipping_detail: ShippingDetails | null,
     products: { id: number; quantity: number }[],
     packages: { id: number; quantity: number }[],
     discount_type_id?: number,

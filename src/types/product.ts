@@ -36,6 +36,43 @@ interface Store {
   deleted_at: string | null;
 }
 
+type PackageProduct = {
+  id: number;
+  cnet_id: string;
+  name: string;
+  name_am: string;
+  slug: string | null;
+  description: string | null;
+  description_am: string | null;
+  supplier_id: number;
+  brand: string;
+  size: string | null;
+  measurement_type: string;
+  weight: string;
+  price: string;
+  discount: string;
+  max_quantity_per_order: string | null;
+  category_id: string | null;
+  pivot: {
+    package_id: number;
+    product_id: number;
+    created_at: string;
+    updated_at: string;
+    id: number;
+    quantity: number;
+  };
+  subcategory_id: number;
+  stores: Store[];
+  total_quantity: number;
+  left_in_stock: number;
+  rating: string | null;
+  is_non_stocked: number;
+  is_active: number;
+  image_paths: string[];
+  thumbnail_image_paths: string[];
+  created_at: string;
+  updated_at: string;
+};
 
 // Define the type for the store's products pivot
 interface StoreProductPivot {
@@ -88,7 +125,7 @@ export interface Package {
   image_paths: string[];
   thumbnail_image_paths: string[];
   tag_id: number;
-  products: Product[];
+  products: PackageProduct[];
   created_at: string;
   updated_at: string;
 }

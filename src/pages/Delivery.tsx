@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { calculateCartTotals } from "../utils/CartUtils";
-import { getCartMetaTags } from "../config/meta";
+import { getDeliveryMetaTags } from "../config/meta";
 import Meta from "../components/Meta";
 import { useTranslation } from "react-i18next";
 import {
@@ -22,7 +22,7 @@ const Delivery: React.FC = () => {
   const { getDeliveryTypes, error, loading } = useOrder();
   const cartItems = useSelector((state: RootState) => state.cart);
   const userData = useSelector((state: RootState) => state.auth.user);
-  const { first_name, last_name, phone_number, address } = userData;
+  const { address } = userData;
   const [DeliveryTypes, setDeliveryTypes] = useState<DeliveryType[]>([]);
   const [selectedDeliveryType, setSelectedDeliveryType] = useState<number>(0);
   const [locationClicked, setLocationClicked] = useState<boolean>(false);
@@ -59,6 +59,9 @@ const Delivery: React.FC = () => {
     fetchDeliveryTypes();
   }, []);
 
+  // Get user from local storage for only testing
+  const dummyUser = window.localStorage.getItem("user");
+
   const getCurrentLocation = () => {
     setLocationClicked(true);
     if (navigator.geolocation) {
@@ -93,9 +96,9 @@ const Delivery: React.FC = () => {
           latitude: location.latitude,
           longitude: location.longitude,
           neighborhood: customLocation.neighborhood,
-          first_name: first_name,
-          last_name: last_name,
-          phone_number: phone_number,
+          first_name: JSON.parse(dummyUser || "").first_name,
+          last_name: JSON.parse(dummyUser || "").last_name,
+          phone_number: JSON.parse(dummyUser || "").phone_number,
           city: customLocation.city,
           sub_city: customLocation.sub_city,
           woreda: customLocation.woreda,
@@ -160,7 +163,7 @@ const Delivery: React.FC = () => {
 
   return (
     <>
-      <Meta config={getCartMetaTags()} />
+      <Meta config={getDeliveryMetaTags()} />
       <div>
         <CheckoutSteps step1 />
         <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">

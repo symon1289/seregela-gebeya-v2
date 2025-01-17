@@ -1,152 +1,106 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Link, useNavigate } from "react-router-dom";
 import useOrder from "../hooks/useOrder";
-import { DeliveryType } from "../types/order";
+import { DiscountType, OrderDetail } from "../types/order";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { calculateCartTotals } from "../utils/CartUtils";
-import { getCartMetaTags } from "../config/meta";
+import { getPaymentMethodsMetaTags } from "../config/meta";
 import Meta from "../components/Meta";
 import { useTranslation } from "react-i18next";
-import {
-  saveShippingDetails,
-  saveDeliveryType,
-} from "../store/features/cartSlice";
-// import Tele_Birr from "../../../assets/payment-option-1.png";
-// import CBE_Pay from "../../../assets/payment-option-2.png";
-// import Hello_Cash from "../../../assets/payment-option-3.png";
-// import CBE_Birr from "../../../assets/payment-option-4.png";
-// import CBE_Mobile_Banking from "../../../assets/payment-option-5.png";
-// import Awash_Birr from "../../../assets/payment-option-6.png";
-// import BOA from "../../../assets/payment-option-7.png";
-// import Apollo from "../../../assets/payment-option-8.png";
-// import Enat_Bank from "../../../assets/payment-option-9.png";
-// import Eth_Switch from "../../../assets/payment-option-10.png";
-// import Bunna_Bank from "../../../assets/payment-option-11.png";
+import { savePaymentMethod } from "../store/features/cartSlice";
+import { paymentOptions } from "../config/paymentOptions";
 
-// const paymentOptions = [
-//   { id: 1, name: "telebirr", image: Tele_Birr },
-//   { id: 2, name: "cbe-pay", image: CBE_Pay },
-//   { id: 3, name: "hello-cash", image: Hello_Cash },
-//   { id: 4, name: "CBE Birr", image: CBE_Birr },
-//   { id: 5, name: "CBE Mobile Banking", image: CBE_Mobile_Banking },
-//   { id: 6, name: "Awash Birr", image: Awash_Birr },
-//   { id: 7, name: "BOA", image: BOA },
-//   { id: 8, name: "Apollo", image: Apollo },
-//   { id: 9, name: "Enat Bank", image: Enat_Bank },
-//   { id: 10, name: "Eth-Switch", image: Eth_Switch },
-//   { id: 11, name: "Bunna Bank", image: Bunna_Bank },
-// ];
 const Payment: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { getDeliveryTypes, error, loading } = useOrder();
+  const { getDiscounts, makeOrder, error } = useOrder();
   const cartItems = useSelector((state: RootState) => state.cart);
-  const userData = useSelector((state: RootState) => state.auth.user);
-  const { first_name, last_name, phone_number, address } = userData;
-  const [DeliveryTypes, setDeliveryTypes] = useState<DeliveryType[]>([]);
-  const [selectedDeliveryType, setSelectedDeliveryType] = useState<number>(0);
-  const [locationClicked, setLocationClicked] = useState<boolean>(false);
-  const [location, setLocation] = useState<{
-    latitude: number | 0;
-    longitude: number | 0;
-  }>({
-    latitude: 0,
-    longitude: 0,
-  });
-  const [customLocation, setCustomLocation] = useState({
-    city: address?.city || "",
-    woreda: address?.woreda || "",
-    sub_city: address?.sub_city || "",
-    neighborhood: "",
-    house_number: address?.house_number || "",
-  });
-  const [disableInput, setDisableInput] = useState<boolean>(false);
+  const shippingDetails = useSelector(
+    (state: RootState) => state.cart.shippingDetails
+  );
+  const deliveryType = useSelector(
+    (state: RootState) => state.cart.delivery_type_id
+  );
 
-  const { subtotal, shipping, grandTotal, freeShipping } = calculateCartTotals(
-    cartItems.items,
-    cartItems.packages
+  const [discountTypes, setDiscountTypes] = useState<DiscountType[]>([]);
+  const [paymentOptionId, setPaymentOptionId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [orderDetail, setOrderDetail] = useState<OrderDetail | null>(null);
+
+  const { subtotal, shipping, grandTotal, freeShipping } = useMemo(
+    () => calculateCartTotals(cartItems.items, cartItems.packages),
+    [cartItems]
   );
 
   useEffect(() => {
-    const fetchDeliveryTypes = async () => {
+    const fetchDiscountTypes = async () => {
       try {
-        const deliveryTypes = await getDeliveryTypes();
-        setDeliveryTypes(deliveryTypes);
+        const discounts = await getDiscounts();
+        setDiscountTypes(discounts);
       } catch (err) {
-        console.error("Error fetching delivery types:", err);
+        toast.error(t("error.fetch_discounts"));
+        console.error("Error fetching discounts:", err);
       }
     };
-    fetchDeliveryTypes();
-  }, []);
-
-  const getCurrentLocation = () => {
-    setLocationClicked(true);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setLocation({
-            latitude: pos.coords.latitude,
-            longitude: pos.coords.longitude,
-          });
-          toast.success("Location registered");
-        },
-        (err) => {
-          toast.error(err.message);
-        }
+    fetchDiscountTypes();
+  }, [t]);
+  const handlePaymentChange = (id: number) => {
+    setPaymentOptionId(id);
+    const selectedOption = paymentOptions.find((option) => option.id === id);
+    if (selectedOption && selectedOption.sendingName) {
+      setOrderDetail(
+        (prev) =>
+          ({
+            ...prev,
+            payment_method: selectedOption.sendingName,
+          } as OrderDetail)
       );
-    } else {
-      toast.error("Geolocation is not supported by this browser.");
-      setLocationClicked(false);
-    }
-    setDisableInput(true);
-  };
-
-  const handleSubmit = () => {
-    if (
-      location.latitude &&
-      customLocation.neighborhood.length > 0 &&
-      selectedDeliveryType !== 0
-    ) {
-      // Emit event or dispatch state
-      dispatch(
-        saveShippingDetails({
-          latitude: location.latitude,
-          longitude: location.longitude,
-          neighborhood: customLocation.neighborhood,
-          first_name: first_name,
-          last_name: last_name,
-          phone_number: phone_number,
-          city: customLocation.city,
-          sub_city: customLocation.sub_city,
-          woreda: customLocation.woreda,
-          house_number: customLocation.house_number,
-        })
-      );
-
-      dispatch(saveDeliveryType(selectedDeliveryType));
-
-      navigate("/seregela-gebeya-v2/checkout/payment/confirm");
-    } else {
-      if (!location.latitude) {
-        if (!locationClicked) {
-          toast.warning("Current location is empty");
-        } else {
-          getCurrentLocation();
-        }
-      }
-      if (customLocation.neighborhood.length < 4) {
-        toast.warning("Neighborhood is empty");
-      }
-      if (!selectedDeliveryType) {
-        toast.warning("Please select a shipping method.");
-      }
+      dispatch(savePaymentMethod(selectedOption.sendingName));
     }
   };
+
+  const handleOrderSubmit = useCallback(async () => {
+    if (!orderDetail) {
+      toast.error(t("error.no_payment_selected"));
+      return;
+    }
+
+    setLoading(true);
+    if (!deliveryType) {
+      toast.error(t("error.delivery_type_not_selected"));
+      return;
+    }
+
+    const preparedOrderDetail = {
+      ...orderDetail,
+      shipping_detail: shippingDetails,
+      delivery_type_id: deliveryType,
+      products: cartItems.items.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+      })),
+      packages: cartItems.packages.map((pkg) => ({
+        id: pkg.id,
+        quantity: pkg.quantity,
+      })),
+    };
+    try {
+      await makeOrder(preparedOrderDetail);
+      toast.success(t("success.order_placed"));
+      navigate("/order-success");
+    } catch (error) {
+      toast.error(t("error.order_failed"));
+      console.error("Error making order:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [orderDetail, cartItems, makeOrder, t, navigate]);
+
   const formatPrice = (price: string): string => {
     const numPrice = parseFloat(price);
     const formattedPrice = numPrice.toFixed(2);
@@ -182,10 +136,12 @@ const Payment: React.FC = () => {
       </div>
     );
   }
-
+  if (discountTypes.length === 0) {
+    return;
+  }
   return (
     <>
-      <Meta config={getCartMetaTags()} />
+      <Meta config={getPaymentMethodsMetaTags()} />
       <div>
         <CheckoutSteps step1 step2 />
         <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
@@ -195,11 +151,11 @@ const Payment: React.FC = () => {
               {t("shipping_details_desc_delivery_type")}
             </p>
 
-            <form className="mt-5 grid md:grid-cols-3 gap-2">
+            <form className="mt-5 grid sm:grid-cols-2 gap-1">
               {loading ? (
                 <Loader />
               ) : (
-                DeliveryTypes.map((item) => (
+                paymentOptions.map((item) => (
                   <div
                     className="relative  hover:cursor-pointer hover:bg-gray-50 hover:text-[#e9a83a]"
                     key={item.id}
@@ -210,165 +166,27 @@ const Payment: React.FC = () => {
                       type="radio"
                       name="radio"
                       value={item.id}
-                      onChange={() => setSelectedDeliveryType(item.id)}
-                      checked={selectedDeliveryType === item.id}
+                      onChange={() => handlePaymentChange(item.id)}
+                      checked={paymentOptionId === item.id}
                     />
                     <span className="peer-checked:border-[#e9a83a] absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
                     <label
                       className="peer-checked:border-2 peer-checked:border-[#e9a83a] peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                       htmlFor={`radio_${item.id}`}
                     >
-                      {/* <img
+                      <img
                         className="w-14 object-contain"
-                        src={item.logo || "/images/default-logo.png"}
+                        src={item.image}
                         alt={item.name}
-                      /> */}
+                      />
                       <div className="ml-5">
                         <span className="mt-2 font-semibold">{item.name}</span>
-                        <p className="text-slate-500 text-sm leading-6">
-                          {t("delivery")}:{" "}
-                          {item.number_of_days === 1
-                            ? `${item.number_of_days} ${t("day")}`
-                            : `${item.number_of_days} ${t("days")}`}
-                        </p>
                       </div>
                     </label>
                   </div>
                 ))
               )}
             </form>
-
-            <div className="px-4 pt-4 mt-4 justify-between items-center flex">
-              <div>
-                <p className="text-xl font-medium">{t("shipping_details")}</p>
-                <p className="text-gray-400 line-clamp-1">
-                  {t("shipping_details_desc")}
-                </p>
-              </div>
-              <div>
-                <button
-                  className="px-4 py-2 bg-gray-50 flex justify-around items-center w-full border-gray-200 rounded-lg hover:bg-[#fed874] transition-colors duration-300"
-                  onClick={getCurrentLocation}
-                >
-                  <svg
-                    className={
-                      locationClicked ? "text-[#e9a83a]" : "text-black"
-                    }
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="48px"
-                    height="48px"
-                    viewBox="0 0 24 24"
-                  >
-                    <circle cx="12" cy="12" r="4" fill="currentColor" />
-                    <path
-                      fill="currentColor"
-                      d="M13 4.069V2h-2v2.069A8.01 8.01 0 0 0 4.069 11H2v2h2.069A8.008 8.008 0 0 0 11 19.931V22h2v-2.069A8.007 8.007 0 0 0 19.931 13H22v-2h-2.069A8.008 8.008 0 0 0 13 4.069zM12 18c-3.309 0-6-2.691-6-6s2.691-6 6-6s6 2.691 6 6s-2.691 6-6 6z"
-                    />
-                  </svg>
-                  {t("current_location")}
-                </button>
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="city"
-                className="mt-4 mb-2 block text-sm font-medium"
-              >
-                {t("city")}
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  disabled={disableInput}
-                  className={`w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
-                    disableInput ? "cursor-not-allowed bg-gray-100" : "bg-white"
-                  }`}
-                  placeholder={t("city_hint")}
-                  value={customLocation.city}
-                  onChange={(e) =>
-                    setCustomLocation({
-                      ...customLocation,
-                      city: e.target.value,
-                    })
-                  }
-                />
-                <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3"></div>
-              </div>
-              <label
-                htmlFor="sub_city"
-                className="mt-4 mb-2 block text-sm font-medium"
-              >
-                {t("sub_city")}
-              </label>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="sub_city"
-                  name="sub_city"
-                  disabled={disableInput}
-                  className={`w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
-                    disableInput ? "cursor-not-allowed bg-gray-100" : "bg-white"
-                  }`}
-                  placeholder={t("sub_city_hint")}
-                  value={customLocation.sub_city}
-                  onChange={(e) =>
-                    setCustomLocation({
-                      ...customLocation,
-                      sub_city: e.target.value,
-                    })
-                  }
-                />
-                <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3"></div>
-              </div>
-              <label
-                htmlFor="neighborhood"
-                className="mt-4 mb-2 block text-sm font-medium"
-              >
-                {t("neighborhood")}
-              </label>
-              <div className="flex">
-                <div className="relative w-7/12 flex-shrink-0">
-                  <input
-                    type="text"
-                    id="neighborhood"
-                    name="neighborhood"
-                    className={`w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
-                      !customLocation.neighborhood
-                        ? "border-red-500"
-                        : "border-gray-200"
-                    }`}
-                    placeholder={t("neighborhood_hint")}
-                    value={customLocation.neighborhood}
-                    onChange={(e) =>
-                      setCustomLocation({
-                        ...customLocation,
-                        neighborhood: e.target.value,
-                      })
-                    }
-                  />
-                  <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3"></div>
-                </div>
-                <input
-                  type="text"
-                  id="house_number"
-                  name="house_number"
-                  disabled={disableInput}
-                  className={`w-full sm:ml-4 rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
-                    disableInput ? "cursor-not-allowed bg-gray-100" : "bg-white"
-                  }`}
-                  placeholder="House number"
-                  value={customLocation.house_number}
-                  onChange={(e) =>
-                    setCustomLocation({
-                      ...customLocation,
-                      house_number: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </div>
           </div>
           <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
             <p className="text-xl font-medium">{t("order_summary")}</p>
@@ -455,9 +273,9 @@ const Payment: React.FC = () => {
             </div>
             <button
               className="mt-4 mb-8 w-full rounded-md bg-[#e9a83a] hover:bg-[#fed874] px-6 py-3 font-medium text-white"
-              onClick={handleSubmit}
+              onClick={handleOrderSubmit}
             >
-              Place Order
+              {t("buy_now")}
             </button>
           </div>
         </div>

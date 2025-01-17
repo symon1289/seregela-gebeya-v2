@@ -144,19 +144,24 @@ export const getNotFoundMetaTags = (): MetaConfig => ({
 
 export const getFAQMetaTags = (): MetaConfig => ({
   title: "Frequently Asked Questions - Seregela Gebeya",
-  description: "Find answers to commonly asked questions about Seregela's products, shipping, returns, and customer service.",
-  keywords: "FAQ, frequently asked questions, customer service, shipping, returns, payment methods, Seregela help",
+  description:
+    "Find answers to commonly asked questions about Seregela's products, shipping, returns, and customer service.",
+  keywords:
+    "FAQ, frequently asked questions, customer service, shipping, returns, payment methods, Seregela help",
   ogTitle: "FAQ - Seregela Gebeya",
-  ogDescription: "Get answers to your questions about Seregela's services and policies.",
+  ogDescription:
+    "Get answers to your questions about Seregela's services and policies.",
   ogType: "website",
   twitterCard: "summary",
   twitterTitle: "FAQ - Seregela Gebeya",
-  twitterDescription: "Get answers to your questions about Seregela's services and policies.",
+  twitterDescription:
+    "Get answers to your questions about Seregela's services and policies.",
 });
 
 export const getContactMetaTags = (): MetaConfig => ({
   title: "Contact Us - Seregela Gebeya",
-  description: "Get in touch with Seregela's customer support team. We're here to help with your questions, feedback, and concerns.",
+  description:
+    "Get in touch with Seregela's customer support team. We're here to help with your questions, feedback, and concerns.",
   keywords: "contact us, customer support, help, feedback, Seregela contact",
   ogTitle: "Contact Us - Seregela Gebeya",
   ogDescription: "Reach out to Seregela's support team for assistance.",
@@ -168,12 +173,104 @@ export const getContactMetaTags = (): MetaConfig => ({
 
 export const getSizeGuideMetaTags = (): MetaConfig => ({
   title: "Size Guide - Seregela Gebeya",
-  description: "Find your perfect fit with Seregela's comprehensive size guide. Get detailed measurements and fitting tips for all our clothing categories.",
-  keywords: "size guide, size chart, measurements, fitting guide, clothing sizes, how to measure, Seregela size guide",
+  description:
+    "Find your perfect fit with Seregela's comprehensive size guide. Get detailed measurements and fitting tips for all our clothing categories.",
+  keywords:
+    "size guide, size chart, measurements, fitting guide, clothing sizes, how to measure, Seregela size guide",
   ogTitle: "Size Guide - Seregela Gebeya",
-  ogDescription: "Find your perfect fit with our detailed size guide and measurement instructions.",
+  ogDescription:
+    "Find your perfect fit with our detailed size guide and measurement instructions.",
   ogType: "website",
   twitterCard: "summary",
   twitterTitle: "Size Guide - Seregela Gebeya",
-  twitterDescription: "Find your perfect fit with our detailed size guide and measurement instructions.",
+  twitterDescription:
+    "Find your perfect fit with our detailed size guide and measurement instructions.",
+});
+
+export const getTermsAndConditionsMetaTags = (): MetaConfig => ({
+  title: "Terms and Conditions - Seregela Gebeya",
+  description:
+    "Read our terms and conditions to understand our legal and contractual obligations.",
+  keywords:
+    "terms and conditions, legal, contractual obligations, Seregela terms and conditions",
+  ogTitle: "Terms and Conditions - Seregela Gebeya",
+  ogDescription:
+    "Read our terms and conditions to understand our legal and contractual obligations.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "Terms and Conditions - Seregela Gebeya",
+  twitterDescription:
+    "Read our terms and conditions to understand our legal and contractual obligations.",
+});
+
+export const getPrivacyPolicyMetaTags = (): MetaConfig => ({
+  title: "Privacy Policy - Seregela Gebeya",
+  description:
+    "Learn about our privacy policy and how we handle your personal information.",
+  keywords:
+    "privacy policy, personal information, data protection, Seregela privacy policy",
+  ogTitle: "Privacy Policy - Seregela Gebeya",
+  ogDescription:
+    "Learn about our privacy policy and how we handle your personal information.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "Privacy Policy - Seregela Gebeya",
+  twitterDescription:
+    "Learn about our privacy policy and how we handle your personal information.",
+});
+
+export const getShippingPolicyMetaTags = (): MetaConfig => ({
+  title: "Shipping Policy - Seregela Gebeya",
+  description:
+    "Learn about our shipping policy and how we handle your shipping and delivery.",
+  keywords: "shipping policy, delivery, shipping, Seregela shipping policy",
+  ogTitle: "Shipping Policy - Seregela Gebeya",
+  ogDescription:
+    "Learn about our shipping policy and how we handle your shipping and delivery.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "Shipping Policy - Seregela Gebeya",
+  twitterDescription:
+    "Learn about our shipping policy and how we handle your shipping and delivery.",
+});
+export const getReturnPolicyMetaTags = (): MetaConfig => ({
+  title: "Return Policy - Seregela Gebeya",
+  description:
+    "Learn about our return policy and how we handle your returns and refunds.",
+  keywords: "return policy, refunds, returns, Seregela return policy",
+  ogTitle: "Return Policy - Seregela Gebeya",
+  ogDescription:
+    "Learn about our return policy and how we handle your returns and refunds.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "Return Policy - Seregela Gebeya",
+  twitterDescription:
+    "Learn about our return policy and how we handle your returns and refunds.",
+});
+
+export const getDeliveryMetaTags = (): MetaConfig => ({
+  title: "Delivery Types - Seregela Gebeya",
+  description:
+    "Delivery Types - Track and manage your delivery at Seregela Gebeya.",
+  keywords: "delivery, tracking, online shopping, Ethiopia, Seregela Gebeya",
+  ogTitle: "Delivery - Seregela Gebeya",
+  ogDescription: "Track and manage your delivery at Seregela Gebeya.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "Delivery - Seregela Gebeya",
+  twitterDescription: "Track and manage your delivery at Seregela Gebeya.",
+});
+
+export const getPaymentMethodsMetaTags = (): MetaConfig => ({
+  title: "Payment Methods - Seregela Gebeya",
+  description:
+    "Payment Methods - Choose your preferred payment method at Seregela Gebeya.",
+  keywords: "payment, online shopping, Ethiopia, Seregela Gebeya",
+  ogTitle: "Payment Methods - Seregela Gebeya",
+  ogDescription: "Choose your preferred payment method at Seregela Gebeya.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "Payment Methods - Seregela Gebeya",
+  twitterDescription:
+    "Choose your preferred payment method at Seregela Gebeya.",
 });
