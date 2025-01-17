@@ -75,6 +75,31 @@ const useUser = () => {
         }
     };
 
+    // Register a new user
+    const updateUser = async (userInfo: any, phoneNumber: string) => {
+        try {
+            setLoading(true);
+            const res = await api.put("profile", {
+                user_name: userInfo.user_name,
+                first_name: userInfo.first_name,
+                last_name: userInfo.last_name,
+                email: userInfo.email,
+                phone_number: phoneNumber,
+                password: userInfo.password,
+                password_confirmation: userInfo.password_confirmation,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            setLoading(false);
+            return res.data;
+        } catch (err: any) {
+            setLoading(false);
+            setError(err.response?.data?.message || "Registration failed");
+            throw err;
+        }
+    };
     // Get notifications for the user
     const getNotifications = async () => {
         try {
@@ -146,6 +171,7 @@ const useUser = () => {
         loginUser,
         fetchUser,
         registerUser,
+        updateUser,
         getNotifications,
         // sendOtp,
         // verifyOtpCode,

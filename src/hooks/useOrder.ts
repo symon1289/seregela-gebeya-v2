@@ -89,7 +89,7 @@ const useOrder = (): UseOrderReturn => {
   const getOrders = async () =>
     handleRequest(() =>
       api
-        .get("orders", {
+        .get(`orders?page=2`, {
           headers: {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
