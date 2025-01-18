@@ -28,5 +28,5 @@ export const paymentOptions: PaymentOption[] = [
   { id: 8, name: "Apollo", image: Apollo,sendingName: "apollo" },
   { id: 9, name: "Enat Bank", image: Enat_Bank,sendingName: "enat-bank" },
   { id: 10, name: "Eth-Switch", image: Eth_Switch,sendingName: "eth-switch" },
-  { id: 11, name: "Bunna Bank", image: Bunna_Bank,sendingName: "Bunna Bank" },
+  { id: 11, name: "Bunna Bank", image: Bunna_Bank,sendingName: "loan" },
 ];

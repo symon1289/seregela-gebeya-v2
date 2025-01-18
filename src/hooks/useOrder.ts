@@ -1,15 +1,15 @@
 import { useState } from "react";
 import api from "../utils/axios";
-import { OrderDetail } from "../types/order"
-
+import { OrderDetail } from "../types/order";
 
 interface UseOrderReturn {
   loading: boolean;
   error: string | null;
+  hasMore: boolean; // Add hasMore to the return type
   getDeliveryTypes: () => Promise<any>;
-  makeOrder: (order:  OrderDetail) => Promise<any>;
-  makeOrderPin: (order:  OrderDetail) => Promise<any>;
-  getOrders: () => Promise<any>;
+  makeOrder: (order: OrderDetail) => Promise<any>;
+  makeOrderPin: (order: OrderDetail) => Promise<any>;
+  getOrders: (page: number) => Promise<any>; // Update getOrders to accept page parameter
   getUserOrderByStatus: (status: string) => Promise<any>;
   getUserOrderById: (orderId: string) => Promise<any>;
   makePayment: (orderId: string) => Promise<any>;
@@ -23,6 +23,7 @@ interface UseOrderReturn {
 const useOrder = (): UseOrderReturn => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasMore, setHasMore] = useState(true); // Add hasMore state
 
   const handleRequest = async (request: () => Promise<any>): Promise<any> => {
     setLoading(true);
@@ -41,7 +42,7 @@ const useOrder = (): UseOrderReturn => {
   const getDeliveryTypes = async () =>
     handleRequest(() => api.get("delivery-types").then((res) => res.data.data));
 
-  const makeOrder = async (order:  OrderDetail) =>
+  const makeOrder = async (order: OrderDetail) =>
     handleRequest(() =>
       api
         .post(
@@ -63,7 +64,7 @@ const useOrder = (): UseOrderReturn => {
         .then((res) => res.data.data)
     );
 
-  const makeOrderPin = async (order:  OrderDetail) =>
+  const makeOrderPin = async (order: OrderDetail) =>
     handleRequest(() =>
       api
         .post(
@@ -86,15 +87,19 @@ const useOrder = (): UseOrderReturn => {
         .then((res) => res.data.data)
     );
 
-  const getOrders = async () =>
+  const getOrders = async (page: number = 1) =>
     handleRequest(() =>
       api
-        .get(`orders?page=2`, {
+        .get(`orders?page=${page}`, {
           headers: {
             Authorization: "Bearer " + window.localStorage.getItem("token"),
           },
+          params: { page },
         })
-        .then((res) => res.data.data)
+        .then((res) => {
+          setHasMore(res.data.data.length > 0); // Update hasMore based on the response
+          return res.data.data;
+        })
     );
 
   const getUserOrderByStatus = async (status: string) =>
@@ -209,6 +214,7 @@ const useOrder = (): UseOrderReturn => {
   return {
     loading,
     error,
+    hasMore, // Return hasMore
     getDeliveryTypes,
     makeOrder,
     makeOrderPin,
