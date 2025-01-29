@@ -29,6 +29,7 @@ const Delivery: React.FC = () => {
   } = deliveryTypesQuery;
   const cartItems = useSelector((state: RootState) => state.cart);
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  console.log(user);
   const address = user?.address;
   const [selectedDeliveryType, setSelectedDeliveryType] = useState<number>(0);
   const [locationClicked, setLocationClicked] = useState<boolean>(false);
@@ -87,9 +88,9 @@ const Delivery: React.FC = () => {
           latitude: location.latitude,
           longitude: location.longitude,
           neighborhood: customLocation.neighborhood,
-          first_name: JSON.parse(user || "").first_name,
-          last_name: JSON.parse(user || "").last_name,
-          phone_number: JSON.parse(user || "").phone_number,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          phone_number: user.phone_number,
           city: customLocation.city,
           sub_city: customLocation.sub_city,
           woreda: customLocation.woreda,
