@@ -210,7 +210,6 @@ const Login = () => {
   };
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect");
-  console.log("redirect", redirect);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8 items-center">

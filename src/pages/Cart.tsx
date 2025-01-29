@@ -25,8 +25,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart);
   const packages = useSelector((state: RootState) => state.cart.packages);
-  // @ts-expect-error user is not null
-  const user = JSON.parse(localStorage.getItem("user"));
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: number]: boolean;
   }>({});
@@ -92,12 +90,9 @@ const Cart = () => {
 
   const handleCheckout = () => {
     if (grandTotal > 2000) {
-      if (user) {
-        navigate("/seregela-gebeya-v2/checkout/shipping");
-      } else {
-        toast.warn(t("please_login_to_your_account"));
-        navigate("/seregela-gebeya-v2/login");
-      }
+      navigate("/seregela-gebeya-v2/checkout/shipping");
+
+      toast.warn(t("please_login_to_your_account"));
     } else {
       toast.warn(t("minimum_delivery_amount"));
     }

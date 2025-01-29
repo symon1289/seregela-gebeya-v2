@@ -19,8 +19,13 @@ import Delivery from "./pages/Delivery";
 import Payment from "./pages/Payment";
 import UserProfile from "./pages/UserProfile";
 import PrivateRoute from "./routes/PrivateRoute";
-
+import { RootState } from "./store/store";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 function App() {
+  const { user } = useSelector((state: RootState) => state.auth);
+  // @ts-expect-error user is not null
+  const userData = JSON.parse(localStorage.getItem("user"));
   return (
     <>
       <Router>
@@ -45,7 +50,16 @@ function App() {
               element={<Subcategory />}
             />
             <Route path="/seregela-gebeya-v2/wishlist" element={<Wishlist />} />
-            <Route path="/seregela-gebeya-v2/login" element={<Login />} />
+            <Route
+              path="/seregela-gebeya-v2/login"
+              element={
+                userData || user ? (
+                  <Navigate to="/seregela-gebeya-v2" replace />
+                ) : (
+                  <Login />
+                )
+              }
+            />
             <Route path="" element={<PrivateRoute />}>
               <Route
                 path="/seregela-gebeya-v2/profile"

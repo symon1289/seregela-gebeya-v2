@@ -28,8 +28,8 @@ const Delivery: React.FC = () => {
     refetch,
   } = deliveryTypesQuery;
   const cartItems = useSelector((state: RootState) => state.cart);
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  console.log(user);
+  // @ts-expect-error user is not null
+  const user = JSON.parse(localStorage.getItem("user"));
   const address = user?.address;
   const [selectedDeliveryType, setSelectedDeliveryType] = useState<number>(0);
   const [locationClicked, setLocationClicked] = useState<boolean>(false);
@@ -101,7 +101,6 @@ const Delivery: React.FC = () => {
       dispatch(saveDeliveryType(selectedDeliveryType));
 
       navigate("/seregela-gebeya-v2/checkout/payment");
-      console.log("Location and delivery type saved");
     } else {
       if (!location.latitude) {
         if (!locationClicked) {
