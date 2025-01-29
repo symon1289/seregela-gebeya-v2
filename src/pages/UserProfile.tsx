@@ -27,8 +27,6 @@ import { useNavigate } from "react-router-dom";
 // Reusable Profile Field Component
 const ProfileField = ({
   icon,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  label,
   value,
   name,
   isEditing,

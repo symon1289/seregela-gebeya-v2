@@ -96,7 +96,7 @@ const CategoryGrid: React.FC = () => {
       )}
       {!isLoading && hasMore && (
         <button
-          onClick={loadMore}
+          onClick={() => loadMore()}
           className="bg-[#e9a83a] hover:bg-[#fed874] text-white transition-colors py-2 px-4 rounded-lg font-semibold"
         >
           Load More

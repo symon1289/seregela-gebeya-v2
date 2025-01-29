@@ -141,7 +141,7 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
         ))}
       {hasMore && (
         <button
-          onClick={loadMore}
+          onClick={() => loadMore()}
           className="w-full text-center text-sm text-[#e7a334] hover:text-[#fed874]"
         >
           {t("load_more")}
