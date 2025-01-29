@@ -472,7 +472,9 @@ const Payment: React.FC = () => {
                 {orderReturn.products &&
                   orderReturn.products?.map((product: any) => (
                     <tr key={product.id}>
-                      <td className="py-4 text-gray-700">{product.name}</td>
+                      <td className="py-4 text-gray-700 line-clamp-1">
+                        {product.name}
+                      </td>
                       <td className="py-4 text-gray-700">
                         {product.pivot.quantity}
                       </td>
@@ -492,7 +494,9 @@ const Payment: React.FC = () => {
                 {orderReturn.packages &&
                   orderReturn.packages?.map((product: any) => (
                     <tr key={product.id}>
-                      <td className="py-4 text-gray-700">{product.name}</td>
+                      <td className="py-4 text-gray-700 line-clamp-1">
+                        {product.name}
+                      </td>
                       <td className="py-4 text-gray-700">
                         {product.pivot.quantity}
                       </td>

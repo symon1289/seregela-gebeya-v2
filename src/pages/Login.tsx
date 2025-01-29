@@ -1,18 +1,14 @@
 import React, { useState, useRef, KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 // @ts-expect-error: Should expect Firebase auth
 import { auth } from "../firebase";
 
 import { signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth";
-// import { RootState } from "../store/store";
-// import { useSelector } from "react-redux";
 
 const Login = () => {
-  // const { user } = useSelector((state: RootState) => state.auth);
-  // const userData = JSON.parse(localStorage.getItem("user") || "{}");
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -209,19 +205,13 @@ const Login = () => {
     localStorage.setItem("_grecaptcha", captcha);
 
     toast.success("login successful");
-
-    navigate("/seregela-gebeya-v2");
+    // @ts-expect-error: Should expect Firebase auth
+    navigate(redirect);
   };
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  console.log("redirect", redirect);
 
-  // const { search } = useLocation();
-  // const sp = new URLSearchParams(search);
-  // const redirect = sp.get("redirect") || "/seregela-gebeya-v2";
-
-  // useEffect(() => {
-  //   if (user || userData) {
-  //     navigate(redirect);
-  //   }
-  // }, [userData, navigate, redirect, user]);
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8 items-center">
       <button
