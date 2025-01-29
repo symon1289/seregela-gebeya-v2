@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useState, useMemo } from 'react';
 import { SortOption } from '../components/filters/SortFilter';
-import { Product,  } from '../types/product';
+import { Product } from '../types/product';
 import { useTranslation } from "react-i18next";
+import api from '../utils/axios';
 
 interface UseProductsProps {
   id: number | undefined;
@@ -14,7 +16,7 @@ interface UseProductsReturn {
   products: Product[];
   filteredProducts: Product[];
   isLoading: boolean;
-  error: string | null;
+  error: Error | null;
   hasMore: boolean;
   page: number;
   minPrice: number;
@@ -23,6 +25,7 @@ interface UseProductsReturn {
   loadMore: () => void;
   handlePriceChange: (min: number, max: number) => void;
   handleSortChange: (value: SortOption['value']) => void;
+  isFetchingNextPage: boolean;
 }
 
 export const useProducts = ({
@@ -31,111 +34,85 @@ export const useProducts = ({
   initialItemsToLoad = 15,
   searchName = ''
 }: UseProductsProps): UseProductsReturn => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { i18n } = useTranslation();
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000);
   const [sortBy, setSortBy] = useState<SortOption['value']>("created_at");
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const { i18n } = useTranslation();
-  useEffect(() => {
-    let isMounted = true;
 
-    if (page === 1) {
-      setProducts([]);
-      setHasMore(true);
-    }
-
-    const fetchProducts = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        let url = import.meta.env.VITE_API_BASE_URL + '/';
-
-        if (endpoint === 'products') {
-          url += `products?page=${page}&paginate=${initialItemsToLoad}`;
-          if (searchName) {
-            url += `&name=${encodeURIComponent(searchName)}`;
-          }
-        } else if (id) {
-          url += `${endpoint}/${id}/products?page=${page}&paginate=${initialItemsToLoad}`;
-        } else {
-          return;
-        }
-
-        const response = await fetch(url);
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (isMounted) {
-          if (data.data && Array.isArray(data.data)) {
-            const newProducts = data.data.map((product: any): Product => ({
-              id: parseInt(product.id),
-              name: product.name,
-              name_am: product.name_am,
-              price: product.price,
-              discount: product.discount.toString(),
-              image: product.image_paths[0],
-              created_at: product.created_at,
-              originalPrice: product.price,
-              unit: product.measurement_type,
-              left_in_stock: product.left_in_stock,
-              description: product.description,
-              description_am: product.description_am,
-              supplier: product.supplier, 
-              brand: product.brand, 
-              measurement_type: product.measurement_type, 
-              category_id: product.category_id, 
-              category: product.category, 
-              subcategory: product.subcategory, 
-              subcategory_id: product.subcategory_id, 
-              stores: product.stores, 
-              total_quantity: product.total_quantity, 
-              rating: product.rating, 
-              is_non_stocked: product.is_non_stocked, 
-              is_active: product.is_active, 
-              image_paths: product.image_paths,
-              updated_at: product.updated_at
-            }));
-
-            setHasMore(newProducts.length === initialItemsToLoad);
-            setProducts((prevProducts) =>
-              page === 1 ? newProducts : [...prevProducts, ...newProducts]
-            );
-          } else {
-            throw new Error("Invalid data format received from API");
-          }
-        }
-      } catch (error: any) {
-        if (isMounted) {
-          console.error("Error fetching products:", error);
-          setError(error.message);
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+  const getUrl = (page: number) => {
+    let url = '';
+    if (endpoint === 'products') {
+      url = `products?page=${page}&paginate=${initialItemsToLoad}`;
+      if (searchName) {
+        url += `&name=${encodeURIComponent(searchName)}`;
       }
-    };
+    } else if (id) {
+      url = `${endpoint}/${id}/products?page=${page}&paginate=${initialItemsToLoad}`;
+    }
+    return url;
+  };
 
-    fetchProducts();
+  const {
+    data,
+    isLoading,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['products', endpoint, id, initialItemsToLoad, searchName],
+    queryFn: async ({ pageParam = 1 }) => {
+      const url = getUrl(pageParam);
+      if (!url) return { data: [], nextPage: null };
 
-    return () => {
-      isMounted = false;
-    };
-  }, [id, endpoint, page, initialItemsToLoad, searchName]);
+      const response = await api.get(url);
+      const products = response.data.data.map((product: any): Product => ({
+        id: parseInt(product.id),
+        name: product.name,
+        name_am: product.name_am,
+        price: product.price,
+        discount: product.discount.toString(),
+        image: product.image_paths[0],
+        created_at: product.created_at,
+        originalPrice: product.price,
+        unit: product.measurement_type,
+        left_in_stock: product.left_in_stock,
+        description: product.description,
+        description_am: product.description_am,
+        supplier: product.supplier,
+        brand: product.brand,
+        measurement_type: product.measurement_type,
+        category_id: product.category_id,
+        category: product.category,
+        subcategory: product.subcategory,
+        subcategory_id: product.subcategory_id,
+        stores: product.stores,
+        total_quantity: product.total_quantity,
+        rating: product.rating,
+        is_non_stocked: product.is_non_stocked,
+        is_active: product.is_active,
+        image_paths: product.image_paths,
+        updated_at: product.updated_at
+      }));
 
-  // Filter and sort products
-  useEffect(() => {
-    const filtered = [...products].filter(product => {
+      return {
+        data: products,
+        nextPage: products.length === initialItemsToLoad ? pageParam + 1 : null,
+      };
+    },
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 1,
+    enabled: Boolean(endpoint === 'products' || id),
+  });
+
+  const allProducts = useMemo(() => 
+    data?.pages.flatMap(page => page.data) ?? [],
+    [data]
+  );
+
+  const filteredProducts = useMemo(() => {
+    //eslint-disable-next-line
+    let filtered = allProducts.filter(product => {
       const productPrice = parseFloat(product.price);
       return productPrice >= minPrice && productPrice <= maxPrice;
     });
@@ -152,23 +129,16 @@ export const useProducts = ({
       }
     });
 
-    setFilteredProducts(filtered);
-  }, [products, minPrice, maxPrice, sortBy]);
-
-  // Translate products when the language changes
-  useEffect(() => {
-    const translatedProducts = products.map((product) => ({
+    return filtered.map(product => ({
       ...product,
       name: (i18n.language === "am" ? product.name_am : product.name) ?? '',
       description: (i18n.language === "am" ? product.description_am : product.description) ?? '',
     }));
-  
-    setFilteredProducts(translatedProducts);
-  }, [products, i18n.language]);
+  }, [allProducts, minPrice, maxPrice, sortBy, i18n.language]);
 
   const loadMore = () => {
-    if (!isLoading && hasMore) {
-      setPage(prev => prev + 1);
+    if (!isFetchingNextPage && hasNextPage) {
+      fetchNextPage();
     }
   };
 
@@ -182,18 +152,18 @@ export const useProducts = ({
   };
 
   return {
-    products,
+    products: allProducts,
     filteredProducts,
     isLoading,
     error,
-    hasMore,
-    page,
+    hasMore: !!hasNextPage,
+    page: data?.pages.length ?? 1,
     minPrice,
     maxPrice,
     sortBy,
     loadMore,
     handlePriceChange,
     handleSortChange,
-    
+    isFetchingNextPage,
   };
 };

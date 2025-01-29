@@ -6,10 +6,7 @@ import { getProductMetaTags } from "../config/meta";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../store/features/cartSlice";
 import { toggleWishlistItem } from "../store/features/wishlistSlice";
-import {
-  addRecentProduct,
-  selectRecentProducts,
-} from "../store/features/productSlice";
+import { addRecentProduct } from "../store/features/productSlice";
 import { ShoppingCart, Heart } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { RootState } from "../store/store";
@@ -18,13 +15,13 @@ import defaultImage from "../assets/no-image-available-02.jpg";
 import { Product } from "../types/product";
 import "./ProductDetail.css";
 import { useTranslation } from "react-i18next";
-
+import PriceFormatter from "../components/PriceFormatter";
+import ProductGrid from "../components/product grid/ProductGrid";
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
-  const recentProducts = useSelector(selectRecentProducts);
   const isInWishlist = wishlistItems.some(
     (item) => Number(item.id) === Number(id)
   );
@@ -657,9 +654,8 @@ const ProductDetail: React.FC = () => {
               </div>
               <div className="hover-btn">
                 <span className="mr-2">
-                  {parseFloat(product.price).toFixed(2)}
+                  <PriceFormatter price={product.price} />
                 </span>
-                {t("birr")}
               </div>
             </button>
           </div>
@@ -717,29 +713,9 @@ const ProductDetail: React.FC = () => {
             )}
           </div>
         )}
-        {/* Recently Viewed Products Section */}
-        {recentProducts.length > 1 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-6">
-              {t("you_ecently_viewed")}
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-              {recentProducts
-                .filter((p) => p.id !== parseInt(id!)) // Filter out current product
-                .map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={Number(product.id)}
-                    name={product.name}
-                    price={String(product.price)}
-                    image={product.image}
-                    originalPrice={String(product.price)}
-                    left_in_stock={product.left_in_stock}
-                  />
-                ))}
-            </div>
-          </div>
-        )}
+        <section className="mb-12 mt-6">
+          <ProductGrid />
+        </section>
 
         {/* Image Modal */}
         {isModalOpen && (

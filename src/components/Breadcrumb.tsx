@@ -17,7 +17,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
       <ol className="flex items-center space-x-2 text-gray-600">
         <li>
           <Link
-            to="/"
+            to="/seregela-gebeya-v2"
             className="hover:text-[#e9a83a] inline-flex items-center text-base font-medium  "
           >
             <svg

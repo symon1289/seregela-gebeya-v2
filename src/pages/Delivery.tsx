@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import CheckoutSteps from "../components/CheckoutSteps";
 import { Link, useNavigate } from "react-router-dom";
 import useOrder from "../hooks/useOrder";
-import { DeliveryType } from "../types/order";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,15 +14,22 @@ import {
   saveShippingDetails,
   saveDeliveryType,
 } from "../store/features/cartSlice";
+import PriceFormatter from "../components/PriceFormatter";
 const Delivery: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { getDeliveryTypes, error, loading } = useOrder();
+  const { deliveryTypesQuery } = useOrder();
+  const {
+    data: deliveryTypes,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = deliveryTypesQuery;
   const cartItems = useSelector((state: RootState) => state.cart);
-  const userData = useSelector((state: RootState) => state.auth.user);
-  const { address } = userData;
-  const [DeliveryTypes, setDeliveryTypes] = useState<DeliveryType[]>([]);
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const address = user?.address;
   const [selectedDeliveryType, setSelectedDeliveryType] = useState<number>(0);
   const [locationClicked, setLocationClicked] = useState<boolean>(false);
   const [location, setLocation] = useState<{
@@ -46,21 +52,6 @@ const Delivery: React.FC = () => {
     cartItems.items,
     cartItems.packages
   );
-
-  useEffect(() => {
-    const fetchDeliveryTypes = async () => {
-      try {
-        const deliveryTypes = await getDeliveryTypes();
-        setDeliveryTypes(deliveryTypes);
-      } catch (err) {
-        console.error("Error fetching delivery types:", err);
-      }
-    };
-    fetchDeliveryTypes();
-  }, []);
-
-  // Get user from local storage for only testing
-  const dummyUser = window.localStorage.getItem("user");
 
   const getCurrentLocation = () => {
     setLocationClicked(true);
@@ -96,9 +87,9 @@ const Delivery: React.FC = () => {
           latitude: location.latitude,
           longitude: location.longitude,
           neighborhood: customLocation.neighborhood,
-          first_name: JSON.parse(dummyUser || "").first_name,
-          last_name: JSON.parse(dummyUser || "").last_name,
-          phone_number: JSON.parse(dummyUser || "").phone_number,
+          first_name: JSON.parse(user || "").first_name,
+          last_name: JSON.parse(user || "").last_name,
+          phone_number: JSON.parse(user || "").phone_number,
           city: customLocation.city,
           sub_city: customLocation.sub_city,
           woreda: customLocation.woreda,
@@ -109,6 +100,7 @@ const Delivery: React.FC = () => {
       dispatch(saveDeliveryType(selectedDeliveryType));
 
       navigate("/seregela-gebeya-v2/checkout/payment");
+      console.log("Location and delivery type saved");
     } else {
       if (!location.latitude) {
         if (!locationClicked) {
@@ -125,48 +117,13 @@ const Delivery: React.FC = () => {
       }
     }
   };
-  const formatPrice = (price: string): string => {
-    const numPrice = parseFloat(price);
-    const formattedPrice = numPrice.toFixed(2);
-    const [integerPart, decimalPart] = formattedPrice.split(".");
-    return (
-      `${parseInt(integerPart).toLocaleString("en-US")}.${decimalPart} ` +
-      t("birr")
-    );
-  };
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-red-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <>
       <Meta config={getDeliveryMetaTags()} />
-      <div>
+      <div className="max-w-screen-xl mx-auto  bg-white pb-6 pt-3 ">
         <CheckoutSteps step1 />
-        <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
+        <div className="grid lg:grid-cols-2 ">
           <div className="px-4 pt-8">
             <p className="text-xl font-medium">{t("shipping_methods")}</p>
             <p className="text-gray-400">
@@ -174,10 +131,36 @@ const Delivery: React.FC = () => {
             </p>
 
             <form className="mt-5 grid md:grid-cols-3 gap-2">
-              {loading ? (
+              {isLoading ? (
                 <Loader />
+              ) : isError ? (
+                <div className="mx-auto px-4 py-12">
+                  <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                    <div className="flex">
+                      <div className="flex-shrink-0">
+                        <svg
+                          className="h-5 w-5 text-red-400"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div className="ml-3">
+                        <p className="text-sm text-red-700">{error.message}</p>
+                        <button onClick={() => (refetch as any)()}>
+                          Retry
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               ) : (
-                DeliveryTypes.map((item) => (
+                deliveryTypes?.map((item) => (
                   <div
                     className="relative  hover:cursor-pointer hover:bg-gray-50 hover:text-[#e9a83a]"
                     key={item.id}
@@ -354,9 +337,9 @@ const Delivery: React.FC = () => {
               <div className="border-b  border-gray-200">
                 {cartItems.items.map((item) => (
                   <Link
-                    to={`/products/${item.id}`}
+                    to={`/seregela-gebeya-v2/products/${item.id}`}
                     key={item.id}
-                    className="flex hover:text-[#e9a83a] hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row"
+                    className="flex hover:text-[#e9a83a] hover:cursor-pointer flex-row rounded-lg bg-white sm:flex-row"
                   >
                     <img
                       className="m-2 h-24 w-28 rounded-md border object-cover object-center"
@@ -364,12 +347,14 @@ const Delivery: React.FC = () => {
                       alt={item.name}
                     />
                     <div className="flex w-full flex-col px-4 py-4">
-                      <span className="font-semibold">{item.name}</span>
+                      <span className="font-semibold line-clamp-1">
+                        {item.name}
+                      </span>
                       <span className="float-right text-gray-400">
                         {t("quantity")}: {item.quantity}
                       </span>
                       <p className="text-lg font-bold">
-                        {formatPrice(item.price.toString())}
+                        <PriceFormatter price={item.price.toString()} />
                       </p>
                     </div>
                   </Link>
@@ -377,7 +362,7 @@ const Delivery: React.FC = () => {
               </div>
               {cartItems.packages.map((item) => (
                 <div
-                  className="flex flex-col rounded-lg bg-white sm:flex-row"
+                  className="flex flex-row rounded-lg bg-white sm:flex-row"
                   key={item.id}
                 >
                   <img
@@ -386,12 +371,14 @@ const Delivery: React.FC = () => {
                     alt={item.name}
                   />
                   <div className="flex w-full flex-col px-4 py-4">
-                    <span className="font-semibold">{item.name}</span>
+                    <span className="font-semibold line-clamp-1">
+                      {item.name}
+                    </span>
                     <span className="float-right text-gray-400">
                       {item.quantity}
                     </span>
                     <p className="text-lg font-bold">
-                      {formatPrice(item.price.toString())}
+                      <PriceFormatter price={item.price.toString()} />
                     </p>
                   </div>
                 </div>
@@ -403,9 +390,7 @@ const Delivery: React.FC = () => {
                 <p className="text-sm font-medium text-gray-900">
                   {t("sub_total")}
                 </p>
-                <p className="font-semibold text-gray-900">
-                  {formatPrice(subtotal.toString())}
-                </p>
+                <PriceFormatter price={subtotal.toString()} />
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">
@@ -417,9 +402,7 @@ const Delivery: React.FC = () => {
                       {t("free")}
                     </span>
                   ) : (
-                    <span className="font-semibold">
-                      {formatPrice(shipping.toString())}
-                    </span>
+                    <PriceFormatter price={shipping.toString()} />
                   )}
                 </p>
               </div>
@@ -429,7 +412,7 @@ const Delivery: React.FC = () => {
                 {t("total_price")}
               </p>
               <p className="text-2xl font-semibold text-gray-900">
-                {formatPrice(grandTotal.toString())}
+                <PriceFormatter price={grandTotal.toString()} />
               </p>
             </div>
             <button

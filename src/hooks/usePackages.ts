@@ -1,140 +1,256 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import api from "../utils/axios";
+import { Product, Package } from "../types/product";
+import { ProductForGrid } from "../types/extras";
 import { useTranslation } from "react-i18next";
-import api from '../utils/axios';
-import { Product } from '../types/product';
-import { Package } from './../types/product';
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { PackageProduct } from "../types/product";
+
+type ApiResponse<T> = {
+  data: T;
+  status: number;
+};
+
+type QueryKeys = {
+  popularProducts: ["popularProducts", number, number];
+  popularProductsForGrid: ["popularProductsForGrid", number, number];
+  product: ["product", string];
+  packages: ["packages"];
+  package: ["package", string];
+};
+type Tail<T extends any[]> = T extends [any, ...infer U] ? U : never;
+
+const createQueryKey = <T extends keyof QueryKeys>(
+  key: T,
+  ...params: Tail<QueryKeys[T]>
+): QueryKeys[T] => [key, ...params] as unknown as QueryKeys[T];
 
 interface UsePackagesReturn {
-  isLoading: boolean;
-  error: string | null;
+  isLoadingPopularProducts: boolean;
+  isLoadingPopularProductsForGrid: boolean;
+  isLoadingPackageItem: boolean;
+  isLoadingProduct: boolean;
+  isLoadingPackages: boolean;
+  popularProductsError: Error | null;
+  popularProductsForGridError: Error | null;
+  packageItemError: Error | null;
+  packagesError: Error | null;
+  productError: Error | null;
   popularProducts: Product[];
-  product: Product | null;
+  popularProductsForGrid: ProductForGrid[];
+  product?: Product;
   packages: Package[];
-  package: Package | null;
-  getPopularProducts: () => Promise<void>;
-  getProductById: (id: string) => Promise<void>;
-  getPackages: () => Promise<void>;
-  getPackageById: (id: string) => Promise<void>;
+  package?: Package;
+  getPopularProducts: (paginate: number, page: number) => void;
+  getPopularProductsForProductGrid: (paginate: number, page: number) => void;
+  getProductById: (id: string) => void;
+  getPackages: () => void;
+  getPackageById: (id: string) => void;
 }
 
+const getTranslatedField = (
+  obj: any,
+  field: string,
+  language: string
+): string => (language === "am" ? obj[`${field}_am`] || "" : obj[field] || "");
+
 export const usePackages = (): UsePackagesReturn => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [rawPopularProducts, setRawPopularProducts] = useState<Product[]>([]);
-  const [rawProduct, setRawProduct] = useState<Product | null>(null);
-  const [rawPackages, setRawPackages] = useState<Package[]>([]);
-  const [rawPackageItem, setRawPackageItem] = useState<Package | null>(null);
-
   const { i18n } = useTranslation();
+  const queryClient = useQueryClient();
+  const [packageId, setPackageId] = useState<string>("");
+  const [popularProductsParams, setPopularProductsParams] = useState<{
+    paginate: number;
+    page: number;
+  }>({
+    paginate: 0,
+    page: 0,
+  });
 
-  // Translate popular products
-  const popularProducts = useMemo(() => 
-    rawPopularProducts.map((product) => ({
-      ...product,
-      name: (i18n.language === "am" ? product.name_am : product.name) ?? '',
-      description: (i18n.language === "am" ? product.description_am : product.description) ?? '',
-    })),
-    [rawPopularProducts, i18n.language]
+  const popularProductsQuery = useQuery<ApiResponse<Product[]>, Error>({
+    queryKey: createQueryKey("popularProducts", 0, 0),
+    queryFn: async ({ queryKey }) => {
+      const [, paginate, page] = queryKey;
+      const response = await api.get(
+        `popular-products?page=${page}&paginate=${paginate}`
+      );
+      return response;
+    },
+    enabled: false,
+  });
+
+  const popularProductsForGridQuery = useQuery<
+    ApiResponse<ProductForGrid[]>,
+    Error
+  >({
+    queryKey: createQueryKey(
+      "popularProductsForGrid",
+      popularProductsParams.paginate,
+      popularProductsParams.page
+    ), // Use the state variable
+    queryFn: async ({ queryKey }) => {
+      const [, paginate, page] = queryKey;
+      console.log("Fetching popular products with:", { paginate, page }); // Debugging
+      const response = await api.get(
+        `popular-products?page=${page}&paginate=${paginate}`
+      );
+      const transformedData = response.data.data.map((product: any) => ({
+        id: product.id ?? "unknown",
+        name:
+          getTranslatedField(product, "name", i18n.language) ??
+          "Unnamed Product",
+        oldPrice:
+          product.discount && product.discount !== "0.00"
+            ? (
+                parseFloat(product.price || 0) +
+                parseFloat(product.discount || 0)
+              ).toFixed(2)
+            : null,
+        newPrice: parseFloat(product.price || 0).toFixed(2),
+        image: product.image_paths ?? [],
+        left_in_stock: product.left_in_stock ?? 0,
+      }));
+      return { ...response, data: transformedData };
+    },
+    enabled: false,
+  });
+
+  const productQuery = useQuery<ApiResponse<Product>, Error>({
+    queryKey: createQueryKey("product", ""),
+    queryFn: async ({ queryKey }) => {
+      const [, id] = queryKey;
+      const response = await api.get(`products/${id}`);
+      return response;
+    },
+    enabled: false,
+  });
+
+  const packagesQuery = useQuery<ApiResponse<Package[]>, Error>({
+    queryKey: createQueryKey("packages"),
+    queryFn: async () => {
+      const response = await api.get("packages");
+      return response;
+    },
+    enabled: false,
+  });
+
+  const packageItemQuery = useQuery<ApiResponse<Package>, Error>({
+    queryKey: createQueryKey("package", packageId),
+    queryFn: async ({ queryKey }) => {
+      const [, id] = queryKey;
+      if (!id) throw new Error("Package ID is required");
+      const response = await api.get(`packages/${id}`);
+      return response;
+    },
+    enabled: !!packageId,
+  });
+
+  const transformedData = useMemo(
+    () => ({
+      popularProducts:
+        popularProductsQuery.data?.data?.map((product) => ({
+          ...product,
+          name: getTranslatedField(product, "name", i18n.language),
+          description: getTranslatedField(
+            product,
+            "description",
+            i18n.language
+          ),
+        })) || [],
+      popularProductsForGrid: popularProductsForGridQuery.data?.data || [],
+      product: productQuery.data?.data && {
+        ...productQuery.data.data,
+        name: getTranslatedField(productQuery.data.data, "name", i18n.language),
+        description: getTranslatedField(
+          productQuery.data.data,
+          "description",
+          i18n.language
+        ),
+      },
+      // @ts-expect-error packagesQuery is not an array
+      packages: Array.isArray(packagesQuery.data?.data?.data)
+        ? // @ts-expect-error packagesQuery is not an array
+          packagesQuery.data.data.data.map((pkg) => ({
+            ...pkg,
+            name: getTranslatedField(pkg, "name", i18n.language),
+            products: Array.isArray(pkg.products)
+              ? pkg.products.map((product: PackageProduct) => ({
+                  ...product,
+                  name: getTranslatedField(product, "name", i18n.language),
+                }))
+              : [],
+          }))
+        : [],
+      // @ts-expect-error packageItemQuery is not an array
+      package: packageItemQuery.data?.data?.data && {
+        // @ts-expect-error packageItemQuery is not an array
+        ...packageItemQuery.data.data.data,
+        name: getTranslatedField(
+          // @ts-expect-error packageItemQuery is not an array
+          packageItemQuery.data.data.data,
+          "name",
+          i18n.language
+        ),
+      },
+    }),
+    [
+      popularProductsQuery.data,
+      popularProductsForGridQuery.data,
+      productQuery.data,
+      packagesQuery.data,
+      packageItemQuery.data,
+      i18n.language,
+    ]
   );
 
-  // Translate single product
-  const product = useMemo(() => 
-    rawProduct
-      ? {
-          ...rawProduct,
-          name: (i18n.language === "am" ? rawProduct.name_am : rawProduct.name) ?? '',
-          description: (i18n.language === "am" ? rawProduct.description_am : rawProduct.description) ?? '',
-        }
-      : null,
-    [rawProduct, i18n.language]
-  );
-
-  // Translate packages
-  const packages = useMemo(() => 
-    rawPackages.map((pkg) => ({
-      ...pkg,
-      name: (i18n.language === "am" ? pkg.name_am : pkg.name) ?? '',
-    })),
-    [rawPackages, i18n.language]
-  );
-
-  // Translate single package
-  const packageItem = useMemo(() => 
-    rawPackageItem
-      ? {
-          ...rawPackageItem,
-          name: (i18n.language === "am" ? rawPackageItem.name_am : rawPackageItem.name) ?? '',
-        }
-      : null,
-    [rawPackageItem, i18n.language]
-  );
-
-  const getPopularProducts = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get('popular-products');
-      setRawPopularProducts(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch popular products');
-    } finally {
-      setIsLoading(false);
-    }
+  const invalidateAndRefetch = (queryKey: any[], refetchFn: () => void) => {
+    queryClient.invalidateQueries({ queryKey });
+    refetchFn();
   };
 
-  const getProductById = async (id: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get(`products/${id}`);
-      setRawProduct(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch product');
-    } finally {
-      setIsLoading(false);
-    }
+  const getPopularProductsForProductGrid = (paginate: number, page: number) => {
+    console.log("getPopularProductsForProductGrid called with:", {
+      paginate,
+      page,
+    }); // Debugging
+    setPopularProductsParams({ paginate, page }); // Update the state with the new parameters
   };
 
-  const getPackages = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get('packages');
-      setRawPackages(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch packages');
-    } finally {
-      setIsLoading(false);
+  useEffect(() => {
+    if (
+      popularProductsParams.paginate !== 0 ||
+      popularProductsParams.page !== 0
+    ) {
+      console.log("Refetching popular products with:", popularProductsParams); // Debugging
+      popularProductsForGridQuery.refetch();
     }
-  };
+  }, [popularProductsParams]);
 
-  const getPackageById = async (id: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const res = await api.get(`packages/${id}`);
-      setRawPackageItem(res.data.data);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch package');
-    } finally {
-      setIsLoading(false);
-    }
+  const getPackageById = (id: string) => {
+    setPackageId(id);
   };
 
   return {
-    isLoading,
-    error,
-    popularProducts,
-    product,
-    packages,
-    package: packageItem,
-    getPopularProducts,
-    getProductById,
-    getPackages,
+    isLoadingPopularProducts: popularProductsQuery.isLoading,
+    isLoadingPopularProductsForGrid: popularProductsForGridQuery.isLoading,
+    isLoadingPackageItem: packageItemQuery.isLoading,
+    isLoadingProduct: productQuery.isLoading,
+    isLoadingPackages: packagesQuery.isLoading,
+    popularProductsError: popularProductsQuery.error,
+    popularProductsForGridError: popularProductsForGridQuery.error,
+    packageItemError: packageItemQuery.error,
+    packagesError: packagesQuery.error,
+    productError: productQuery.error,
+    ...transformedData,
+    getPopularProducts: (paginate: number, page: number) =>
+      invalidateAndRefetch(
+        createQueryKey("popularProducts", paginate, page),
+        popularProductsQuery.refetch
+      ),
+    getPopularProductsForProductGrid,
+    getProductById: (id: string) =>
+      invalidateAndRefetch(createQueryKey("product", id), productQuery.refetch),
+    getPackages: () =>
+      invalidateAndRefetch(createQueryKey("packages"), packagesQuery.refetch),
     getPackageById,
   };
 };

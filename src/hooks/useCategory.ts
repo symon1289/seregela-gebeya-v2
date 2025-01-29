@@ -1,5 +1,5 @@
-//TODO without refetching all the data we have translated data
-import { useState, useEffect } from "react";
+import { useMemo } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import api from "../utils/axios";
 
@@ -19,93 +19,54 @@ interface Subcategory {
   products_count: number;
 }
 
-const ITEMS_PER_PAGE = 10; // Number of items per page
+const ITEMS_PER_PAGE = 10;
+
+const fetchCategories = async ({ pageParam = 1 }: { pageParam?: number }): Promise<Category[]> => {
+  const response = await api.get(`/categories?page=${pageParam}`);
+  if (response.status < 200 || response.status >= 300) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  return response.data.data;
+};
 
 export const useCategory = () => {
-  const { i18n } = useTranslation(); 
-  const [originalCategories, setOriginalCategories] = useState<Category[]>([]); // Store original untranslated data
-  const [categories, setCategories] = useState<Category[]>([]); // Store translated data
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true); // Indicates if more items are available
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { i18n } = useTranslation();
 
-  // Fetch categories from the API
-  useEffect(() => {
-    let isMounted = true;
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === ITEMS_PER_PAGE ? allPages.length + 1 : undefined;
+    },
+    initialPageParam: 1, 
+    staleTime: 1000 * 60 * 60, 
+    retry: 3, 
+  });
 
-    const fetchCategories = async () => {
-      setIsLoading(true);
-      setError(null);
-
-      try {
-        const response = await api.get(
-          `/categories?page=${page}`
-        );
-
-        if (response.status < 200 || response.status >= 300) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        if (isMounted) {
-          const newCategories = response.data.data as Category[];
-
-        
-          setHasMore(newCategories.length === ITEMS_PER_PAGE);
-
-                  if (page > 1) {
-            setOriginalCategories((prevCategories) => [
-              ...prevCategories,
-              ...newCategories,
-            ]);
-          } else {
-            
-            setOriginalCategories(newCategories);
-          }
-        }
-      } catch (error: any) {
-        if (isMounted) {
-          console.error("Error fetching categories:", error);
-          setError(error.message);
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    fetchCategories();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [page]); 
-
-  useEffect(() => {
-    const translatedCategories = originalCategories.map((category) => ({
+  const categories = useMemo(() => {
+    const allCategories = data?.pages.flat() || [];
+    return allCategories.map((category) => ({
       ...category,
-      name: i18n.language === "am" ? category.name_am : category.name, 
+      name: i18n.language === "am" ? category.name_am : category.name,
       subcategories: category.subcategories.map((subcategory) => ({
         ...subcategory,
-        name: i18n.language === "am" ? subcategory.name_am || subcategory.name : subcategory.name, 
+        name: i18n.language === "am" ? subcategory.name_am || subcategory.name : subcategory.name,
       })),
     }));
-
-    setCategories(translatedCategories);
-  }, [i18n.language, originalCategories]); 
-
-  const loadMore = () => {
-    if (!isLoading && hasMore) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
+  }, [data, i18n.language]);
 
   return {
     categories,
     isLoading,
-    error,
-    hasMore,
-    loadMore,
+    error: isError ? (error as Error).message : null,
+    hasMore: hasNextPage,
+    loadMore: fetchNextPage,
   };
 };

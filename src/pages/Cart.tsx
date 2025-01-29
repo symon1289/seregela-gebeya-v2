@@ -14,6 +14,8 @@ import { Trash2 } from "lucide-react";
 import { calculateCartTotals } from "../utils/CartUtils";
 import Meta from "../components/Meta";
 import { getCartMetaTags } from "../config/meta";
+import PriceFormatter from "../components/PriceFormatter";
+import { toast } from "react-toastify";
 
 const defaultImage = "../assets/no-image-available-02.jpg";
 
@@ -23,7 +25,7 @@ const Cart = () => {
   const navigate = useNavigate();
   const cartItems = useSelector((state: RootState) => state.cart);
   const packages = useSelector((state: RootState) => state.cart.packages);
-  const userData = useSelector((state: RootState) => state.auth.user);
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: number]: boolean;
   }>({});
@@ -64,16 +66,6 @@ const Cart = () => {
     dispatch(clearCart());
   };
 
-  const formatPrice = (price: string): string => {
-    const numPrice = parseFloat(price);
-    const formattedPrice = numPrice.toFixed(2);
-    const [integerPart, decimalPart] = formattedPrice.split(".");
-    return (
-      `${parseInt(integerPart).toLocaleString("en-US")}.${decimalPart} ` +
-      t("birr")
-    );
-  };
-
   if (cartItems.items.length === 0 && packages.length === 0) {
     return (
       <>
@@ -86,7 +78,7 @@ const Cart = () => {
               {t("no_items_in_cart_description")}
             </p>
             <Link
-              to="/products"
+              to="/seregela-gebeya-v2/products"
               className="inline-block bg-[#e9a83a] hover:bg-[#fed874] text-white px-6 py-3 rounded-lg transition-colors"
             >
               {t("continue_shopping")}
@@ -98,9 +90,14 @@ const Cart = () => {
   }
 
   const handleCheckout = () => {
-    if (userData) {
-      navigate("/seregela-gebeya-v2/checkout/shipping");
+    if (user) {
+      if (grandTotal > 2000) {
+        navigate("/seregela-gebeya-v2/checkout/shipping");
+      } else {
+        toast.error(t("minimum_delivery_amount"));
+      }
     } else {
+      toast.warning(t("please_login_to_your_account"));
       navigate("/seregela-gebeya-v2/login");
     }
   };
@@ -141,7 +138,7 @@ const Cart = () => {
                       </h3>
                     </Link>
                     <p className="text-xl font-bold mt-2">
-                      {formatPrice(item.price.toString())}
+                      <PriceFormatter price={item.price.toString()} />
                     </p>
                   </div>
                   <div className="flex items-center gap-4">
@@ -240,7 +237,7 @@ const Cart = () => {
                       </h3>
                     </Link>
                     <p className="text-xl font-bold mt-2">
-                      {formatPrice(item.price.toString())}
+                      <PriceFormatter price={item.price.toString()} />
                     </p>
                   </div>
                   <div className="flex items-center gap-4">
@@ -327,9 +324,7 @@ const Cart = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-gray-600">{t("sub_total")}</span>
-                  <span className="font-semibold">
-                    {formatPrice(subtotal.toString())}
-                  </span>
+                  <PriceFormatter price={subtotal.toString()} />
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">{t("delivery")}</span>
@@ -339,7 +334,7 @@ const Cart = () => {
                     </span>
                   ) : (
                     <span className="font-semibold">
-                      {formatPrice(shipping.toString())}
+                      <PriceFormatter price={shipping.toString()} />
                     </span>
                   )}
                 </div>
@@ -349,7 +344,7 @@ const Cart = () => {
                       {t("total_price")}
                     </span>
                     <span className="text-lg font-bold">
-                      {formatPrice(grandTotal.toString())}
+                      <PriceFormatter price={grandTotal.toString()} />
                     </span>
                   </div>
                 </div>

@@ -38,7 +38,7 @@ const RegularDealCard: React.FC<Package & { onViewDetails: () => void }> = ({
   <div className="group relative overflow-hidden rounded-xl shadow-md h-[388px]">
     <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 z-10" />
     <img
-      src={image_path}
+      src={image_path || "https://via.placeholder.com/300"} // Fallback image
       alt={name}
       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
     />
@@ -51,6 +51,7 @@ const RegularDealCard: React.FC<Package & { onViewDetails: () => void }> = ({
       <button
         onClick={onViewDetails}
         className="absolute top-2 right-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition"
+        aria-label="View details"
       >
         <Eye className="w-5 h-5 text-gray-700" />
       </button>
@@ -80,54 +81,81 @@ const FeaturedDealCard: React.FC<FeaturedDeal> = ({
   </div>
 );
 
+const ErrorDisplay: React.FC<{ error: Error }> = ({ error }) => (
+  <div className="mx-auto px-4 py-12">
+    <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+      <div className="flex">
+        <div className="flex-shrink-0">
+          <svg
+            className="h-5 w-5 text-red-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+        <div className="ml-3">
+          <p className="text-sm text-red-700">{error.message}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const Modal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}> = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl max-h-[500px] overflow-y-auto relative">
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-700 hover:text-gray-900"
+          aria-label="Close modal"
+        >
+          ✕
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+};
+
 const MoreDeals: React.FC = () => {
-  const { isLoading, error, packages, getPackages } = usePackages();
+  const { isLoadingPackages, packagesError, packages, getPackages } =
+    usePackages();
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Fetch packages on component mount
   useEffect(() => {
     getPackages();
   }, []);
+
+  // Handle view details for a package
   const handleViewDetails = (deal: Package) => {
     setSelectedPackage(deal);
     setIsModalOpen(true);
   };
 
+  // Close the modal
   const handleCloseModal = () => {
     setSelectedPackage(null);
     setIsModalOpen(false);
   };
 
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-red-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <section className="py-12">
       <div className="container mx-auto space-y-8">
+        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <h2 className="explore-more-deals font-semibold text-black">
             Explore More Deals!
@@ -138,9 +166,12 @@ const MoreDeals: React.FC = () => {
           </div>
         </div>
 
+        {/* Regular Deals Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {isLoading ? (
+          {isLoadingPackages ? (
             <Loader />
+          ) : packagesError ? (
+            <ErrorDisplay error={packagesError} />
           ) : (
             packages.map((pkg) => (
               <RegularDealCard
@@ -152,6 +183,7 @@ const MoreDeals: React.FC = () => {
           )}
         </div>
 
+        {/* Featured Deals Grid */}
         <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
           {featuredDeals.map((deal) => (
             <FeaturedDealCard key={deal.id} {...deal} />
@@ -159,20 +191,10 @@ const MoreDeals: React.FC = () => {
         </div>
       </div>
 
-      {/* Modal */}
-      {isModalOpen && selectedPackage && (
-        <div className="fixed inset-0  z-[100] flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl max-h-[500px] overflow-y-auto relative">
-            <button
-              onClick={handleCloseModal}
-              className="absolute top-3 right-3 text-gray-700 hover:text-gray-900"
-            >
-              ✕
-            </button>
-            <ProductDetailCard id={selectedPackage.id} />
-          </div>
-        </div>
-      )}
+      {/* Modal for Package Details */}
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        {selectedPackage && <ProductDetailCard id={selectedPackage.id} />}
+      </Modal>
     </section>
   );
 };

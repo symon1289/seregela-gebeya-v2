@@ -13,7 +13,7 @@ const loadState = (): ProductState => {
     if (serializedState === null) {
       return {
         products: [],
-        maxItems: 6,
+        maxItems: 18,
       };
     }
     return JSON.parse(serializedState);
@@ -21,7 +21,7 @@ const loadState = (): ProductState => {
     console.error(err);
     return {
       products: [],
-      maxItems: 6,
+      maxItems: 18,
     };
   }
 };
@@ -33,15 +33,13 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     addRecentProduct: (state, action: PayloadAction<Product>) => {
-      // Remove the product if it already exists to avoid duplicates
+    
       state.products = state.products.filter(
         (product) => product.id !== action.payload.id
       );
       
-      // Add the new product at the beginning of the array
       state.products.unshift(action.payload);
       
-      // Keep only the most recent products up to maxItems
       if (state.products.length > state.maxItems) {
         state.products = state.products.slice(0, state.maxItems);
       }

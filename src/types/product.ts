@@ -1,4 +1,4 @@
-interface Address {
+export interface Address {
   city: string | null;
   sub_city: string | null;
   woreda: string | null;
@@ -36,7 +36,7 @@ interface Store {
   deleted_at: string | null;
 }
 
-type PackageProduct = {
+export type PackageProduct = {
   id: number;
   cnet_id: string;
   name: string;
@@ -74,13 +74,11 @@ type PackageProduct = {
   updated_at: string;
 };
 
-// Define the type for the store's products pivot
 interface StoreProductPivot {
   quantity: number;
   enough_for_package: number;
 }
 
-// Define the type for the store's products
 interface StoreProduct {
   id: number;
   name: string;
@@ -88,12 +86,10 @@ interface StoreProduct {
   pivot: StoreProductPivot;
 }
 
-// Define the type for the store's pivot in the package
 interface PackageStorePivot {
   quantity: number;
 }
 
-// Define the type for the store in the package
 interface PackageStore {
   id: number;
   cnet_id: string;
@@ -109,9 +105,8 @@ interface PackageStore {
   products: StoreProduct[];
 }
 
-// Define the type for the package
 export interface Package {
-  id: number;
+  id: string;
   name: string;
   name_am: string;
   is_active: number;
@@ -131,55 +126,54 @@ export interface Package {
 }
 
 export interface Supplier {
-    id: number;
-    name: string;
-    name_am: string | null;
-    phone_number: string;
-  }
-  
-  export interface Subcategory {
-    id: number;
-    name: string;
-    name_am: string;
-    category_id: number;
-    image_path: string | null;
-    products_count: number;
-    created_at: string;
-  }
-  
-  export interface Product {
-    id: number;
-    name: string;
-    name_am: string | null;
-    description: string | null;
-    description_am: string | null;
-    supplier: Supplier;
-    brand: string;
-    measurement_type: string;
-    price: string;
-    discount: string;
-    category_id: number | null;
-    category: any | null;
-    subcategory: Subcategory | null;
-    subcategory_id: number | null;
-    stores: Store[];
-    total_quantity: number;
-    left_in_stock: number;
-    image_paths: string[];
-    image?: string;
-    created_at: string;
-    updated_at: string;
-    rating: number | null;
-    is_non_stocked: number;
-    is_active: number;
-    unit: string;
-    originalPrice: string;
-  }
-  
-  export interface ProductState {
-    products: Product[];
-    loading: boolean;
-    error: string | null;
-    selectedProduct: Product | null;
-  }
-  
+  id: number;
+  name: string;
+  name_am: string | null;
+  phone_number: string;
+}
+
+export interface Subcategory {
+  id: number;
+  name: string;
+  name_am: string;
+  category_id: number;
+  image_path: string | null;
+  products_count: number;
+  created_at: string;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  name_am: string | null;
+  description: string | null;
+  description_am: string | null;
+  supplier: Supplier;
+  brand: string;
+  measurement_type: string;
+  price: string;
+  discount: string;
+  category_id: number | null;
+  category: any | null;
+  subcategory: Subcategory | null;
+  subcategory_id: number | null;
+  stores: Store[];
+  total_quantity: number;
+  left_in_stock: number;
+  image_paths: string[];
+  image?: string;
+  created_at: string;
+  updated_at: string;
+  rating: number | null;
+  is_non_stocked: number;
+  is_active: number;
+  unit: string;
+  originalPrice: string;
+}
+
+export interface ProductState {
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+  selectedProduct: Product | null;
+}

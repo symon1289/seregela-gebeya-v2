@@ -117,6 +117,7 @@ export default function WelcomeSection() {
             <img
               src={Icon}
               className={`w-5 h-5 sm:w-6 sm:h-6  flex-shrink-0`}
+              alt={title}
             />
             <div>
               <h3 className="font-medium text-[10px] md:text-xs lg:text-sm ">

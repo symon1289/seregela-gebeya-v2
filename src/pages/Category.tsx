@@ -56,7 +56,7 @@ const Category: React.FC = () => {
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm text-red-700">{error.message}</p>
             </div>
           </div>
         </div>

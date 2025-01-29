@@ -10,8 +10,11 @@ import { useProducts } from "../../hooks/useProducts";
 import { Product as HookProduct } from "../../types/product";
 import { Product } from "../../types/product";
 import logomini from "../../assets/logo.png";
-import { FaHeart, FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
+import { calculateCartTotals } from "../../utils/CartUtils";
+import { FaUserAlt } from "react-icons/fa";
+import PriceFormatter from "../PriceFormatter";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -76,7 +79,6 @@ const Navbar = () => {
     ? JSON.parse(userData)
     : { first_name: "", last_name: "" };
   const cartItems = useSelector((state: RootState) => state.cart.items);
-  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const itemCount =
     cartItems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
   const packagesitems = useSelector((state: RootState) => state.cart.packages);
@@ -84,7 +86,7 @@ const Navbar = () => {
     packagesitems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
   const { categories } = useCategory();
   const { t } = useTranslation();
-
+  const { grandTotal } = calculateCartTotals(cartItems, packagesitems);
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
     setIsSearchOpen(true);
@@ -116,15 +118,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`bg-[#e7a334] text-white pb-3 pt-4 sticky top-0 z-[100] transition-all duration-300 ${
-        isScrolled ? "shadow-lg pb-1 pt-2" : ""
+      className={`bg-[#e7a334]  shadow-black/15 text-white pb-2 pt-3 sticky top-0 z-[100] transition-all duration-300 ${
+        isScrolled ? "shadow-xlpb-1.5 pt-2 " : ""
       }`}
     >
-      <div className="max-w-screen-xl mx-auto px-4">
+      <div className="max-w-screen-xl mx-auto pr-4">
         {/* Top Bar */}
         <div className="flex items-center justify-between gap-4 h-16">
           {/* Logo and Menu Button */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="block sm:block md:hidden lg:hidden xl:hidden text-white"
@@ -188,7 +190,9 @@ const Navbar = () => {
                           <div>
                             <div className="text-gray-900">{product.name}</div>
                             <div className="text-sm text-gray-600">
-                              {t("birr")} {product.price}
+                              <PriceFormatter
+                                price={product.price.toString()}
+                              />
                             </div>
                           </div>
                         </li>
@@ -211,66 +215,49 @@ const Navbar = () => {
               </div>
             </form>
           </div>
-          <div className="hidden xl:flex items-center justify-between mt-4">
-            <div className="flex items-center space-x-2">
-              <img
-                src={freeDelivery}
-                alt="Delivery Truck"
-                className="w-14 h-12"
-              />
-              <span className="text-sm text-white">
-                {t("from_2,000_birr")}
-                <br />
-                <strong>{t("Addis_ababa_only")}</strong>
-              </span>
-            </div>
-          </div>
+
           {/* Right Section */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            {userData ? (
+              <Link
+                to="/seregela-gebeya-v2/profile"
+                className="hidden xl:flex hover:text-gray-200 bg-[#e7a334] rounded-lg px-2 py-2 text-white items-center gap-2"
+              >
+                <FaUserAlt size={24} />
+              </Link>
+            ) : (
+              <Link
+                to="/seregela-gebeya-v2/login"
+                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-2 py-2 text-[#e7a334] items-center gap-2"
+              >
+                <User size={24} />
+                <span>{t("login")}</span>
+              </Link>
+            )}
             {/* Cart */}
             <Link
               to="/seregela-gebeya-v2/cart"
               className="relative hover:text-gray-200 text-white rounded-lg px-1 py-2 "
             >
               <FaCartShopping size={24} />
-              {itemCount > 0 ||
-                (packagecount > 0 && (
-                  <span className="absolute -top-1 -right-0  bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                    {itemCount}
-                  </span>
-                ))}
-            </Link>
-
-            {/* Wishlist */}
-            <Link
-              to="/seregela-gebeya-v2/wishlist"
-              className="relative hover:text-gray-200 text-white rounded-lg px-1 py-2 "
-            >
-              <FaHeart size={24} />
-              {wishlistItems.length > 0 && (
-                <span className="absolute -top-1 -right-0 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {wishlistItems.length}
+              {itemCount + packagecount > 0 && (
+                <span className="absolute -top-1 -right-0  bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {itemCount + packagecount}
                 </span>
               )}
             </Link>
 
-            {userData ? (
-              <Link
-                to="/seregela-gebeya-v2/profile"
-                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
-              >
-                <User size={24} />
-                <span>{first_name}</span>
-                <span>{last_name}</span>
-              </Link>
-            ) : (
-              <Link
-                to="/seregela-gebeya-v2/login"
-                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
-              >
-                <User size={24} />
-                <span>{t("login")}</span>
-              </Link>
+            {grandTotal > 100 && (
+              <div className="ml-4 hidden sm:flex flex-col font-bold">
+                <span className="text-xs text-gray-100">{t("your_cart")}</span>
+                <PriceFormatter price={grandTotal.toString()} />
+              </div>
+            )}
+            {grandTotal === 100 && (
+              <div className="ml-4 hidden sm:flex flex-col font-bold">
+                <span className="text-xs text-gray-100">{t("your_cart")}</span>
+                <span>0.00 {t("birr")} </span>
+              </div>
             )}
           </div>
         </div>
@@ -313,15 +300,25 @@ const Navbar = () => {
                   </button>
                 </div>
                 {/* Account Link */}
-                <Link
-                  to="/seregela-gebeya-v2/login"
-                  className="flex items-center  gap-3 py-3 text-gray-900 hover:bg-gray-50"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <User size={28} />
-                  <span>Login</span>
-                </Link>
-
+                {userData ? (
+                  <Link
+                    to="/seregela-gebeya-v2/profile"
+                    className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
+                  >
+                    <User size={24} />
+                    <span>{first_name}</span>
+                    <span>{last_name}</span>
+                  </Link>
+                ) : (
+                  <Link
+                    to="/seregela-gebeya-v2/login"
+                    className="flex items-center  gap-3 py-3 text-gray-900 hover:bg-gray-50"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <User size={28} />
+                    <span>{t("login")}</span>
+                  </Link>
+                )}
                 {/* Categories */}
                 <div className="mt-2 border-t border-gray-100">
                   <CategoryNav categories={categories} />
@@ -335,10 +332,10 @@ const Navbar = () => {
                       alt="Delivery Truck"
                       className="w-12 h-10"
                     />
-                    <span className="text-sm text-gray-600">
-                      Free Delivery On 2,000Birr
+                    <span className="text-xs text-gray-600">
+                      {t("from_2,000_birr")}
                       <br />
-                      <strong>Addis Ababa Only</strong>
+                      <strong>{t("Addis_ababa_only")}</strong>
                     </span>
                   </div>
                 </div>

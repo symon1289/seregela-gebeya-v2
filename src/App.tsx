@@ -18,6 +18,7 @@ import Wishlist from "./pages/Wishlist";
 import Delivery from "./pages/Delivery";
 import Payment from "./pages/Payment";
 import UserProfile from "./pages/UserProfile";
+import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
   return (
@@ -43,20 +44,23 @@ function App() {
               path="/seregela-gebeya-v2/subcategory/:id"
               element={<Subcategory />}
             />
-            <Route path="/seregela-gebeya-v2/login" element={<Login />} />
-            <Route
-              path="/seregela-gebeya-v2/profile"
-              element={<UserProfile />}
-            />
             <Route path="/seregela-gebeya-v2/wishlist" element={<Wishlist />} />
-            <Route
-              path="/seregela-gebeya-v2/checkout/shipping"
-              element={<Delivery />}
-            />
-            <Route
-              path="/seregela-gebeya-v2/checkout/payment"
-              element={<Payment />}
-            />
+            <Route path="/seregela-gebeya-v2/login" element={<Login />} />
+            <Route path="" element={<PrivateRoute />}>
+              <Route
+                path="/seregela-gebeya-v2/profile"
+                element={<UserProfile />}
+              />
+
+              <Route
+                path="/seregela-gebeya-v2/checkout/shipping"
+                element={<Delivery />}
+              />
+              <Route
+                path="/seregela-gebeya-v2/checkout/payment"
+                element={<Payment />}
+              />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

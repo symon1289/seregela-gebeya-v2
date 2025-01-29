@@ -60,7 +60,7 @@ const Subcategory: React.FC = () => {
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm text-red-700">{error.message}</p>
             </div>
           </div>
         </div>
@@ -77,13 +77,13 @@ const Subcategory: React.FC = () => {
         {activeSubcategory && (
           <Breadcrumb
             paths={[
-              { name: "Products", url: "/products" },
+              { name: "Products", url: "/seregela-gebeya-v2/products" },
               {
                 name:
                   categories.find((cat) =>
                     cat.subcategories.some((sub) => sub.id === Number(id))
                   )?.name || "",
-                url: `/category/${
+                url: `/seregela-gebeya-v2/category/${
                   categories.find((cat) =>
                     cat.subcategories.some((sub) => sub.id === Number(id))
                   )?.id
@@ -91,7 +91,7 @@ const Subcategory: React.FC = () => {
               },
               {
                 name: activeSubcategory.name,
-                url: `/subcategory/${activeSubcategory.id}`,
+                url: `/seregela-gebeya-v2/subcategory/${activeSubcategory.id}`,
               },
             ]}
           />

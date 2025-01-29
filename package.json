@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://symon1289.github.io/seregela-gebeya-v2/",
   "scripts": {
-   "dev": "vite --port=8008",
+    "dev": "vite --port=8080",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -14,6 +14,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "@tanstack/react-query": "^5.64.2",
+    "@tanstack/react-query-devtools": "^5.64.2",
     "@types/react-icons": "^2.2.7",
     "axios": "^1.7.9",
     "firebase": "^11.1.0",

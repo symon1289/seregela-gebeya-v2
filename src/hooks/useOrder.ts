@@ -1,232 +1,171 @@
-import { useState } from "react";
+
+import { useQuery, useMutation, useInfiniteQuery } from "@tanstack/react-query";
 import api from "../utils/axios";
-import { OrderDetail } from "../types/order";
+import { OrderDetail, DeliveryType } from "../types/order";
 
-interface UseOrderReturn {
-  loading: boolean;
-  error: string | null;
-  hasMore: boolean; // Add hasMore to the return type
-  getDeliveryTypes: () => Promise<any>;
-  makeOrder: (order: OrderDetail) => Promise<any>;
-  makeOrderPin: (order: OrderDetail) => Promise<any>;
-  getOrders: (page: number) => Promise<any>; // Update getOrders to accept page parameter
-  getUserOrderByStatus: (status: string) => Promise<any>;
-  getUserOrderById: (orderId: string) => Promise<any>;
-  makePayment: (orderId: string) => Promise<any>;
-  makePaymentOTP: (orderId: string, otp: string) => Promise<any>;
-  resendLoanOTP: (orderId: string) => Promise<any>;
-  cancelOrder: (orderId: string) => Promise<any>;
-  checkCBE: (checkoutID: string) => Promise<any>;
-  getDiscounts: () => Promise<any>;
-}
+// Utility function for auth headers
+const getAuthHeader = () => ({
+  headers: {
+    Authorization: "Bearer " + window.localStorage.getItem("token"),
+  },
+});
 
-const useOrder = (): UseOrderReturn => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [hasMore, setHasMore] = useState(true); // Add hasMore state
+// Query functions
+const fetchDeliveryTypes = async (): Promise<DeliveryType[]> => {
+  const { data } = await api.get("delivery-types", getAuthHeader());
+  return data.data;
+};
 
-  const handleRequest = async (request: () => Promise<any>): Promise<any> => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await request();
-      setLoading(false);
-      return data;
-    } catch (err: any) {
-      setLoading(false);
-      setError(err.message || "An error occurred");
-      throw err;
-    }
+const createOrder = async (order: OrderDetail) => {
+  const { data } = await api.post("orders", order, getAuthHeader());
+  return data.data;
+};
+
+const fetchOrders = async ({ pageParam = 1 }: { pageParam?: number }) => {
+  const { data } = await api.get("orders", {
+    ...getAuthHeader(),
+    params: { page: pageParam },
+  });
+  return {
+    orders: data.data,
+    nextPage: data.meta.current_page + 1,
+    hasNextPage: data.meta.current_page < data.meta.last_page,
+    lastPage: data.meta.last_page,
   };
+};
 
-  const getDeliveryTypes = async () =>
-    handleRequest(() => api.get("delivery-types").then((res) => res.data.data));
+const fetchOrderByStatus = async (status: string) => {
+  const { data } = await api.get("orders", {
+    ...getAuthHeader(),
+    params: { status },
+  });
+  return data.data;
+};
 
-  const makeOrder = async (order: OrderDetail) =>
-    handleRequest(() =>
-      api
-        .post(
-          "orders",
-          {
-            payment_method: order.payment_method,
-            delivery_type_id: order.delivery_type_id,
-            shipping_detail: order.shipping_detail,
-            discount_type_id: order.discount_type_id,
-            products: order.products,
-            packages: order.packages,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => res.data.data)
-    );
+const fetchOrderById = async (orderId: string) => {
+  const { data } = await api.get(`orders/${orderId}`, getAuthHeader());
+  return data.data;
+};
 
-  const makeOrderPin = async (order: OrderDetail) =>
-    handleRequest(() =>
-      api
-        .post(
-          "orders",
-          {
-            payment_method: order.payment_method,
-            delivery_type_id: order.delivery_type_id,
-            shipping_detail: order.shipping_detail,
-            discount_type_id: order.discount_type_id,
-            products: order.products,
-            packages: order.packages,
-            pin_code: order.pin_code,
-          },
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => res.data.data)
-    );
+const makePayment = async (orderId: string) => {
+  const { data } = await api.post(
+    `orders/${orderId}/make-payment`,
+    {},
+    getAuthHeader()
+  );
+  return data;
+};
 
-  const getOrders = async (page: number = 1) =>
-    handleRequest(() =>
-      api
-        .get(`orders?page=${page}`, {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-          params: { page },
-        })
-        .then((res) => {
-          setHasMore(res.data.data.length > 0); // Update hasMore based on the response
-          return res.data.data;
-        })
-    );
+const makePaymentWithOTP = async ({ orderId, otp }: { orderId: string; otp: string }) => {
+  const { data } = await api.post(
+    `orders/${orderId}/make-payment`,
+    { otp },
+    getAuthHeader()
+  );
+  return data.data;
+};
 
-  const getUserOrderByStatus = async (status: string) =>
-    handleRequest(() =>
-      api
-        .get("orders", {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-          params: { status },
-        })
-        .then((res) => res.data.data)
-    );
+const resendOTP = async (orderId: string) => {
+  const { data } = await api.post(
+    `orders/${orderId}/resend-otp`,
+    {},
+    getAuthHeader()
+  );
+  return data;
+};
 
-  const getUserOrderById = async (orderId: string) =>
-    handleRequest(() =>
-      api
-        .get(`orders/${orderId}`, {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-        })
-        .then((res) => res.data.data)
-    );
+const cancelOrder = async (orderId: string) => {
+  const { data } = await api.post(
+    `orders/${orderId}/cancel`,
+    {},
+    getAuthHeader()
+  );
+  return data;
+};
 
-  const makePayment = async (orderId: string) =>
-    handleRequest(() =>
-      api
-        .post(
-          `orders/${orderId}/make-payment`,
-          {},
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => res.data)
-    );
+const checkCBE = async (checkoutID: string) => {
+  const { data } = await api.post(
+    `orders/${checkoutID}/check-and-update-payment`,
+    {},
+    getAuthHeader()
+  );
+  return data.data;
+};
 
-  const makePaymentOTP = async (orderId: string, otp: string) =>
-    handleRequest(() =>
-      api
-        .post(
-          `orders/${orderId}/make-payment`,
-          { otp },
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => res.data.data)
-    );
+const fetchDiscounts = async () => {
+  const { data } = await api.get("discount-types", getAuthHeader());
+  return data.data;
+};
 
-  const resendLoanOTP = async (orderId: string) =>
-    handleRequest(() =>
-      api
-        .post(
-          `/orders/${orderId}/resend-otp`,
-          {},
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => res.data)
-    );
+// Custom hooks
+export const useOrder = () => {
+  const deliveryTypesQuery = useQuery({
+    queryKey: ["deliveryTypes"],
+    queryFn: fetchDeliveryTypes,
+  });
 
-  const cancelOrder = async (orderId: string) =>
-    handleRequest(() =>
-      api
-        .post(
-          `orders/${orderId}/cancel`,
-          {},
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => res.data)
-    );
+  const createOrderMutation = useMutation({
+    mutationFn: createOrder,
+  });
 
-  const checkCBE = async (checkoutID: string) =>
-    handleRequest(() =>
-      api
-        .post(
-          `orders/${checkoutID}/check-and-update-payment`,
-          {},
-          {
-            headers: {
-              Authorization: "Bearer " + window.localStorage.getItem("token"),
-            },
-          }
-        )
-        .then((res) => res.data.data)
-    );
+  const ordersQuery = useInfiniteQuery({
+    queryKey: ["orders"],
+    queryFn: fetchOrders,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      return lastPage.hasNextPage ? lastPage.nextPage : undefined;
+    },
+  });
 
-  const getDiscounts = async () =>
-    handleRequest(() =>
-      api
-        .get("discount-types", {
-          headers: {
-            Authorization: "Bearer " + window.localStorage.getItem("token"),
-          },
-        })
-        .then((res) => res.data.data)
-    );
+  const useOrdersByStatus = (status: string) =>
+    useQuery({
+      queryKey: ["orders", status],
+      queryFn: () => fetchOrderByStatus(status),
+    });
+
+  const useOrderDetails = (orderId: string) =>
+    useQuery({
+      queryKey: ["order", orderId],
+      queryFn: () => fetchOrderById(orderId),
+    });
+
+  const makePaymentMutation = useMutation({
+    mutationFn: makePayment,
+  });
+
+  const makePaymentWithOTPMutation = useMutation({
+    mutationFn: makePaymentWithOTP,
+  });
+
+  const resendOTPMutation = useMutation({
+    mutationFn: resendOTP,
+  });
+
+  const cancelOrderMutation = useMutation({
+    mutationFn: cancelOrder,
+  });
+
+  const checkCBEMutation = useMutation({
+    mutationFn: checkCBE,
+  });
+
+  const discountsQuery = useQuery({
+    queryKey: ["discountTypes"],
+    queryFn: fetchDiscounts,
+  });
 
   return {
-    loading,
-    error,
-    hasMore, // Return hasMore
-    getDeliveryTypes,
-    makeOrder,
-    makeOrderPin,
-    getOrders,
-    getUserOrderByStatus,
-    getUserOrderById,
-    makePayment,
-    makePaymentOTP,
-    resendLoanOTP,
-    cancelOrder,
-    checkCBE,
-    getDiscounts,
+    deliveryTypesQuery,
+    createOrderMutation,
+    ordersQuery,
+    useOrdersByStatus,
+    useOrderDetails,
+    makePaymentMutation,
+    makePaymentWithOTPMutation,
+    resendOTPMutation,
+    cancelOrderMutation,
+    checkCBEMutation,
+    discountsQuery,
   };
 };
 

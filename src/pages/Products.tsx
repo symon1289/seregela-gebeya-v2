@@ -53,7 +53,7 @@ const Products: React.FC = () => {
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className="text-sm text-red-700">{error.message}</p>
             </div>
           </div>
         </div>
@@ -66,7 +66,9 @@ const Products: React.FC = () => {
       {" "}
       <Meta config={getAllProductsMetaTags()} />
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumb paths={[{ name: "Products", url: "/products" }]} />
+        <Breadcrumb
+          paths={[{ name: "Products", url: "/seregela-gebeya-v2/products" }]}
+        />
         <div className="flex gap-[11px] mt-6">
           <Sidebar
             isOpen={isSidebarOpen}

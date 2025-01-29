@@ -10,14 +10,15 @@ import "./ProductDetail.css";
 import { useTranslation } from "react-i18next";
 import { usePackages } from "../hooks/usePackages";
 import { Link } from "react-router-dom";
+import PriceFormatter from "./PriceFormatter";
 
 interface ProductDetailCardProps {
-  id: number;
+  id?: string;
 }
 const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
   const {
-    isLoading,
-    error,
+    isLoadingPackageItem,
+    packageItemError,
     package: packageItem,
     getPackageById,
   } = usePackages();
@@ -35,7 +36,10 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    getPackageById(id.toString());
+    console.log("Selected Package ID:", id);
+    if (id) {
+      getPackageById(id);
+    }
   }, [id]);
 
   useEffect(() => {
@@ -103,16 +107,16 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
     }
   };
 
-  if (isLoading) {
+  if (isLoadingPackageItem) {
     return <Loader />;
   }
 
-  if (error) {
+  if (packageItemError) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="text-center">
           <p className="text-xl text-red-600 mb-4">{t("error")}</p>
-          <p className="text-gray-600">{error}</p>
+          <p className="text-gray-600">{packageItemError.message}</p>
         </div>
       </div>
     );
@@ -142,15 +146,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
       </div>
     );
   }
-  const formatPrice = (price: string): string => {
-    const numPrice = parseFloat(price);
-    const formattedPrice = numPrice.toFixed(2);
-    const [integerPart, decimalPart] = formattedPrice.split(".");
-    return (
-      `${parseInt(integerPart).toLocaleString("en-US")}.${decimalPart} ` +
-      t("birr")
-    );
-  };
+
   return (
     <>
       <div className="z-40 mx-auto px-4 py-2">
@@ -245,12 +241,6 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                 </button>
               </div>
             </div>
-            {/* {packageItem.name_am && (
-              <h2 className="text-xl text-gray-600 mb-4">
-                {packageItem.name_am}
-              </h2>
-            )} */}
-
             <div className="flex items-baseline gap-2 mb-2">
               <PriceDisplay price={parseFloat(packageItem.price)} />
               {parseFloat(packageItem.discount) > 0 && (
@@ -291,7 +281,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                             {t("quantity")}: {item.pivot.quantity}
                           </span>
                           <p className="text-lg font-bold">
-                            {formatPrice(item.price.toString())}
+                            <PriceFormatter price={item.price} />
                           </p>
                         </div>
                       </Link>
@@ -373,9 +363,8 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
               </div>
               <div className="hover-btn">
                 <span className="mr-2">
-                  {parseFloat(packageItem.price).toFixed(2)}
+                  <PriceFormatter price={packageItem.price} />
                 </span>
-                {t("birr")}
               </div>
             </button>
           </div>
