@@ -94,10 +94,10 @@ const Cart = () => {
       if (grandTotal > 2000) {
         navigate("/seregela-gebeya-v2/checkout/shipping");
       } else {
-        toast.error(t("minimum_delivery_amount"));
+        toast.warn(t("minimum_delivery_amount"));
       }
     } else {
-      toast.warning(t("please_login_to_your_account"));
+      toast.warn(t("please_login_to_your_account"));
       navigate("/seregela-gebeya-v2/login");
     }
   };
