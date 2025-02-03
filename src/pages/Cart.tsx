@@ -91,8 +91,6 @@ const Cart = () => {
   const handleCheckout = () => {
     if (grandTotal > 2000) {
       navigate("/seregela-gebeya-v2/checkout/shipping");
-
-      toast.warn(t("please_login_to_your_account"));
     } else {
       toast.warn(t("minimum_delivery_amount"));
     }

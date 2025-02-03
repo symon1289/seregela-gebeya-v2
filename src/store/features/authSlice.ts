@@ -103,6 +103,10 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       localStorage.setItem("token", action.payload.access_token);
     },
+    setCaptcha: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+      localStorage.setItem("_grecaptcha", action.payload);
+    },
     setUser: (state, action: PayloadAction<any>) => {
       state.count += 1;
       state.user = action.payload.data;
@@ -139,6 +143,7 @@ export const {
   setPayload,
   setAuth,
   setUser,
+  setCaptcha,
   recoverTokenFromStorage,
   logout,
 } = authSlice.actions;

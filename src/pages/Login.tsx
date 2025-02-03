@@ -205,11 +205,10 @@ const Login = () => {
     localStorage.setItem("_grecaptcha", captcha);
 
     toast.success("login successful");
-    // @ts-expect-error: Should expect Firebase auth
     navigate(redirect);
   };
   const [searchParams] = useSearchParams();
-  const redirect = searchParams.get("redirect");
+  const redirect = searchParams.get("redirect") || "/seregela-gebeya-v2";
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8 items-center">
