@@ -16,7 +16,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [showOTP, setShowOTP] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [confirmationResult, setConfirmationResult] = useState<any>(null); // Store Firebase confirmation result
+  const [confirmationResult, setConfirmationResult] = useState<any>(null); 
   const inputRefs = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -30,9 +30,9 @@ const Login = () => {
   const setUpRecaptcha = () => {
     const recaptchaVerifier = new RecaptchaVerifier(
       auth,
-      "recaptcha-container", // ID of the reCAPTCHA container
+      "recaptcha-container", 
       {
-        size: "invisible", // Use 'normal' for visible reCAPTCHA
+        size: "invisible",
       }
     );
     return recaptchaVerifier;
@@ -83,9 +83,9 @@ const Login = () => {
         recaptchaVerifier
       );
 
-      setConfirmationResult(result); // Store confirmation result
-      setShowOTP(true); // Show OTP input
-      toast.success(t("otp_sent")); // Notify user
+      setConfirmationResult(result); 
+      setShowOTP(true); 
+      toast.success(t("otp_sent")); 
     } catch (err: any) {
       console.error("Error sending OTP:", err);
       setError(t("failed_to_send_otp"));
@@ -103,7 +103,7 @@ const Login = () => {
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Auto-focus next input
+   
     if (value !== "" && index < 5) {
       inputRefs[index + 1].current?.focus();
     }
@@ -128,7 +128,7 @@ const Login = () => {
     setError(null);
 
     try {
-      // Verify OTP using Firebase
+  
       const result = await confirmationResult.confirm(otpValue);
       console.log("User signed in:", result.user);
       toast.success(t("login_successful"));
@@ -140,6 +140,9 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+  
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/seregela-gebeya-v2";
   const handleContinueWithDefaultAccount = () => {
     const userData = {
       id: 238,
@@ -207,8 +210,6 @@ const Login = () => {
     toast.success("login successful");
     navigate(redirect);
   };
-  const [searchParams] = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/seregela-gebeya-v2";
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8 items-center">

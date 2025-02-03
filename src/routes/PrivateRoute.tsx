@@ -1,15 +1,18 @@
 import React from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+// import { useSelector } from "react-redux";
+// import { RootState } from "../store/store";
 
 const PrivateRoute: React.FC = () => {
-  const { user } = useSelector((state: RootState) => state.auth);
+  // const { user } = useSelector((state: RootState) => state.auth);
   // @ts-expect-error user is not null
   const userData = JSON.parse(localStorage.getItem("user"));
   const location = useLocation();
 
-  return userData || user ? (
+  console.log('userData:', userData);
+  // console.log('user from Redux:', user);
+
+  return userData ? (
     <Outlet />
   ) : (
     <Navigate

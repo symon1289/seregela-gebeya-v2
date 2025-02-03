@@ -19,11 +19,11 @@ import Delivery from "./pages/Delivery";
 import Payment from "./pages/Payment";
 import UserProfile from "./pages/UserProfile";
 import PrivateRoute from "./routes/PrivateRoute";
-import { RootState } from "./store/store";
+// import { RootState } from "./store/store";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 function App() {
-  const { user } = useSelector((state: RootState) => state.auth);
+  // const { user } = useSelector((state: RootState) => state.auth);
   // @ts-expect-error user is not null
   const userData = JSON.parse(localStorage.getItem("user"));
   return (
@@ -53,7 +53,7 @@ function App() {
             <Route
               path="/seregela-gebeya-v2/login"
               element={
-                userData || user ? (
+                userData ? (
                   <Navigate to="/seregela-gebeya-v2" replace />
                 ) : (
                   <Login />
