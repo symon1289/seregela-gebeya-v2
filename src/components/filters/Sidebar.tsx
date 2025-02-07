@@ -36,8 +36,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     price: true,
     sort: true,
   });
-  
-   const {t} = useTranslation();
+
+  const { t } = useTranslation();
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prev) => ({
       ...prev,
@@ -58,12 +58,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Menu Button for sm and md screens */}
       <button
         onClick={() => onClose()}
-        className={`fixed left-2 top-1/2 transform -translate-y-1/2 p-2.5 bg-[#e9a83a] hover:bg-[#fed874] rounded-full text-white lg:hidden z-40 shadow-lg flex items-center gap-2 transition-all duration-300 hover:shadow-xl cursor-pointer ${
+        className={`fixed left-2 top-1/2 transform -translate-y-1/2 p-2.5 bg-primary hover:bg-secondary rounded-full text-white lg:hidden z-40 shadow-lg flex items-center gap-2 transition-all duration-300 hover:shadow-xl cursor-pointer ${
           !isOpen ? "opacity-100" : "opacity-0"
         }`}
       >
         <ChevronDown className="w-6 h-6 transform rotate-[-90deg]" />
-        <span className="hidden md:inline text-sm font-medium pr-1">{t("filters")}</span>
+        <span className="hidden md:inline text-sm font-medium pr-1">
+          {t("filters")}
+        </span>
       </button>
 
       {/* Mobile overlay */}
@@ -82,10 +84,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       >
         <div className="h-full flex flex-col">
           <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-lg font-semibold text-gray-800">{t("filters")}</h2>
+            <h2 className="text-lg font-semibold text-gray-800">
+              {t("filters")}
+            </h2>
             <button
               onClick={onClose}
-              className="p-2.5 bg-[#e9a83a] hover:bg-[#fed874] rounded-full text-white lg:hidden transition-colors duration-300"
+              className="p-2.5 bg-primary hover:bg-secondary rounded-full text-white lg:hidden transition-colors duration-300"
             >
               <X className="w-6 h-6" />
             </button>
@@ -95,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             {hasActiveFilters && (
               <button
                 onClick={handleClearFilters}
-                className="flex items-center text-sm text-[#e9a83a] hover:text-[#fed874] transition-colors duration-300"
+                className="flex items-center text-sm text-primary hover:text-secondary transition-colors duration-300"
               >
                 <RotateCcw className="w-4 h-4 mr-1" />
                 {t("clear_filters")}

@@ -127,7 +127,7 @@ const Subcategory: React.FC = () => {
 
             {isLoading && (
               <div className="flex justify-center mt-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
               </div>
             )}
 
@@ -135,7 +135,7 @@ const Subcategory: React.FC = () => {
               <div className="flex justify-center mt-8">
                 <button
                   onClick={loadMore}
-                  className="px-6 py-2 bg-[#e9a83a] text-white rounded-md hover:bg-[#d49732] transition-colors"
+                  className="px-6 py-2 bg-primary text-white rounded-md hover:bg-[#d49732] transition-colors"
                 >
                   {t("loadMore")}
                 </button>

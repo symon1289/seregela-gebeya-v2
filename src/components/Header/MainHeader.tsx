@@ -119,7 +119,7 @@ const Navbar = () => {
   return (
     <nav
       className={`bg-[#e7a334]  shadow-black/15 text-white pb-2 pt-3 sticky top-0 z-[100] transition-all duration-300 ${
-        isScrolled ? "shadow-xlpb-1.5 pt-2 " : ""
+        isScrolled ? "shadow-xl pb-1.5 pt-2 " : ""
       }`}
     >
       <div className="max-w-screen-xl mx-auto pr-4">
@@ -168,7 +168,7 @@ const Navbar = () => {
                 {/* Loading Indicator */}
                 {isLoading && (
                   <div className="absolute right-3 top-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#e9a83a]"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
                   </div>
                 )}
 
@@ -294,7 +294,7 @@ const Navbar = () => {
                   </Link>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="absolute top-4 right-4 p-2 bg-[#e9a83a] hover:bg-[#fed874] rounded-full text-white"
+                    className="absolute top-4 right-4 p-2 bg-primary hover:bg-secondary rounded-full text-white"
                   >
                     <X className="h-6 w-6" />
                   </button>

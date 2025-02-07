@@ -439,7 +439,7 @@ const ProductDetail: React.FC = () => {
                     onClick={() => setSelectedImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg border-2 transition-all ${
                       selectedImageIndex === index
-                        ? "border-[#e9a83a]"
+                        ? "border-primary"
                         : "border-transparent hover:border-gray-300"
                     }`}
                   >
@@ -478,9 +478,7 @@ const ProductDetail: React.FC = () => {
                 <Heart
                   size={24}
                   className={
-                    isInWishlist
-                      ? "fill-[#e9a83a] text-[#e9a83a]"
-                      : "text-gray-400"
+                    isInWishlist ? "fill-primary text-primary" : "text-gray-400"
                   }
                 />
               </button>
@@ -531,7 +529,7 @@ const ProductDetail: React.FC = () => {
                       onClick={() =>
                         setIsDescriptionExpanded(!isDescriptionExpanded)
                       }
-                      className="mt-2 text-[#e9a83a] hover:text-[#c88d31] font-medium"
+                      className="mt-2 text-primary hover:text-[#c88d31] font-medium"
                     >
                       {isDescriptionExpanded ? "Show less" : "Show more"}
                     </button>
@@ -594,11 +592,11 @@ const ProductDetail: React.FC = () => {
                       onChange={(e) => handleQuantityChange(e.target.value)}
                       min="1"
                       max={product.left_in_stock}
-                      className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <button
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                      className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                     >
                       <svg
                         className="w-4 h-4 text-gray-500"
@@ -643,7 +641,7 @@ const ProductDetail: React.FC = () => {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              className="button_cart w-full bg-[#e9a83a] hover:bg-[#fed874] text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="button_cart w-full bg-primary hover:bg-secondary text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
               disabled={product.left_in_stock === 0}
             >
               <div className="default-btn">
@@ -669,7 +667,7 @@ const ProductDetail: React.FC = () => {
                 <button
                   onClick={handleLoadMore}
                   disabled={loadingRelated}
-                  className="bg-[#e9a83a] text-white px-6 py-2 rounded-lg hover:bg-[#fed874] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {loadingRelated ? (
                     <>
@@ -771,7 +769,7 @@ const ProductDetail: React.FC = () => {
                               : "w-full aspect-square"
                           } flex-shrink-0 rounded-lg border-2 transition-all ${
                             selectedImageIndex === index
-                              ? "border-[#e9a83a]"
+                              ? "border-primary"
                               : "border-transparent hover:border-gray-300"
                           }`}
                         >

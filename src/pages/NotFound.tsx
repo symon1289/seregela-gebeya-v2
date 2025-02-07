@@ -14,7 +14,7 @@ const NotFound: React.FC = () => {
         <p className="text-gray-500 mt-4 mb-8">{t("page_not_found_desc")}</p>
         <Link
           to="/seregela-gebeya-v2"
-          className="px-6 py-3 text-white rounded-lg bg-[#e9a83a] hover:bg-[#fed874]  transition-colors duration-300"
+          className="px-6 py-3 text-white rounded-lg bg-primary hover:bg-secondary  transition-colors duration-300"
         >
           {t("go_to_home_page")}
         </Link>

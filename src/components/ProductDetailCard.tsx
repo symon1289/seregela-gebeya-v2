@@ -193,7 +193,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                     onClick={() => setSelectedImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg border-2 transition-all ${
                       selectedImageIndex === index
-                        ? "border-[#e9a83a]"
+                        ? "border-primary"
                         : "border-transparent hover:border-gray-300"
                     }`}
                   >
@@ -234,7 +234,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                     size={24}
                     className={
                       isInWishlist
-                        ? "fill-[#e9a83a] text-[#e9a83a]"
+                        ? "fill-primary text-primary"
                         : "text-gray-400"
                     }
                   />
@@ -266,7 +266,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                       <Link
                         to={`/seregela-gebeya-v2/products/${item.id}`}
                         key={item.id}
-                        className="flex hover:text-[#e9a83a] hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row"
+                        className="flex hover:text-primary hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row"
                       >
                         <img
                           className="m-2 h-24 w-28 rounded-md border object-cover object-center"
@@ -303,11 +303,11 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                       onChange={(e) => handleQuantityChange(e.target.value)}
                       min="1"
                       max={packageItem.left_in_stock}
-                      className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                     />
                     <button
                       onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                      className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                     >
                       <svg
                         className="w-4 h-4 text-gray-500"
@@ -352,7 +352,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
             {/* Add to Cart Button */}
             <button
               onClick={handleAddToCart}
-              className="button_cart w-full bg-[#e9a83a] hover:bg-[#fed874] text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="button_cart w-full bg-primary hover:bg-secondary text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
               disabled={packageItem.left_in_stock === 0}
             >
               <div className="default-btn">

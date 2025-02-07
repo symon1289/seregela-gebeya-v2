@@ -78,7 +78,7 @@ const Cart = () => {
             </p>
             <Link
               to="/seregela-gebeya-v2/products"
-              className="inline-block bg-[#e9a83a] hover:bg-[#fed874] text-white px-6 py-3 rounded-lg transition-colors"
+              className="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors"
             >
               {t("continue_shopping")}
             </Link>
@@ -89,7 +89,7 @@ const Cart = () => {
   }
 
   const handleCheckout = () => {
-    if (grandTotal > 2000) {
+    if (subtotal > 299) {
       navigate("/seregela-gebeya-v2/checkout/shipping");
     } else {
       toast.warn(t("minimum_delivery_amount"));
@@ -127,7 +127,7 @@ const Cart = () => {
                   </div>
                   <div className="flex-grow">
                     <Link to={`/products/${item.id}`} className="block">
-                      <h3 className="text-lg font-semibold hover:text-[#e9a83a] transition-colors">
+                      <h3 className="text-lg font-semibold hover:text-primary transition-colors">
                         {item.name}
                       </h3>
                     </Link>
@@ -158,11 +158,11 @@ const Cart = () => {
                           }}
                           min="1"
                           max={item.left_in_stock}
-                          className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                         <button
                           onClick={() => toggleDropdown(item.id)}
-                          className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                          className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                         >
                           <svg
                             className="w-4 h-4 text-gray-500"
@@ -226,7 +226,7 @@ const Cart = () => {
                   </div>
                   <div className="flex-grow">
                     <Link to={`/products/${item.id}`} className="block">
-                      <h3 className="text-lg font-semibold hover:text-[#e9a83a] transition-colors">
+                      <h3 className="text-lg font-semibold hover:text-primary transition-colors">
                         {item.name}
                       </h3>
                     </Link>
@@ -257,11 +257,11 @@ const Cart = () => {
                           }}
                           min="1"
                           max={item.left_in_stock}
-                          className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                          className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         />
                         <button
                           onClick={() => toggleDropdown(item.id)}
-                          className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                          className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                         >
                           <svg
                             className="w-4 h-4 text-gray-500"
@@ -344,7 +344,7 @@ const Cart = () => {
                 </div>
                 <button
                   onClick={handleCheckout}
-                  className="w-full bg-[#e9a83a] hover:bg-[#fed874] text-white py-3 rounded-lg transition-colors mt-6"
+                  className="w-full bg-primary hover:bg-secondary text-white py-3 rounded-lg transition-colors mt-6"
                 >
                   {t("checkout")}
                 </button>

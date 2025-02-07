@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useInfiniteQuery } from "@tanstack/react-query";
 import api from "../utils/axios";
 import { OrderDetail, DeliveryType } from "../types/order";
@@ -56,7 +55,13 @@ const makePayment = async (orderId: string) => {
   return data;
 };
 
-const makePaymentWithOTP = async ({ orderId, otp }: { orderId: string; otp: string }) => {
+const makePaymentWithOTP = async ({
+  orderId,
+  otp,
+}: {
+  orderId: string;
+  otp: string;
+}) => {
   const { data } = await api.post(
     `orders/${orderId}/make-payment`,
     { otp },
@@ -117,18 +122,27 @@ export const useOrder = () => {
     },
   });
 
-  const useOrdersByStatus = (status: string) =>
-    useQuery({
-      queryKey: ["orders", status],
+  const useOrdersByStatus = (status: string | undefined) => {
+    if (!status) {
+      throw new Error("status is required");
+    }
+    return useQuery({
+      queryKey: ["order", status] as const,
       queryFn: () => fetchOrderByStatus(status),
+      enabled: true,
     });
+  };
 
-  const useOrderDetails = (orderId: string) =>
-    useQuery({
-      queryKey: ["order", orderId],
+  const useOrderDetails = (orderId: string | undefined) => {
+    if (!orderId) {
+      throw new Error("orderId is required");
+    }
+    return useQuery({
+      queryKey: ["order", orderId] as const,
       queryFn: () => fetchOrderById(orderId),
+      enabled: true,
     });
-
+  };
   const makePaymentMutation = useMutation({
     mutationFn: makePayment,
   });

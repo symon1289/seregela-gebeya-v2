@@ -24,7 +24,7 @@ const NewArrivals = () => {
         {!newArrivalsLoading && hasMoreNewArrivals && (
           <button
             onClick={loadMoreNewArrivals}
-            className="bg-[#e9a83a] hover:bg-[#fed874] text-white transition-colors py-2 px-4 rounded-lg font-semibold"
+            className="bg-primary hover:bg-secondary text-white transition-colors py-2 px-4 rounded-lg font-semibold"
           >
             {t("loadMore")}
           </button>
@@ -46,7 +46,7 @@ const NewArrivals = () => {
       </div>
       {newArrivalsLoading && (
         <div className="flex justify-center mt-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       )}
     </section>

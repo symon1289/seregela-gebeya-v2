@@ -239,7 +239,7 @@ const Payment: React.FC = () => {
                 ) : (
                   paymentOptions.map((item) => (
                     <div
-                      className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-[#e9a83a]"
+                      className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
                       key={item.id}
                     >
                       <input
@@ -251,9 +251,9 @@ const Payment: React.FC = () => {
                         onChange={() => handlePaymentChange(item.id)}
                         checked={paymentOptionId === item.id}
                       />
-                      <span className="peer-checked:border-[#e9a83a] absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
+                      <span className="peer-checked:border-primary absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
                       <label
-                        className="peer-checked:border-2 peer-checked:border-[#e9a83a] peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 py-6 px-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-[#e9a83a]"
+                        className="peer-checked:border-2 peer-checked:border-primary peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 py-6 px-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary"
                         htmlFor={`radio_${item.id}`}
                       >
                         <img
@@ -286,7 +286,7 @@ const Payment: React.FC = () => {
                     <Link
                       to={`/seregela-gebeya-v2/products/${item.id}`}
                       key={item.id}
-                      className="flex hover:text-[#e9a83a] hover:cursor-pointer flex-row rounded-lg bg-white sm:flex-row"
+                      className="flex hover:text-primary hover:cursor-pointer flex-row rounded-lg bg-white sm:flex-row"
                     >
                       <img
                         className="m-2 h-24 w-28 rounded-md border object-cover object-center"
@@ -350,7 +350,7 @@ const Payment: React.FC = () => {
                       <button
                         name="discount"
                         key={item.id}
-                        className={`flex hover:text-[#e9a83a] hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row ${
+                        className={`flex hover:text-primary hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row ${
                           selectedDiscount?.id === item.id ? "bg-gray-100" : ""
                         }`}
                         onClick={() => handleDiscountSelect(item)}
@@ -403,7 +403,7 @@ const Payment: React.FC = () => {
                 </p>
               </div>
               <button
-                className="mt-4 mb-8 w-full rounded-md bg-[#e9a83a] hover:bg-[#fed874] px-6 py-3 font-medium text-white"
+                className="mt-4 mb-8 w-full rounded-md bg-primary hover:bg-secondary px-6 py-3 font-medium text-white"
                 onClick={handleOrderSubmit}
                 disabled={createOrderMutation.isPending}
               >

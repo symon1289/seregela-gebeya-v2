@@ -1,16 +1,18 @@
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { RootState } from "../store/store";
+import { RootState } from "../../store/store";
 import {
   removeFromWishlist,
   clearWishlist,
-} from "../store/features/wishlistSlice";
-import { addToCart } from "../store/features/cartSlice";
+} from "../../store/features/wishlistSlice";
+import { addToCart } from "../../store/features/cartSlice";
 import { Trash2, ShoppingCart, ShoppingBag } from "lucide-react";
-import Meta from "../components/Meta";
-import { getWishlistMetaTags } from "../config/meta";
-import { Product } from "../types/product";
+import Meta from "../../components/Meta";
+import { getWishlistMetaTags } from "../../config/meta";
+import { Product } from "../../types/product";
 import { useTranslation } from "react-i18next";
+import defaultImae from "../../assets/no-image-available-02.jpg";
 
 interface WishlistItem
   extends Pick<
@@ -19,8 +21,7 @@ interface WishlistItem
   > {
   quantity: number;
 }
-
-const Wishlist = () => {
+const Favorite: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -59,8 +60,8 @@ const Wishlist = () => {
       <>
         {" "}
         <Meta config={getWishlistMetaTags()} />
-        <div className="max-w-screen-xl mx-auto px-4 py-8">
-          <div className="text-center py-16">
+        <div className="max-w-screen-xl min-h-screen mx-auto px-4 py-8 ">
+          <div className="text-center py-16 bg-white">
             <h2 className="text-2xl font-bold mb-4">
               {t("no_items_in_wish_list")}
             </h2>
@@ -83,10 +84,10 @@ const Wishlist = () => {
     <>
       {" "}
       <Meta config={getWishlistMetaTags()} />
-      <div className="max-w-screen-xl mx-auto px-4 py-8">
+      <div className="mx-automin-h-screen">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">{t("wish_list")}</h1>
-          <div className="flex gap-4">
+          <div className="flex gap-4 ">
             <button
               onClick={handleBuyAll}
               className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
@@ -103,51 +104,52 @@ const Wishlist = () => {
             </button>
           </div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {wishlistItems.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-sm p-4">
-              <div className="relative aspect-square mb-4">
-                <img
-                  src={item.image_paths?.[0]}
-                  alt={item.name}
-                  className="w-full h-full object-contain rounded-lg"
-                />
-              </div>
-              <div className="space-y-2">
-                <Link
-                  to={`/seregela-gebeya-v2/products/${item.id}`}
-                  className="block"
-                >
-                  <h3 className="text-lg font-semibold hover:text-primary transition-colors">
-                    {item.name}
-                  </h3>
-                </Link>
-                <p className="text-xl font-bold">
-                  {formatPrice(item.price)} Birr
-                </p>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAddToCart(item)}
-                    className="flex-1 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+        <div className="w-full min-h-screen bg-white ">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+            {wishlistItems.map((item) => (
+              <div key={item.id} className="bg-white rounded-lg shadow-lg p-4">
+                <div className="relative aspect-square mb-4">
+                  <img
+                    src={item.image_paths?.[0] || defaultImae}
+                    alt={item.name}
+                    className="w-full h-full object-contain rounded-lg"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Link
+                    to={`/seregela-gebeya-v2/products/${item.id}`}
+                    className="block"
                   >
-                    <ShoppingCart size={20} />
-                    Add to Cart
-                  </button>
-                  <button
-                    onClick={() => handleRemoveFromWishlist(item.id)}
-                    className="p-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                  >
-                    <Trash2 size={20} />
-                  </button>
+                    <h3 className="text-lg font-semibold hover:text-primary transition-colors line-clamp-1">
+                      {item.name}
+                    </h3>
+                  </Link>
+                  <p className="text-xl font-bold">
+                    {formatPrice(item.price)} Birr
+                  </p>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleAddToCart(item)}
+                      className="flex-1 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <ShoppingCart size={20} />
+                      Add to Cart
+                    </button>
+                    <button
+                      onClick={() => handleRemoveFromWishlist(item.id)}
+                      className="p-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default Wishlist;
+export default Favorite;

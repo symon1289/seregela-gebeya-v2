@@ -160,7 +160,7 @@ const MoreDeals: React.FC = () => {
           <h2 className="explore-more-deals font-semibold text-black">
             Explore More Deals!
           </h2>
-          <div className="flex items-center gap-2 text-[#e9a83a]">
+          <div className="flex items-center gap-2 text-primary">
             <Clock className="w-5 h-5" />
             <span className="font-semibold">Limited Time Offers</span>
           </div>

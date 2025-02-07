@@ -16,7 +16,7 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
   const [showOTP, setShowOTP] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-  const [confirmationResult, setConfirmationResult] = useState<any>(null); 
+  const [confirmationResult, setConfirmationResult] = useState<any>(null);
   const inputRefs = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -30,7 +30,7 @@ const Login = () => {
   const setUpRecaptcha = () => {
     const recaptchaVerifier = new RecaptchaVerifier(
       auth,
-      "recaptcha-container", 
+      "recaptcha-container",
       {
         size: "invisible",
       }
@@ -83,9 +83,9 @@ const Login = () => {
         recaptchaVerifier
       );
 
-      setConfirmationResult(result); 
-      setShowOTP(true); 
-      toast.success(t("otp_sent")); 
+      setConfirmationResult(result);
+      setShowOTP(true);
+      toast.success(t("otp_sent"));
     } catch (err: any) {
       console.error("Error sending OTP:", err);
       setError(t("failed_to_send_otp"));
@@ -103,7 +103,6 @@ const Login = () => {
     newOtp[index] = value;
     setOtp(newOtp);
 
-   
     if (value !== "" && index < 5) {
       inputRefs[index + 1].current?.focus();
     }
@@ -128,7 +127,6 @@ const Login = () => {
     setError(null);
 
     try {
-  
       const result = await confirmationResult.confirm(otpValue);
       console.log("User signed in:", result.user);
       toast.success(t("login_successful"));
@@ -140,7 +138,7 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  
+
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect") || "/seregela-gebeya-v2";
   const handleContinueWithDefaultAccount = () => {
@@ -214,7 +212,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-4 sm:px-6 lg:px-8 items-center">
       <button
-        className="bg-gray-200 hover:bg-[#e9a83a] text-gray-800 font-bold py-2 px-4 rounded-full w-96 "
+        className="bg-gray-200 hover:bg-primary text-gray-800 font-bold py-2 px-4 rounded-full w-96 "
         onClick={handleContinueWithDefaultAccount}
       >
         continue with default account
@@ -245,7 +243,7 @@ const Login = () => {
                     id="phone"
                     value={phoneNumber}
                     onChange={handlePhoneChange}
-                    className="block w-full pl-16 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#e9a83a] focus:border-[#e9a83a] sm:text-sm"
+                    className="block w-full pl-16 pr-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     placeholder="9/7xxxxxxxx"
                     required
                     pattern="[0-9]{9}"
@@ -258,7 +256,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={isLoading || phoneNumber.length !== 9}
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#e9a83a] hover:bg-[#fed874] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#e9a83a] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
@@ -284,7 +282,7 @@ const Login = () => {
                       value={digit}
                       onChange={(e) => handleOtpChange(index, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(index, e)}
-                      className="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-[#e9a83a] focus:border-[#e9a83a]"
+                      className="w-12 h-12 text-center border border-gray-300 rounded-md shadow-sm text-lg focus:outline-none focus:ring-primary focus:border-primary"
                       required
                     />
                   ))}
@@ -297,7 +295,7 @@ const Login = () => {
                     setOtp(["", "", "", "", "", ""]);
                     setError(null);
                   }}
-                  className="mt-4 text-sm text-[#e9a83a] hover:text-[#fed874]"
+                  className="mt-4 text-sm text-primary hover:text-secondary"
                 >
                   {t("change_phone_number")}
                 </button>
@@ -307,7 +305,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={isLoading || otp.some((digit) => digit === "")}
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#e9a83a] hover:bg-[#fed874] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#e9a83a] disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

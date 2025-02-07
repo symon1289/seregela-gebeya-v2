@@ -13,6 +13,7 @@ import HeroSlider from "../components/HeroSlider";
 import WelcomeSection from "../components/WelcomeSection";
 import CategorySidebar from "../components/CategorySidebar";
 import { useCategory } from "../hooks/useCategory";
+import MiniCart from "../components/MiniCart";
 
 const Home = () => {
   const { categories } = useCategory();
@@ -21,6 +22,7 @@ const Home = () => {
     <>
       <Meta config={getHomeMetaTags()} />
       <div className="max-w-screen-xl mx-auto px-4">
+        <MiniCart />
         <section className="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4">
           <div className="hidden md:block  md:col-span-3 h-full z-[99]">
             <div className="sticky top-4">
@@ -57,7 +59,7 @@ const Home = () => {
               className="absolute left-0 top-0 w-[180px] h-[120px] sm:w-[280px] sm:h-[220px] md:w-[376px] md:h-[300px] duration-300"
             />
 
-            <div className="bg-gradient-to-r from-[#e9a83a] to-[#fed874] rounded-[20px] p-6 sm:p-8 text-white h-[100px] sm:h-[180px] md:h-[230px] mx-auto flex justify-center items-center">
+            <div className="bg-gradient-to-r from-primary to-secondary rounded-[20px] p-6 sm:p-8 text-white h-[100px] sm:h-[180px] md:h-[230px] mx-auto flex justify-center items-center">
               <h2 className="kalubet-enadersalen text-center text-lg sm:text-xl md:text-2xl">
                 ካሉበት እናደርሳለን
               </h2>

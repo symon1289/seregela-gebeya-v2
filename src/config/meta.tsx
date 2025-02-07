@@ -274,3 +274,43 @@ export const getPaymentMethodsMetaTags = (): MetaConfig => ({
   twitterDescription:
     "Choose your preferred payment method at Seregela Gebeya.",
 });
+
+export const getRecentMetaTags = (): MetaConfig => ({
+  title: "My Recent products - Seregela Gebeya",
+  description: "View and manage your recent products at Seregela Gebeya.",
+  keywords: "recent, favorites, online shopping, Ethiopia, Seregela Gebeya",
+  ogTitle: "My Recent products - Seregela Gebeya",
+  ogDescription: "View and manage your recen productst at Seregela Gebeya.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "My Recent products - Seregela Gebeya",
+  twitterDescription:
+    "View and manage your recent products at Seregela Gebeya.",
+});
+
+export const getProfilePageMetaTags = (
+  firstName: string,
+  lastName: string
+): MetaConfig => ({
+  title: `${firstName} ${lastName} - Seregela Gebeya`,
+  description: `View and manage your profile at Seregela Gebeya.`,
+  keywords: `${firstName} ${lastName}, online shopping, Ethiopia, Seregela Gebeya`,
+  ogTitle: `${firstName} ${lastName} - Seregela Gebeya`,
+  ogDescription: `View and manage your profile at Seregela Gebeya.`,
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: `${firstName} ${lastName} - Seregela Gebeya`,
+  twitterDescription: `View and manage your profile at Seregela Gebeya.`,
+});
+
+export const getMyOrdersMetaTags = (): MetaConfig => ({
+  title: "My Orders - Seregela Gebeya",
+  description: "View and manage your orders at Seregela Gebeya.",
+  keywords: "orders, online shopping, Ethiopia, Seregela Gebeya",
+  ogTitle: "My Orders - Seregela Gebeya",
+  ogDescription: "View and manage your orders at Seregela Gebeya.",
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: "My Orders - Seregela Gebeya",
+  twitterDescription: "View and manage your orders at Seregela Gebeya.",
+});

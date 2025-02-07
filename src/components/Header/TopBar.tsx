@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { setLanguage } from "../../store/features/languageSlice";
-import { TbTruckDelivery } from "react-icons/tb";
+import { FaTruckFast } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import freeDelivery from "../../assets/image_2024-11-08_17-21-35.png";
 export default function TopBar() {
@@ -36,7 +36,7 @@ export default function TopBar() {
             to="/seregela-gebeya-v2/profile"
             className="flex items-center gap-1 text-gray-600 hover:text-[#e7a334]"
           >
-            <TbTruckDelivery size={20} />
+            <FaTruckFast size={20} />
             <span>{t("track_order")}</span>
           </Link>
         </div>

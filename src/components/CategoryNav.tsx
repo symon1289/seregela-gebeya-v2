@@ -29,7 +29,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
         <li className="py-2 w-full">
           <Link
             to="/products"
-            className="flex items-center gap-2 text-[#1a1a1a] hover:text-[#e9a83a] text-sm font-medium"
+            className="flex items-center gap-2 text-[#1a1a1a] hover:text-primary text-sm font-medium"
           >
             <Grid className="w-8 h-8" />
             <span>All Products</span>
@@ -43,7 +43,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
               <div className="flex items-center justify-between">
                 <Link
                   to={`/seregela-gebeya-v2/category/${category.id}`}
-                  className="flex items-center gap-3 text-[#1a1a1a] hover:text-[#e9a83a] text-sm font-medium transition-colors duration-200"
+                  className="flex items-center gap-3 text-[#1a1a1a] hover:text-primary text-sm font-medium transition-colors duration-200"
                 >
                   <img
                     src={category.image_path}
@@ -63,7 +63,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
                       <Link
                         key={subcategory.id}
                         to={`/seregela-gebeya-v2/subcategory/${subcategory.id}`}
-                        className="block py-1.5 text-sm text-gray-600 hover:text-[#e9a83a]"
+                        className="block py-1.5 text-sm text-gray-600 hover:text-primary"
                       >
                         <div className="flex items-center justify-between">
                           <span>{subcategory.name}</span>

@@ -18,7 +18,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
         <li>
           <Link
             to="/seregela-gebeya-v2"
-            className="hover:text-[#e9a83a] inline-flex items-center text-base font-medium  "
+            className="hover:text-primary inline-flex items-center text-base font-medium  "
           >
             <svg
               className="w-3 h-3 me-2.5"
@@ -49,7 +49,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ paths }) => {
               ) : (
                 <Link
                   to={path.url}
-                  className="hover:text-[#e9a83a] sm:line-clamp-1 md:line-clamp-1 line-clamp-2"
+                  className="hover:text-primary sm:line-clamp-1 md:line-clamp-1 line-clamp-2"
                 >
                   {path.name}
                 </Link>

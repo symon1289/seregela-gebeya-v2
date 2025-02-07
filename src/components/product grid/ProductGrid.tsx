@@ -32,7 +32,7 @@ const ProductGrid: React.FC = () => {
         </div>
         <button
           onClick={() => getPopularProductsForProductGrid(18, 1)}
-          className="px-4 py-2 bg-[#e7a334] text-white rounded hover:bg-[#fed874] transition-colors duration-300"
+          className="px-4 py-2 bg-[#e7a334] text-white rounded hover:bg-secondary transition-colors duration-300"
         >
           Retry
         </button>
@@ -56,7 +56,7 @@ const ProductGrid: React.FC = () => {
         {/* New Arrivals Section */}
         {newArrivalsLoading ? (
           <div className="flex justify-center ">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : (
           <ProductSection
@@ -77,7 +77,7 @@ const ProductGrid: React.FC = () => {
         )}
         {isLoadingPopularProducts ? (
           <div className="flex justify-center ">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : (
           <ProductSection

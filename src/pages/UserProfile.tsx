@@ -51,7 +51,7 @@ const ProfileField = ({
         name={name}
         value={value}
         onChange={onChange}
-        className="w-full border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+        className="w-full border rounded px-2 py-1 focus:border-primary focus:ring-primary"
         placeholder={placeholder}
       />
     ) : (
@@ -79,7 +79,7 @@ const AddressFields = ({
           name="address.city"
           value={user?.address?.city || ""}
           onChange={onChange}
-          className="border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+          className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
           placeholder="City"
         />
         <input
@@ -87,7 +87,7 @@ const AddressFields = ({
           name="address.sub_city"
           value={user?.address?.sub_city || ""}
           onChange={onChange}
-          className="border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+          className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
           placeholder="Sub City"
         />
         <input
@@ -95,7 +95,7 @@ const AddressFields = ({
           name="address.woreda"
           value={user?.address?.woreda || ""}
           onChange={onChange}
-          className="border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+          className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
           placeholder="Woreda"
         />
       </div>
@@ -216,7 +216,7 @@ const UserProfile: React.FC = () => {
               </h2>
               <button
                 onClick={handleEditToggle}
-                className="text-[#e9a83a] hover:text-[#f1c87d] transition-colors"
+                className="text-primary hover:text-[#f1c87d] transition-colors"
               >
                 {isEditing ? (
                   <FaSave className="text-xl" />
@@ -238,7 +238,7 @@ const UserProfile: React.FC = () => {
                       name="first_name"
                       value={user?.first_name || ""}
                       onChange={handleInputChange}
-                      className="w-1/2 border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+                      className="w-1/2 border rounded px-2 py-1 focus:border-primary focus:ring-primary"
                       placeholder={t("First Name")}
                     />
                     <input
@@ -246,7 +246,7 @@ const UserProfile: React.FC = () => {
                       name="last_name"
                       value={user?.last_name || ""}
                       onChange={handleInputChange}
-                      className="w-1/2 border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+                      className="w-1/2 border rounded px-2 py-1 focus:border-primary focus:ring-primary"
                       placeholder={t("Last Name")}
                     />
                   </>
@@ -293,7 +293,7 @@ const UserProfile: React.FC = () => {
               </div>
               <button
                 onClick={handleLogout}
-                className="space-x-4 hover:bg-[#e7a334] duration-300 p-2 rounded-lg border border-[#e7a334] text-[#e9a83a] flex items-center justify-center text-center hover:text-white transition-colors"
+                className="space-x-4 hover:bg-[#e7a334] duration-300 p-2 rounded-lg border border-[#e7a334] text-primary flex items-center justify-center text-center hover:text-white transition-colors"
               >
                 <RiLogoutBoxRLine />
                 <span className="ml-2">{t("Logout")}</span>
@@ -342,7 +342,7 @@ const UserProfile: React.FC = () => {
                         </div>
                         <button
                           onClick={() => toggleOrderExpand(order.id)}
-                          className="text-[#e9a83a] hover:text-[#f1c87d] flex items-center"
+                          className="text-primary hover:text-[#f1c87d] flex items-center"
                         >
                           {expandedOrderId === order.id ? (
                             <FaChevronDown />
@@ -408,7 +408,7 @@ const UserProfile: React.FC = () => {
                 <button
                   onClick={() => fetchNextPage()}
                   disabled={!hasNextPage}
-                  className="px-4 py-2 bg-[#e9a83a] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white hover:text-[#e9a83a] hover:border-[#e9a83a] border rounded-lg text-white transition-colors duration-300"
+                  className="px-4 py-2 bg-primary disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white hover:text-primary hover:border-primary border rounded-lg text-white transition-colors duration-300"
                 >
                   {t("Load More")}
                 </button>

@@ -30,10 +30,10 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
   return (
     <div className="relative w-full shadow-lg h-[400px] z-[100]">
       <ul className="flex flex-col">
-        <li className="py-2 w-full hover:text-[#e9a83a] hover:bg-gray-100">
+        <li className="py-2 w-full hover:text-primary hover:bg-gray-100">
           <Link
             to="/seregela-gebeya-v2/products"
-            className="flex items-center gap-2 hover:text-[#e9a83a] text-sm font-medium ml-4"
+            className="flex items-center gap-2 hover:text-primary text-sm font-medium ml-4"
           >
             <Grid className="w-8 h-8" />
             <span>{t("allProducts")}</span>
@@ -54,13 +54,13 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
               <div
                 className={`flex items-center justify-between py-2 group ${
                   activeCategory === category.id
-                    ? "bg-gray-100 text-[#e9a83a]"
+                    ? "bg-gray-100 text-primary"
                     : ""
                 }`}
               >
                 <Link
                   to={`/seregela-gebeya-v2/category/${category.id}`}
-                  className="flex items-center gap-3 ml-4 text-[#1a1a1a] hover:text-[#e9a83a] text-sm font-medium transition-colors duration-200"
+                  className="flex items-center gap-3 ml-4 text-[#1a1a1a] hover:text-primary text-sm font-medium transition-colors duration-200"
                 >
                   <img
                     src={category.image_path}
@@ -108,7 +108,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
                       <img
                         src={category.image_path}
                         alt={category.name}
-                        className="w-12 h-12 rounded-full object-cover border-2 border-[#e9a83a]"
+                        className="w-12 h-12 rounded-full object-cover border-2 border-primary"
                       />
                       <div>
                         <h3 className="font-semibold text-gray-900">
@@ -129,7 +129,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
                           >
                             <Link
                               to={`/seregela-gebeya-v2/subcategory/${subcategory.id}`}
-                              className="block px-3 py-2 text-sm text-gray-700 hover:text-[#e9a83a]"
+                              className="block px-3 py-2 text-sm text-gray-700 hover:text-primary"
                             >
                               <div className="flex items-center justify-between">
                                 <span>{t(subcategory.name)}</span>

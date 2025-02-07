@@ -9,7 +9,7 @@ const PrivateRoute: React.FC = () => {
   const userData = JSON.parse(localStorage.getItem("user"));
   const location = useLocation();
 
-  console.log('userData:', userData);
+  // console.log('userData:', userData);
   // console.log('user from Redux:', user);
 
   return userData ? (

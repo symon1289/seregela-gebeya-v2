@@ -14,6 +14,10 @@ export default {
       colors: {
         primary: "#e9a83a",
         secondary: "#fed874",
+        tertiary: "#e79734",
+        quaternary: "#a26a24",
+        quinary: "#e7df34",
+        senary: "#a28324",
       },
       spacing: {
         72: "18rem",

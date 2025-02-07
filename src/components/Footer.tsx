@@ -93,7 +93,7 @@ const Footer = () => {
               {isLoading ? (
                 <div className="relative">
                   <div className="w-12 h-12 rounded-full absolute border border-solid border-gray-200"></div>
-                  <div className="w-12 h-12 rounded-full animate-spin absolute border border-solid border-[#e9a83a] border-t-transparent"></div>
+                  <div className="w-12 h-12 rounded-full animate-spin absolute border border-solid border-primary border-t-transparent"></div>
                 </div>
               ) : error ? (
                 <div>{error}</div>

@@ -17,8 +17,8 @@ import Login from "./pages/Login";
 import Wishlist from "./pages/Wishlist";
 import Delivery from "./pages/Delivery";
 import Payment from "./pages/Payment";
-import UserProfile from "./pages/UserProfile";
 import PrivateRoute from "./routes/PrivateRoute";
+import ProfileUi from "./pages/ProfileUi";
 // import { RootState } from "./store/store";
 import { Navigate } from "react-router-dom";
 // import { useSelector } from "react-redux";
@@ -33,6 +33,7 @@ function App() {
         <HelmetProvider>
           <TopBar />
           <MainHeader />
+
           <Routes>
             <Route path="/seregela-gebeya-v2" element={<Home />} />
             <Route path="/seregela-gebeya-v2/products" element={<Products />} />
@@ -63,7 +64,7 @@ function App() {
             <Route path="" element={<PrivateRoute />}>
               <Route
                 path="/seregela-gebeya-v2/profile"
-                element={<UserProfile />}
+                element={<ProfileUi />}
               />
 
               <Route
@@ -75,6 +76,7 @@ function App() {
                 element={<Payment />}
               />
             </Route>
+            {/* <Route path="/seregela-gebeya-v2/test" element={<ProfileUi />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
