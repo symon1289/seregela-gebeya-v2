@@ -10,13 +10,13 @@ import { addRecentProduct } from "../store/features/productSlice";
 import { ShoppingCart, Heart } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { RootState } from "../store/store";
-import Loader from "../components/Loader";
 import defaultImage from "../assets/no-image-available-02.jpg";
 import { Product } from "../types/product";
 import "./ProductDetail.css";
 import { useTranslation } from "react-i18next";
 import PriceFormatter from "../components/PriceFormatter";
 import ProductGrid from "../components/product grid/ProductGrid";
+import ProductDetailLoad from "../components/loading skeletons/product/Detail.tsx";
 const ProductDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
@@ -347,7 +347,11 @@ const ProductDetail: React.FC = () => {
     }, [product?.subcategory?.id, currentPage, dispatch, fetchRelatedProducts]);
 
     if (loading) {
-        return <Loader />;
+        return (
+            <div className="max-w-screen-xl mx-auto px-4 py-4">
+                <ProductDetailLoad />
+            </div>
+        );
     }
 
     if (error) {
@@ -398,12 +402,12 @@ const ProductDetail: React.FC = () => {
                     <div className="mb-0">
                         <Breadcrumb
                             paths={[
-                                { name: "Products", url: "/products" },
+                                { name: "Products", url: "/seregela-gebeya-v2/products" },
                                 ...(category
                                     ? [
                                           {
                                               name: category.name,
-                                              url: `/category/${category.id}`,
+                                              url: `/seregela-gebeya-v2/category/${category.id}`,
                                           },
                                       ]
                                     : []),
@@ -411,7 +415,7 @@ const ProductDetail: React.FC = () => {
                                     ? [
                                           {
                                               name: product.subcategory.name,
-                                              url: `/subcategory/${product.subcategory.id}`,
+                                              url: `/seregela-gebeya-v2/subcategory/${product.subcategory.id}`,
                                           },
                                       ]
                                     : []),

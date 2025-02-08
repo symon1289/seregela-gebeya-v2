@@ -5,8 +5,7 @@ import image7 from "../assets/image_2024-11-09_13-19-05.png";
 import { usePackages } from "../hooks/usePackages";
 import { Package } from "../types/product";
 import ProductDetailCard from "./ProductDetailCard";
-import Loader from "./Loader";
-
+import PackageLoading from "./loading skeletons/package/Card.tsx";
 interface FeaturedDeal {
     id: number;
     title: string;
@@ -177,7 +176,7 @@ const MoreDeals: React.FC = () => {
                 {/* Regular Deals Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                     {isLoadingPackages ? (
-                        <Loader />
+                        Array.from({length:3}).map((_,index)=><PackageLoading key={index}/>)
                     ) : packagesError ? (
                         <ErrorDisplay error={packagesError} />
                     ) : (

@@ -8,6 +8,7 @@ import Meta from "../components/Meta";
 import { getCategoryMetaTags } from "../config/meta";
 import Breadcrumb from "../components/Breadcrumb";
 import { useTranslation } from "react-i18next";
+import ProductCardLoading from "../components/loading skeletons/product/Card.tsx";
 import defaultImage from "../assets/no-image-available-02.jpg";
 const Category: React.FC = () => {
     const { t } = useTranslation();
@@ -99,22 +100,26 @@ const Category: React.FC = () => {
 
                     <div className="flex-1">
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[11px]">
-                            {filteredProducts.map((product) => (
-                                <ProductCard
-                                    key={product.id}
-                                    id={product.id}
-                                    name={product.name}
-                                    price={product.price}
-                                    image={product.image || defaultImage}
-                                    originalPrice={product.price}
-                                    discount={
-                                        product.discount
-                                            ? Number(product.discount)
-                                            : undefined
-                                    }
-                                    left_in_stock={product.left_in_stock}
-                                />
-                            ))}
+                            {isLoading
+                                ? Array.from({ length: 15 }).map((_, index) => (
+                                      <ProductCardLoading key={index} />
+                                  ))
+                                : filteredProducts.map((product) => (
+                                      <ProductCard
+                                          key={product.id}
+                                          id={product.id}
+                                          name={product.name}
+                                          price={product.price}
+                                          image={product.image || defaultImage}
+                                          originalPrice={product.price}
+                                          discount={
+                                              product.discount
+                                                  ? Number(product.discount)
+                                                  : undefined
+                                          }
+                                          left_in_stock={product.left_in_stock}
+                                      />
+                                  ))}
                         </div>
 
                         {isLoading && (
