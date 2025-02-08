@@ -1,14 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/store";
-import { useState } from "react";
-import api from "../utils/axios";
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/store';
+import { useState } from 'react';
+import api from '../utils/axios';
 import {
     setAuth,
     setUser,
     logout,
     recoverTokenFromStorage,
-
-} from "../store/features/authSlice";
+} from '../store/features/authSlice';
 
 const useUser = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +19,7 @@ const useUser = () => {
     const loginUser = async (phone: string, authToken: string) => {
         try {
             setLoading(true);
-            const res = await api.post("firebase-login", {
+            const res = await api.post('firebase-login', {
                 phone_number: phone,
                 firebase_token: authToken,
             });
@@ -30,7 +29,7 @@ const useUser = () => {
             return res.data;
         } catch (err: any) {
             setLoading(false);
-            setError(err.response?.data?.message || "Login failed");
+            setError(err.response?.data?.message || 'Login failed');
             throw err;
         }
     };
@@ -39,16 +38,18 @@ const useUser = () => {
     const fetchUser = async () => {
         try {
             setLoading(true);
-            const res = await api.get("profile", {
+            const res = await api.get('profile', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
             dispatch(setUser(res.data));
             setLoading(false);
         } catch (err: any) {
             setLoading(false);
-            setError(err.response?.data?.message || "Failed to fetch user data");
+            setError(
+                err.response?.data?.message || 'Failed to fetch user data'
+            );
             throw err;
         }
     };
@@ -57,7 +58,7 @@ const useUser = () => {
     const registerUser = async (userInfo: any, phoneNumber: string) => {
         try {
             setLoading(true);
-            const res = await api.post("register", {
+            const res = await api.post('register', {
                 user_name: userInfo.user_name,
                 first_name: userInfo.first_name,
                 last_name: userInfo.last_name,
@@ -70,7 +71,7 @@ const useUser = () => {
             return res.data;
         } catch (err: any) {
             setLoading(false);
-            setError(err.response?.data?.message || "Registration failed");
+            setError(err.response?.data?.message || 'Registration failed');
             throw err;
         }
     };
@@ -79,24 +80,28 @@ const useUser = () => {
     const updateUser = async (userInfo: any, phoneNumber: string) => {
         try {
             setLoading(true);
-            const res = await api.put("profile", {
-                user_name: userInfo.user_name,
-                first_name: userInfo.first_name,
-                last_name: userInfo.last_name,
-                email: userInfo.email,
-                phone_number: phoneNumber,
-                password: userInfo.password,
-                password_confirmation: userInfo.password_confirmation,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+            const res = await api.put(
+                'profile',
+                {
+                    user_name: userInfo.user_name,
+                    first_name: userInfo.first_name,
+                    last_name: userInfo.last_name,
+                    email: userInfo.email,
+                    phone_number: phoneNumber,
+                    password: userInfo.password,
+                    password_confirmation: userInfo.password_confirmation,
                 },
-            });
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }
+            );
             setLoading(false);
             return res.data;
         } catch (err: any) {
             setLoading(false);
-            setError(err.response?.data?.message || "Registration failed");
+            setError(err.response?.data?.message || 'Registration failed');
             throw err;
         }
     };
@@ -104,16 +109,18 @@ const useUser = () => {
     const getNotifications = async () => {
         try {
             setLoading(true);
-            const res = await api.get("/notifications", {
+            const res = await api.get('/notifications', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
             });
             setLoading(false);
             return res.data.data;
         } catch (err: any) {
             setLoading(false);
-            setError(err.response?.data?.message || "Failed to fetch notifications");
+            setError(
+                err.response?.data?.message || 'Failed to fetch notifications'
+            );
             throw err;
         }
     };
@@ -154,7 +161,7 @@ const useUser = () => {
             setLoading(false);
         } catch (err: any) {
             setLoading(false);
-            setError(err.message || "Logout failed");
+            setError(err.message || 'Logout failed');
             throw err;
         }
     };

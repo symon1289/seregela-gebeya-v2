@@ -6,7 +6,10 @@ import { CartItem, CartPackage } from '../store/features/cartSlice';
  * @returns The subtotal amount
  */
 export const calculateItemsSubtotal = (items: CartItem[]): number => {
-  return items.reduce((total, item) => total + parseFloat(item.price) * item.quantity, 0);
+    return items.reduce(
+        (total, item) => total + parseFloat(item.price) * item.quantity,
+        0
+    );
 };
 
 /**
@@ -15,7 +18,10 @@ export const calculateItemsSubtotal = (items: CartItem[]): number => {
  * @returns The subtotal amount
  */
 export const calculatePackagesSubtotal = (packages: CartPackage[]): number => {
-  return packages.reduce((total, pkg) => total + parseFloat(pkg.price) * pkg.quantity, 0);
+    return packages.reduce(
+        (total, pkg) => total + parseFloat(pkg.price) * pkg.quantity,
+        0
+    );
 };
 
 /**
@@ -24,10 +30,13 @@ export const calculatePackagesSubtotal = (packages: CartPackage[]): number => {
  * @param packages Array of cart packages
  * @returns The total subtotal amount
  */
-export const calculateSubtotal = (items: CartItem[], packages: CartPackage[]): number => {
-  const itemsSubtotal = calculateItemsSubtotal(items);
-  const packagesSubtotal = calculatePackagesSubtotal(packages);
-  return itemsSubtotal + packagesSubtotal;
+export const calculateSubtotal = (
+    items: CartItem[],
+    packages: CartPackage[]
+): number => {
+    const itemsSubtotal = calculateItemsSubtotal(items);
+    const packagesSubtotal = calculatePackagesSubtotal(packages);
+    return itemsSubtotal + packagesSubtotal;
 };
 
 /**
@@ -37,7 +46,7 @@ export const calculateSubtotal = (items: CartItem[], packages: CartPackage[]): n
  * @returns The shipping cost
  */
 export const calculateShipping = (subtotal: number): number => {
-  return subtotal > 10000 ? 0 : 100;
+    return subtotal > 10000 ? 0 : 100;
 };
 
 /**
@@ -47,7 +56,7 @@ export const calculateShipping = (subtotal: number): number => {
  * @returns The discount amount
  */
 export const calculateDiscount = (subtotal: number): number => {
-  return subtotal > 100000 ? 1000 : 0;
+    return subtotal > 100000 ? 1000 : 0;
 };
 
 /**
@@ -56,17 +65,20 @@ export const calculateDiscount = (subtotal: number): number => {
  * @param packages Array of cart packages
  * @returns Object containing all price calculations
  */
-export const calculateCartTotals = (items: CartItem[], packages: CartPackage[]) => {
-  const subtotal = calculateSubtotal(items, packages);
-  const shipping = calculateShipping(subtotal);
-  const discount = calculateDiscount(subtotal);
-  const grandTotal = subtotal - discount + shipping;
+export const calculateCartTotals = (
+    items: CartItem[],
+    packages: CartPackage[]
+) => {
+    const subtotal = calculateSubtotal(items, packages);
+    const shipping = calculateShipping(subtotal);
+    const discount = calculateDiscount(subtotal);
+    const grandTotal = subtotal - discount + shipping;
 
-  return {
-    subtotal,
-    shipping,
-    discount,
-    grandTotal,
-    freeShipping: shipping === 0,
-  };
+    return {
+        subtotal,
+        shipping,
+        discount,
+        grandTotal,
+        freeShipping: shipping === 0,
+    };
 };

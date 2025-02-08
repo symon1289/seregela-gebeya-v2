@@ -1,8 +1,8 @@
 export type UserApiResponse = {
     data: UserData;
-  };
-  
-  export type UserData = {
+};
+
+export type UserData = {
     id: number;
     user_name: string;
     first_name: string;
@@ -24,9 +24,9 @@ export type UserApiResponse = {
     profile_image_path: string | null;
     profile_thumbnail_path: string | null;
     address: Address;
-  };
-  
-  export type Bank = {
+};
+
+export type Bank = {
     id: number;
     name: string;
     phone_number: string;
@@ -35,9 +35,9 @@ export type UserApiResponse = {
     created_at: string;
     updated_at: string;
     pivot: BankPivot;
-  };
-  
-  export type BankPivot = {
+};
+
+export type BankPivot = {
     user_id: number;
     bank_id: number;
     created_at: string;
@@ -48,9 +48,9 @@ export type UserApiResponse = {
     loan_granted: number;
     loan_used: number;
     id: string;
-  };
-  
-  export type Address = {
+};
+
+export type Address = {
     city: string;
     sub_city: string;
     woreda: string;
@@ -58,5 +58,4 @@ export type UserApiResponse = {
     house_number: string;
     longitude: string | null;
     latitude: string | null;
-  };
-  
+};
