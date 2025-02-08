@@ -31,11 +31,11 @@ const Footer = () => {
       </div>
 
       <div className="max-w-screen-xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 md:place-items-center lg:place-items-start sm:text-center md:text-center lg:text-left">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 md:place-items-center lg:place-items-start text-center sm:text-left">
           {/* Company Info */}
           <div className="space-y-4 flex flex-col items-center md:items-center lg:items-start">
-            <div className="justify-center items-center gap-2">
-              <img src={logo} alt="logo" className="w-16 h-14" />
+            <div className="flex flex-col justify-center items-center gap-2">
+              <img src={logo} alt="logo" className="w-28 h-24 md:w-16 md:h-14" />
               <h2 className="text-2xl font-bold text-white">Seregela Gebeya</h2>
             </div>
             <p className="text-white download-our-app">Stay in Touch With Us</p>
@@ -85,7 +85,7 @@ const Footer = () => {
           </div>
 
           {/* Categories */}
-          <div className="flex flex-col items-center md:items-center lg:items-start">
+          <div className="flex flex-col items-center sm:items-start">
             <h3 className="text-lg font-semibold text-white mb-4 h-3-footer">
               {t("categories")}
             </h3>
@@ -115,7 +115,7 @@ const Footer = () => {
           </div>
 
           {/* Customer Service */}
-          <div className="flex flex-col items-center md:items-center lg:items-start">
+          <div className="flex flex-col items-center md:items-start">
             <h3 className="text-lg font-semibold text-white mb-4 h-3-footer">
               {t("customer_service")}
             </h3>
@@ -161,7 +161,7 @@ const Footer = () => {
           </div>
 
           {/* About */}
-          <div className="flex flex-col items-center md:items-center lg:items-start">
+          <div className="flex flex-col items-center sm:items-start">
             <h3 className="text-lg font-semibold text-white mb-4 h-3-footer">
               {t("about_seregela")}
             </h3>
