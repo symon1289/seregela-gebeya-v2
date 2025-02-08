@@ -1,10 +1,10 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product } from '../../types/product';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Product } from "../../types/product";
 
 export interface WishlistItem
     extends Pick<
         Product,
-        'id' | 'name' | 'price' | 'image_paths' | 'left_in_stock'
+        "id" | "name" | "price" | "image_paths" | "left_in_stock"
     > {
     id: number;
     price: string;
@@ -19,7 +19,7 @@ interface WishlistState {
 // Load initial state from localStorage
 const loadState = (): WishlistState => {
     try {
-        const serializedState = localStorage.getItem('wishlist');
+        const serializedState = localStorage.getItem("wishlist");
         if (serializedState === null) {
             return { items: [] };
         }
@@ -36,7 +36,7 @@ const loadState = (): WishlistState => {
 const initialState: WishlistState = loadState();
 
 const wishlistSlice = createSlice({
-    name: 'wishlist',
+    name: "wishlist",
     initialState,
     reducers: {
         toggleWishlistItem: (state, action: PayloadAction<WishlistItem>) => {
@@ -52,7 +52,7 @@ const wishlistSlice = createSlice({
                 state.items.splice(index, 1);
             }
             // Save to localStorage
-            localStorage.setItem('wishlist', JSON.stringify(state));
+            localStorage.setItem("wishlist", JSON.stringify(state));
         },
         removeFromWishlist: (state, action: PayloadAction<number>) => {
             if (!state.items) {
@@ -63,12 +63,12 @@ const wishlistSlice = createSlice({
                 (item) => item.id !== action.payload
             );
             // Save to localStorage
-            localStorage.setItem('wishlist', JSON.stringify(state));
+            localStorage.setItem("wishlist", JSON.stringify(state));
         },
         clearWishlist: (state) => {
             state.items = [];
             // Save to localStorage
-            localStorage.setItem('wishlist', JSON.stringify(state));
+            localStorage.setItem("wishlist", JSON.stringify(state));
         },
     },
 });

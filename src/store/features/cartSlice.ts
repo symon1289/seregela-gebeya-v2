@@ -1,15 +1,15 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Product, Package } from '../../types/product';
-import { PaymentDetails, ShippingDetails } from '../../types/order';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Product, Package } from "../../types/product";
+import { PaymentDetails, ShippingDetails } from "../../types/order";
 
-export interface CartItem extends Pick<Product, 'name' | 'left_in_stock'> {
+export interface CartItem extends Pick<Product, "name" | "left_in_stock"> {
     id: number;
     price: string;
     image_paths: string[];
     quantity: number;
 }
 
-export interface CartPackage extends Pick<Package, 'name' | 'left_in_stock'> {
+export interface CartPackage extends Pick<Package, "name" | "left_in_stock"> {
     id: number;
     price: string;
     image_path: string;
@@ -27,7 +27,7 @@ interface CartState {
 
 const loadState = (): CartState => {
     try {
-        const serializedState = localStorage.getItem('cart');
+        const serializedState = localStorage.getItem("cart");
         if (serializedState === null) {
             return {
                 items: [],
@@ -56,7 +56,7 @@ const loadState = (): CartState => {
                   ...pkg,
                   id: Number(pkg.id),
                   price: String(pkg.price),
-                  image_path: pkg.image_path || '',
+                  image_path: pkg.image_path || "",
                   left_in_stock: pkg.left_in_stock || 0,
               }))
             : [];
@@ -85,7 +85,7 @@ const loadState = (): CartState => {
 const initialState: CartState = loadState();
 
 const cartSlice = createSlice({
-    name: 'cart',
+    name: "cart",
     initialState,
     reducers: {
         addToCart: (state, action: PayloadAction<CartItem>) => {
@@ -104,7 +104,7 @@ const cartSlice = createSlice({
                 });
             }
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         addPackageToCart: (state, action: PayloadAction<CartPackage>) => {
             const existingPackage = state.packages.find(
@@ -117,26 +117,26 @@ const cartSlice = createSlice({
                     ...action.payload,
                     id: Number(action.payload.id),
                     price: String(action.payload.price),
-                    image_path: action.payload.image_path || '',
+                    image_path: action.payload.image_path || "",
                     left_in_stock: action.payload.left_in_stock || 0,
                 });
             }
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         removeFromCart: (state, action: PayloadAction<number>) => {
             state.items = state.items.filter(
                 (item) => item.id !== action.payload
             );
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         removePackageFromCart: (state, action: PayloadAction<number>) => {
             state.packages = state.packages.filter(
                 (pkg) => pkg.id !== action.payload
             );
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         updateQuantity: (
             state,
@@ -149,7 +149,7 @@ const cartSlice = createSlice({
                 item.quantity = action.payload.quantity;
             }
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         updatePackageQuantity: (
             state,
@@ -162,7 +162,7 @@ const cartSlice = createSlice({
                 pkg.quantity = action.payload.quantity;
             }
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         saveShippingDetails: (
             state,
@@ -170,28 +170,28 @@ const cartSlice = createSlice({
         ) => {
             state.shippingDetails = action.payload;
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         savePaymentMethod: (state, action: PayloadAction<PaymentDetails>) => {
             state.paymentDetails = action.payload;
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         saveDeliveryType: (state, action: PayloadAction<number>) => {
             state.delivery_type_id = action.payload;
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         saveDiscountType: (state, action: PayloadAction<number>) => {
             state.discount_type_id = action.payload;
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
         clearCart: (state) => {
             state.items = [];
             state.packages = [];
 
-            localStorage.setItem('cart', JSON.stringify(state));
+            localStorage.setItem("cart", JSON.stringify(state));
         },
     },
 });

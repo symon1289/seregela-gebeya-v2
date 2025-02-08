@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 // import firebase from "firebase/app";
-import 'firebase/auth';
+import "firebase/auth";
 // import { AppDispatch } from "../store";
 
 interface AuthState {
@@ -21,14 +21,14 @@ interface AuthState {
 const initialState: AuthState = {
     user: {},
     isLoggedIn: false,
-    phoneNumber: '',
+    phoneNumber: "",
     count: 0,
     payload: {},
-    firebaseToken: '',
-    token: '',
+    firebaseToken: "",
+    token: "",
     isAuthenticated: false,
     status: false,
-    returnRoute: '',
+    returnRoute: "",
 };
 
 // export const sendOTP = createAsyncThunk(
@@ -88,12 +88,12 @@ const initialState: AuthState = {
 // );
 
 const authSlice = createSlice({
-    name: 'auth',
+    name: "auth",
     initialState,
     reducers: {
         setToken: (state, action: PayloadAction<string>) => {
             state.firebaseToken = action.payload;
-            localStorage.setItem('firebaseToken', action.payload);
+            localStorage.setItem("firebaseToken", action.payload);
         },
         setPayload: (state, action: PayloadAction<Record<string, any>>) => {
             state.payload = action.payload;
@@ -101,24 +101,24 @@ const authSlice = createSlice({
         setAuth: (state, action: PayloadAction<any>) => {
             state.isLoggedIn = true;
             state.isAuthenticated = true;
-            localStorage.setItem('token', action.payload.access_token);
+            localStorage.setItem("token", action.payload.access_token);
         },
         setCaptcha: (state, action: PayloadAction<string>) => {
             state.token = action.payload;
-            localStorage.setItem('_grecaptcha', action.payload);
+            localStorage.setItem("_grecaptcha", action.payload);
         },
         setUser: (state, action: PayloadAction<any>) => {
             state.count += 1;
             state.user = action.payload.data;
             state.isLoggedIn = true;
-            localStorage.setItem('user', JSON.stringify(action.payload.data));
+            localStorage.setItem("user", JSON.stringify(action.payload.data));
         },
         recoverTokenFromStorage: (state) => {
             try {
-                const token = localStorage.getItem('token');
-                const user = localStorage.getItem('user');
+                const token = localStorage.getItem("token");
+                const user = localStorage.getItem("user");
                 state.status = !!token;
-                state.firebaseToken = token || '';
+                state.firebaseToken = token || "";
                 state.user = user ? JSON.parse(user) : {};
             } catch (error) {
                 console.error(error);
@@ -129,11 +129,11 @@ const authSlice = createSlice({
             state.user = null;
             state.isLoggedIn = false;
             state.isAuthenticated = false;
-            localStorage.removeItem('token');
-            localStorage.removeItem('firebaseToken');
-            localStorage.removeItem('_grecaptcha');
-            localStorage.removeItem('cart');
-            localStorage.removeItem('user');
+            localStorage.removeItem("token");
+            localStorage.removeItem("firebaseToken");
+            localStorage.removeItem("_grecaptcha");
+            localStorage.removeItem("cart");
+            localStorage.removeItem("user");
         },
     },
 });

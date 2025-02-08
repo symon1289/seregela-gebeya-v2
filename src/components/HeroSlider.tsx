@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useImageAdvert } from '../hooks/useIMageAdvert';
+import { useState, useEffect, useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useImageAdvert } from "../hooks/useIMageAdvert";
 
 export default function HeroSlider() {
     const { loading, error, filterAdverts } = useImageAdvert();
@@ -56,7 +56,7 @@ export default function HeroSlider() {
                     <div
                         key={slide.id}
                         className={`absolute inset-0 transition-opacity duration-500 ${
-                            index === currentSlide ? 'opacity-100' : 'opacity-0'
+                            index === currentSlide ? "opacity-100" : "opacity-0"
                         }`}
                     >
                         <img
@@ -92,8 +92,8 @@ export default function HeroSlider() {
                                     }}
                                     className={`w-2 h-2 rounded-full transition-colors ${
                                         index === currentSlide
-                                            ? 'bg-[#e7a334]'
-                                            : 'bg-white'
+                                            ? "bg-[#e7a334]"
+                                            : "bg-white"
                                     }`}
                                 />
                             ))}

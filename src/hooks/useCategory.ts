@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useTranslation } from 'react-i18next';
-import api from '../utils/axios';
+import { useMemo } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import api from "../utils/axios";
 
 export interface Category {
     id: number;
@@ -38,7 +38,7 @@ export const useCategory = () => {
 
     const { data, isLoading, isError, error, fetchNextPage, hasNextPage } =
         useInfiniteQuery({
-            queryKey: ['categories'],
+            queryKey: ["categories"],
             queryFn: fetchCategories,
             getNextPageParam: (lastPage, allPages) => {
                 return lastPage.length === ITEMS_PER_PAGE
@@ -54,11 +54,11 @@ export const useCategory = () => {
         const allCategories = data?.pages.flat() || [];
         return allCategories.map((category) => ({
             ...category,
-            name: i18n.language === 'am' ? category.name_am : category.name,
+            name: i18n.language === "am" ? category.name_am : category.name,
             subcategories: category.subcategories.map((subcategory) => ({
                 ...subcategory,
                 name:
-                    i18n.language === 'am'
+                    i18n.language === "am"
                         ? subcategory.name_am || subcategory.name
                         : subcategory.name,
             })),

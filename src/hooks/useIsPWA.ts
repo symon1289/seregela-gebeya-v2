@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 const useIsPWA = (): boolean => {
     const [isStandalone, setIsStandalone] = useState(false);
@@ -6,14 +6,14 @@ const useIsPWA = (): boolean => {
     useEffect(() => {
         const checkPWA = () => {
             setIsStandalone(
-                window.matchMedia('(display-mode: standalone)').matches ||
+                window.matchMedia("(display-mode: standalone)").matches ||
                     (navigator as any).standalone // For iOS Safari
             );
         };
 
         checkPWA();
-        window.addEventListener('resize', checkPWA); // Optional: recheck on resize
-        return () => window.removeEventListener('resize', checkPWA);
+        window.addEventListener("resize", checkPWA); // Optional: recheck on resize
+        return () => window.removeEventListener("resize", checkPWA);
     }, []);
 
     return isStandalone;

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 
 const CategoryCardLoading: FC = () => (
     <div className="flex flex-col items-center animate-pulse">

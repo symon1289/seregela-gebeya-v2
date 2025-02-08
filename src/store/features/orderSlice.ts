@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { APIOrderResponse } from '../../types/orderResponse';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { APIOrderResponse } from "../../types/orderResponse";
 
 interface ReceiptState {
     receipt?: APIOrderResponse;
@@ -7,7 +7,7 @@ interface ReceiptState {
 
 const loadState = (): ReceiptState => {
     try {
-        const serializedState = localStorage.getItem('cart');
+        const serializedState = localStorage.getItem("cart");
         if (serializedState === null) {
             return { receipt: undefined };
         }
@@ -30,16 +30,16 @@ const loadState = (): ReceiptState => {
 const initialState: ReceiptState = loadState();
 
 const orderSlice = createSlice({
-    name: 'cart',
+    name: "cart",
     initialState,
     reducers: {
         setReceipt: (state, action: PayloadAction<APIOrderResponse>) => {
             state.receipt = action.payload;
-            localStorage.setItem('receipt', JSON.stringify(state));
+            localStorage.setItem("receipt", JSON.stringify(state));
         },
         removeReceipt: (state) => {
             state.receipt = undefined;
-            localStorage.removeItem('receipt');
+            localStorage.removeItem("receipt");
         },
     },
 });

@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import Meta from '../components/Meta';
-import Breadcrumb from '../components/Breadcrumb';
-import { getProductMetaTags } from '../config/meta';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../store/features/cartSlice';
-import { toggleWishlistItem } from '../store/features/wishlistSlice';
-import { addRecentProduct } from '../store/features/productSlice';
-import { ShoppingCart, Heart } from 'lucide-react';
-import ProductCard from '../components/ProductCard';
-import { RootState } from '../store/store';
-import Loader from '../components/Loader';
-import defaultImage from '../assets/no-image-available-02.jpg';
-import { Product } from '../types/product';
-import './ProductDetail.css';
-import { useTranslation } from 'react-i18next';
-import PriceFormatter from '../components/PriceFormatter';
-import ProductGrid from '../components/product grid/ProductGrid';
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
+import Meta from "../components/Meta";
+import Breadcrumb from "../components/Breadcrumb";
+import { getProductMetaTags } from "../config/meta";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../store/features/cartSlice";
+import { toggleWishlistItem } from "../store/features/wishlistSlice";
+import { addRecentProduct } from "../store/features/productSlice";
+import { ShoppingCart, Heart } from "lucide-react";
+import ProductCard from "../components/ProductCard";
+import { RootState } from "../store/store";
+import Loader from "../components/Loader";
+import defaultImage from "../assets/no-image-available-02.jpg";
+import { Product } from "../types/product";
+import "./ProductDetail.css";
+import { useTranslation } from "react-i18next";
+import PriceFormatter from "../components/PriceFormatter";
+import ProductGrid from "../components/product grid/ProductGrid";
 const ProductDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
@@ -61,10 +61,10 @@ const ProductDetail: React.FC = () => {
         };
 
         checkIfMobile();
-        window.addEventListener('resize', checkIfMobile);
+        window.addEventListener("resize", checkIfMobile);
 
         return () => {
-            window.removeEventListener('resize', checkIfMobile);
+            window.removeEventListener("resize", checkIfMobile);
         };
     }, []);
 
@@ -86,8 +86,8 @@ const ProductDetail: React.FC = () => {
 
                 if (!response.ok) {
                     throw new Error(
-                        t('error_fetch_related_products') +
-                            t('status') +
+                        t("error_fetch_related_products") +
+                            t("status") +
                             `${response.status}`
                     );
                 }
@@ -116,7 +116,7 @@ const ProductDetail: React.FC = () => {
                 setRelatedError(
                     err instanceof Error
                         ? err.message
-                        : t('error_fetch_related_products')
+                        : t("error_fetch_related_products")
                 );
             } finally {
                 setLoadingRelated(false);
@@ -206,11 +206,11 @@ const ProductDetail: React.FC = () => {
         (e: KeyboardEvent) => {
             if (!isModalOpen) return;
 
-            if (e.key === 'ArrowLeft') {
+            if (e.key === "ArrowLeft") {
                 handlePrevImage();
-            } else if (e.key === 'ArrowRight') {
+            } else if (e.key === "ArrowRight") {
                 handleNextImage();
-            } else if (e.key === 'Escape') {
+            } else if (e.key === "Escape") {
                 setIsModalOpen(false);
             }
         },
@@ -281,7 +281,7 @@ const ProductDetail: React.FC = () => {
                     setError(
                         err instanceof Error
                             ? err.message
-                            : 'Failed to fetch product'
+                            : "Failed to fetch product"
                     );
                 }
             } finally {
@@ -313,7 +313,7 @@ const ProductDetail: React.FC = () => {
                 const result = await response.json();
                 setCategory(result.data);
             } catch (error) {
-                console.error('Error fetching category:', error);
+                console.error("Error fetching category:", error);
             }
         };
 
@@ -323,20 +323,20 @@ const ProductDetail: React.FC = () => {
     }, [product?.subcategory?.category_id]);
 
     useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener("keydown", handleKeyDown);
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener("keydown", handleKeyDown);
         };
     }, [isModalOpen, handleKeyDown]);
 
     useEffect(() => {
         if (isModalOpen) {
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = "hidden";
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = "unset";
         }
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = "unset";
         };
     }, [isModalOpen]);
 
@@ -364,26 +364,26 @@ const ProductDetail: React.FC = () => {
     if (!product) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <p className="text-xl text-gray-600">{t('no_products')}</p>
+                <p className="text-xl text-gray-600">{t("no_products")}</p>
             </div>
         );
     }
 
     function PriceDisplay({ price }: { price: number }) {
         const formattedPrice = price.toFixed(2);
-        const [integerPart, decimalPart] = formattedPrice.split('.');
+        const [integerPart, decimalPart] = formattedPrice.split(".");
 
         return (
             <div className="flex items-center">
                 <span className="product-detail-integer-part items-center">
-                    {parseInt(integerPart).toLocaleString('en-US')}
+                    {parseInt(integerPart).toLocaleString("en-US")}
                 </span>
                 <div className="flex flex-col text-xs text-gray-500">
                     <span className="product-detail-decimal-part">
                         .{decimalPart}
                     </span>
                     <span className="product-detail-birr-part">
-                        {t('birr')}
+                        {t("birr")}
                     </span>
                 </div>
             </div>
@@ -398,7 +398,7 @@ const ProductDetail: React.FC = () => {
                     <div className="mb-0">
                         <Breadcrumb
                             paths={[
-                                { name: 'Products', url: '/products' },
+                                { name: "Products", url: "/products" },
                                 ...(category
                                     ? [
                                           {
@@ -415,7 +415,7 @@ const ProductDetail: React.FC = () => {
                                           },
                                       ]
                                     : []),
-                                { name: product.name, url: '' },
+                                { name: product.name, url: "" },
                             ]}
                         />
                     </div>
@@ -447,10 +447,10 @@ const ProductDetail: React.FC = () => {
                                     style={{
                                         backgroundImage: `url(${product.image_paths?.[selectedImageIndex]})`,
                                         backgroundPosition: `${mousePosition.x}% ${mousePosition.y}%`,
-                                        backgroundSize: '250%',
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundOrigin: 'content-box',
-                                        padding: '1rem',
+                                        backgroundSize: "250%",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundOrigin: "content-box",
+                                        padding: "1rem",
                                     }}
                                 />
                             )}
@@ -467,8 +467,8 @@ const ProductDetail: React.FC = () => {
                                         }
                                         className={`flex-shrink-0 w-20 h-20 rounded-lg border-2 transition-all ${
                                             selectedImageIndex === index
-                                                ? 'border-[#e9a83a]'
-                                                : 'border-transparent hover:border-gray-300'
+                                                ? "border-primary"
+                                                : "border-transparent hover:border-gray-300"
                                         }`}
                                     >
                                         <img
@@ -509,8 +509,8 @@ const ProductDetail: React.FC = () => {
                                     size={24}
                                     className={
                                         isInWishlist
-                                            ? 'fill-[#e9a83a] text-[#e9a83a]'
-                                            : 'text-gray-400'
+                                            ? "fill-primary text-primary"
+                                            : "text-gray-400"
                                     }
                                 />
                             </button>
@@ -531,7 +531,7 @@ const ProductDetail: React.FC = () => {
                                             (1 +
                                                 parseFloat(product.discount) /
                                                     100)
-                                        ).toFixed(2)}{' '}
+                                        ).toFixed(2)}{" "}
                                         Birr
                                     </span>
                                     <span className="text-sm text-red-500 font-medium">
@@ -550,16 +550,16 @@ const ProductDetail: React.FC = () => {
                                     <p
                                         className={`text-gray-600 whitespace-pre-line break-normal ${
                                             !isDescriptionExpanded &&
-                                            'max-h-24 overflow-hidden'
+                                            "max-h-24 overflow-hidden"
                                         }`}
                                         style={{
                                             maskImage: !isDescriptionExpanded
-                                                ? 'linear-gradient(to bottom, black 50%, transparent 100%)'
-                                                : 'none',
+                                                ? "linear-gradient(to bottom, black 50%, transparent 100%)"
+                                                : "none",
                                             WebkitMaskImage:
                                                 !isDescriptionExpanded
-                                                    ? 'linear-gradient(to bottom, black 50%, transparent 100%)'
-                                                    : 'none',
+                                                    ? "linear-gradient(to bottom, black 50%, transparent 100%)"
+                                                    : "none",
                                         }}
                                     >
                                         {product.description}
@@ -571,11 +571,11 @@ const ProductDetail: React.FC = () => {
                                                     !isDescriptionExpanded
                                                 )
                                             }
-                                            className="mt-2 text-[#e9a83a] hover:text-[#c88d31] font-medium"
+                                            className="mt-2 text-primary hover:text-[#c88d31] font-medium"
                                         >
                                             {isDescriptionExpanded
-                                                ? 'Show less'
-                                                : 'Show more'}
+                                                ? "Show less"
+                                                : "Show more"}
                                         </button>
                                     )}
                                 </div>
@@ -591,7 +591,7 @@ const ProductDetail: React.FC = () => {
                             {product.subcategory && (
                                 <div className="flex items-center gap-4 mb-2">
                                     <span className="text-gray-600">
-                                        {t('category')}:
+                                        {t("category")}:
                                     </span>
                                     <span className="font-medium">
                                         {product.subcategory.name}
@@ -605,7 +605,7 @@ const ProductDetail: React.FC = () => {
                             )}
                             <div className="flex items-center gap-4 mb-2">
                                 <span className="text-gray-600">
-                                    {t('unit')}:
+                                    {t("unit")}:
                                 </span>
                                 <span className="font-medium">
                                     {product.measurement_type}
@@ -613,7 +613,7 @@ const ProductDetail: React.FC = () => {
                             </div>
                             <div className="flex items-center gap-4 mb-2">
                                 <span className="text-gray-600">
-                                    {t('brand')}:
+                                    {t("brand")}:
                                 </span>
                                 <span className="font-medium">
                                     {product.brand}
@@ -621,23 +621,23 @@ const ProductDetail: React.FC = () => {
                             </div>
                             <div className="flex items-center gap-4">
                                 <span className="text-gray-600">
-                                    {t('stock')}:
+                                    {t("stock")}:
                                 </span>
                                 <span className="font-medium">
                                     {/* Stock Warning */}
                                     {product.left_in_stock > 0 &&
                                         product.left_in_stock <= 10 && (
                                             <div className="text-red-500 text-sm animate-pulse">
-                                                {t('only')}{' '}
-                                                {product.left_in_stock}{' '}
-                                                {t('left')}
+                                                {t("only")}{" "}
+                                                {product.left_in_stock}{" "}
+                                                {t("left")}
                                             </div>
                                         )}
                                     {product.left_in_stock > 10 && (
-                                        <div>{t('in_stock')}</div>
+                                        <div>{t("in_stock")}</div>
                                     )}
                                     {product.left_in_stock === 0 && (
-                                        <div>{t('not_available_in_stock')}</div>
+                                        <div>{t("not_available_in_stock")}</div>
                                     )}
                                 </span>
                             </div>
@@ -647,7 +647,7 @@ const ProductDetail: React.FC = () => {
                         {product && (
                             <div className="flex items-center gap-4 mb-6">
                                 <span className="text-gray-600">
-                                    {t('quantity')}:
+                                    {t("quantity")}:
                                 </span>
                                 <div className="relative">
                                     <div className="flex items-center">
@@ -661,7 +661,7 @@ const ProductDetail: React.FC = () => {
                                             }
                                             min="1"
                                             max={product.left_in_stock}
-                                            className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <button
                                             onClick={() =>
@@ -669,7 +669,7 @@ const ProductDetail: React.FC = () => {
                                                     !isDropdownOpen
                                                 )
                                             }
-                                            className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                                            className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                                         >
                                             <svg
                                                 className="w-4 h-4 text-gray-500"
@@ -706,8 +706,8 @@ const ProductDetail: React.FC = () => {
                                                     }}
                                                     className={`w-full px-3 py-2 text-left hover:bg-gray-50 ${
                                                         quantity === num
-                                                            ? 'bg-gray-100'
-                                                            : ''
+                                                            ? "bg-gray-100"
+                                                            : ""
                                                     }`}
                                                 >
                                                     {num}
@@ -722,14 +722,14 @@ const ProductDetail: React.FC = () => {
                         {/* Add to Cart Button */}
                         <button
                             onClick={handleAddToCart}
-                            className="button_cart w-full bg-[#e9a83a] hover:bg-[#fed874] text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            className="button_cart w-full bg-primary hover:bg-secondary text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                             disabled={product.left_in_stock === 0}
                         >
                             <div className="default-btn">
                                 <ShoppingCart size={30} />
                                 {product.left_in_stock === 0
-                                    ? t('out_of_stock')
-                                    : t('add_to_cart')}
+                                    ? t("out_of_stock")
+                                    : t("add_to_cart")}
                             </div>
                             <div className="hover-btn">
                                 <span className="mr-2">
@@ -750,15 +750,15 @@ const ProductDetail: React.FC = () => {
                                 <button
                                     onClick={handleLoadMore}
                                     disabled={loadingRelated}
-                                    className="bg-[#e9a83a] text-white px-6 py-2 rounded-lg hover:bg-[#fed874] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
+                                    className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-secondary transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
                                 >
                                     {loadingRelated ? (
                                         <>
                                             <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
-                                            {t('loading')}
+                                            {t("loading")}
                                         </>
                                     ) : (
-                                        <>{t('loadMore')}</>
+                                        <>{t("loadMore")}</>
                                     )}
                                 </button>
                             )}
@@ -797,7 +797,7 @@ const ProductDetail: React.FC = () => {
                             </div>
                         ) : (
                             <p className="text-center text-gray-600 py-8">
-                                {t('no_related_products')}
+                                {t("no_related_products")}
                             </p>
                         )}
                     </div>
@@ -834,8 +834,8 @@ const ProductDetail: React.FC = () => {
                                 <div
                                     className={`${
                                         isMobile
-                                            ? 'order-2 w-full h-20 flex-shrink-0'
-                                            : 'order-1 w-24 h-full'
+                                            ? "order-2 w-full h-20 flex-shrink-0"
+                                            : "order-1 w-24 h-full"
                                     }`}
                                 >
                                     {/* Thumbnail Gallery */}
@@ -843,8 +843,8 @@ const ProductDetail: React.FC = () => {
                                         <div
                                             className={`h-full py-2 flex ${
                                                 isMobile
-                                                    ? 'flex-row overflow-x-auto'
-                                                    : 'flex-col overflow-y-auto'
+                                                    ? "flex-row overflow-x-auto"
+                                                    : "flex-col overflow-y-auto"
                                             } gap-2`}
                                         >
                                             {product.image_paths?.map(
@@ -861,13 +861,13 @@ const ProductDetail: React.FC = () => {
                                                         }}
                                                         className={`${
                                                             isMobile
-                                                                ? 'h-full aspect-square'
-                                                                : 'w-full aspect-square'
+                                                                ? "h-full aspect-square"
+                                                                : "w-full aspect-square"
                                                         } flex-shrink-0 rounded-lg border-2 transition-all ${
                                                             selectedImageIndex ===
                                                             index
-                                                                ? 'border-[#e9a83a]'
-                                                                : 'border-transparent hover:border-gray-300'
+                                                                ? "border-primary"
+                                                                : "border-transparent hover:border-gray-300"
                                                         }`}
                                                     >
                                                         <img
@@ -886,8 +886,8 @@ const ProductDetail: React.FC = () => {
                                     <div
                                         className={`relative w-full h-full flex items-center justify-center overflow-hidden ${
                                             isModalImageZoomed
-                                                ? 'cursor-zoom-out'
-                                                : 'cursor-zoom-in'
+                                                ? "cursor-zoom-out"
+                                                : "cursor-zoom-in"
                                         }`}
                                         onClick={() =>
                                             setIsModalImageZoomed(
@@ -919,11 +919,11 @@ const ProductDetail: React.FC = () => {
                                                 style={{
                                                     transform:
                                                         isModalImageZoomed
-                                                            ? 'scale(2)'
-                                                            : 'scale(1)',
+                                                            ? "scale(2)"
+                                                            : "scale(1)",
                                                     transformOrigin: `${modalMousePosition.x}% ${modalMousePosition.y}%`,
                                                     transition:
-                                                        'transform 0.2s ease-out',
+                                                        "transform 0.2s ease-out",
                                                 }}
                                             />
                                         </div>

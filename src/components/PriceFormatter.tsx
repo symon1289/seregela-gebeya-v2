@@ -1,5 +1,5 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { useTranslation } from "react-i18next";
 
 interface PriceFormatterProps {
     price: string;
@@ -10,10 +10,10 @@ const PriceFormatter: React.FC<PriceFormatterProps> = ({ price }) => {
     const formatPrice = (price: string): string => {
         const numPrice = parseFloat(price);
         const formattedPrice = numPrice.toFixed(2);
-        const [integerPart, decimalPart] = formattedPrice.split('.');
+        const [integerPart, decimalPart] = formattedPrice.split(".");
         return (
-            `${parseInt(integerPart).toLocaleString('en-US')}.${decimalPart} ` +
-            t('birr')
+            `${parseInt(integerPart).toLocaleString("en-US")}.${decimalPart} ` +
+            t("birr")
         );
     };
 

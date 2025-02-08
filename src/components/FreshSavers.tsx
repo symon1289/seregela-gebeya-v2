@@ -1,10 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import ProductCard from './ProductCard';
-import { Product } from '../types/product';
-import defaultImage from '../assets/no-image-available-02.jpg';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import ProductCardLoading from './loading skeletons/product/Card.tsx';
+import { useEffect, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import ProductCard from "./ProductCard";
+import { Product } from "../types/product";
+import defaultImage from "../assets/no-image-available-02.jpg";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import ProductCardLoading from "./loading skeletons/product/Card.tsx";
 const FreshSavers = () => {
     const { t } = useTranslation();
     const [freshSavers, setFreshSavers] = useState<Product[]>([]);
@@ -17,7 +17,7 @@ const FreshSavers = () => {
     const initialItemsToLoad = 14;
 
     const formatPrice = (price: string | number): number => {
-        const num = typeof price === 'string' ? parseFloat(price) : price;
+        const num = typeof price === "string" ? parseFloat(price) : price;
         return +num.toFixed(2);
     };
 
@@ -84,16 +84,16 @@ const FreshSavers = () => {
                             ] as HTMLElement;
                             if (firstNewProduct) {
                                 firstNewProduct.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'nearest', // Prevent vertical scrolling
-                                    inline: 'start',
+                                    behavior: "smooth",
+                                    block: "nearest", // Prevent vertical scrolling
+                                    inline: "start",
                                 });
                             }
                         }
                     }, 0);
                 }
             } catch (error) {
-                console.error('Error fetching fresh savers:', error);
+                console.error("Error fetching fresh savers:", error);
             } finally {
                 setLoadingMore(false);
             }
@@ -106,22 +106,22 @@ const FreshSavers = () => {
         checkScrollability();
         const container = scrollContainerRef.current;
         if (container) {
-            container.addEventListener('scroll', checkScrollability);
+            container.addEventListener("scroll", checkScrollability);
         }
         return () => {
             if (container) {
-                container.removeEventListener('scroll', checkScrollability);
+                container.removeEventListener("scroll", checkScrollability);
             }
         };
     }, [freshSavers]);
 
-    const scroll = (direction: 'left' | 'right') => {
+    const scroll = (direction: "left" | "right") => {
         const container = scrollContainerRef.current;
         if (container) {
             const scrollAmount = 200; // Adjust scroll amount as needed
             container.scrollBy({
-                left: direction === 'left' ? -scrollAmount : scrollAmount,
-                behavior: 'smooth',
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
             });
         }
     };
@@ -136,14 +136,14 @@ const FreshSavers = () => {
         <section className="mb-0">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="explore-more-deals font-semibold mb-6">
-                    {t('fresh_savers')}
+                    {t("fresh_savers")}
                 </h2>
                 {!loadingMore && hasMore && (
                     <button
                         onClick={loadMore}
                         className="bg-[#e9a83a] hover:bg-[#fed874] text-white transition-colors py-2 px-4 rounded-lg font-semibold"
                     >
-                        {t('loadMore')}
+                        {t("loadMore")}
                     </button>
                 )}
                 {loadingMore && (
@@ -155,7 +155,7 @@ const FreshSavers = () => {
             <div className="relative">
                 {canScrollLeft && (
                     <button
-                        onClick={() => scroll('left')}
+                        onClick={() => scroll("left")}
                         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
                         <ChevronLeft />
@@ -163,7 +163,7 @@ const FreshSavers = () => {
                 )}
                 {canScrollRight && (
                     <button
-                        onClick={() => scroll('right')}
+                        onClick={() => scroll("right")}
                         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
                         <ChevronRight />

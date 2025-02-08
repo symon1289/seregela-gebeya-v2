@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
-import Sidebar from '../components/filters/Sidebar';
-import { useProducts } from '../hooks/useProducts';
-import { useCategory } from '../hooks/useCategory';
-import Meta from '../components/Meta';
-import { getCategoryMetaTags } from '../config/meta';
-import Breadcrumb from '../components/Breadcrumb';
-import { useTranslation } from 'react-i18next';
-import defaultImage from '../assets/no-image-available-02.jpg';
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
+import Sidebar from "../components/filters/Sidebar";
+import { useProducts } from "../hooks/useProducts";
+import { useCategory } from "../hooks/useCategory";
+import Meta from "../components/Meta";
+import { getCategoryMetaTags } from "../config/meta";
+import Breadcrumb from "../components/Breadcrumb";
+import { useTranslation } from "react-i18next";
+import defaultImage from "../assets/no-image-available-02.jpg";
 
 const Subcategory: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -25,7 +25,7 @@ const Subcategory: React.FC = () => {
         loadMore,
         handlePriceChange,
         handleSortChange,
-    } = useProducts({ id: Number(id), endpoint: 'subcategories' });
+    } = useProducts({ id: Number(id), endpoint: "subcategories" });
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const activeSubcategory = categories.reduce((found: any, category) => {
@@ -82,8 +82,8 @@ const Subcategory: React.FC = () => {
                     <Breadcrumb
                         paths={[
                             {
-                                name: 'Products',
-                                url: '/seregela-gebeya-v2/products',
+                                name: "Products",
+                                url: "/seregela-gebeya-v2/products",
                             },
                             {
                                 name:
@@ -91,7 +91,7 @@ const Subcategory: React.FC = () => {
                                         cat.subcategories.some(
                                             (sub) => sub.id === Number(id)
                                         )
-                                    )?.name || '',
+                                    )?.name || "",
                                 url: `/seregela-gebeya-v2/category/${
                                     categories.find((cat) =>
                                         cat.subcategories.some(
@@ -140,7 +140,7 @@ const Subcategory: React.FC = () => {
 
                         {isLoading && (
                             <div className="flex justify-center mt-8">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                             </div>
                         )}
 
@@ -148,9 +148,9 @@ const Subcategory: React.FC = () => {
                             <div className="flex justify-center mt-8">
                                 <button
                                     onClick={loadMore}
-                                    className="px-6 py-2 bg-[#e9a83a] text-white rounded-md hover:bg-[#d49732] transition-colors"
+                                    className="px-6 py-2 bg-primary text-white rounded-md hover:bg-[#d49732] transition-colors"
                                 >
-                                    {t('loadMore')}
+                                    {t("loadMore")}
                                 </button>
                             </div>
                         )}
@@ -159,7 +159,7 @@ const Subcategory: React.FC = () => {
                             !hasMore &&
                             filteredProducts.length === 0 && (
                                 <div className="text-center mt-8 text-gray-500">
-                                    {t('no_items_via_this_filter')}
+                                    {t("no_items_via_this_filter")}
                                 </div>
                             )}
                     </div>

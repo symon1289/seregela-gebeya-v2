@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
-import { RootState } from '../store/store';
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
+import { RootState } from "../store/store";
 import {
     removeFromCart,
     updateQuantity,
     updatePackageQuantity,
     removePackageFromCart,
     clearCart,
-} from '../store/features/cartSlice';
-import { Trash2 } from 'lucide-react';
-import { calculateCartTotals } from '../utils/CartUtils';
-import Meta from '../components/Meta';
-import { getCartMetaTags } from '../config/meta';
-import PriceFormatter from '../components/PriceFormatter';
-import { toast } from 'react-toastify';
+} from "../store/features/cartSlice";
+import { Trash2 } from "lucide-react";
+import { calculateCartTotals } from "../utils/CartUtils";
+import Meta from "../components/Meta";
+import { getCartMetaTags } from "../config/meta";
+import PriceFormatter from "../components/PriceFormatter";
+import { toast } from "react-toastify";
 
-const defaultImage = '../assets/no-image-available-02.jpg';
+const defaultImage = "../assets/no-image-available-02.jpg";
 
 const Cart = () => {
     const { t } = useTranslation();
@@ -66,21 +66,21 @@ const Cart = () => {
     if (cartItems.items.length === 0 && packages.length === 0) {
         return (
             <>
-                {' '}
+                {" "}
                 <Meta config={getCartMetaTags()} />
                 <div className="max-w-screen-xl mx-auto px-4 py-8">
                     <div className="text-center py-16">
                         <h2 className="text-2xl font-bold mb-4">
-                            {t('no_items_in_cart')}
+                            {t("no_items_in_cart")}
                         </h2>
                         <p className="text-gray-600 mb-8">
-                            {t('no_items_in_cart_description')}
+                            {t("no_items_in_cart_description")}
                         </p>
                         <Link
                             to="/seregela-gebeya-v2/products"
-                            className="inline-block bg-[#e9a83a] hover:bg-[#fed874] text-white px-6 py-3 rounded-lg transition-colors"
+                            className="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors"
                         >
-                            {t('continue_shopping')}
+                            {t("continue_shopping")}
                         </Link>
                     </div>
                 </div>
@@ -89,10 +89,10 @@ const Cart = () => {
     }
 
     const handleCheckout = () => {
-        if (grandTotal > 2000) {
-            navigate('/seregela-gebeya-v2/checkout/shipping');
+        if (subtotal > 299) {
+            navigate("/seregela-gebeya-v2/checkout/shipping");
         } else {
-            toast.warn(t('minimum_delivery_amount'));
+            toast.warn(t("minimum_delivery_amount"));
         }
     };
     return (
@@ -100,13 +100,13 @@ const Cart = () => {
             <Meta config={getCartMetaTags()} />
             <div className="max-w-screen-xl mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold">{t('cart')}</h1>
+                    <h1 className="text-3xl font-bold">{t("cart")}</h1>
                     <button
                         onClick={handleClearCart}
                         className="text-red-500 hover:text-red-600 flex items-center gap-2"
                     >
                         <Trash2 size={20} />
-                        {t('clear_cart')}
+                        {t("clear_cart")}
                     </button>
                 </div>
 
@@ -133,7 +133,7 @@ const Cart = () => {
                                             to={`/products/${item.id}`}
                                             className="block"
                                         >
-                                            <h3 className="text-lg font-semibold hover:text-[#e9a83a] transition-colors">
+                                            <h3 className="text-lg font-semibold hover:text-primary transition-colors">
                                                 {item.name}
                                             </h3>
                                         </Link>
@@ -179,13 +179,13 @@ const Cart = () => {
                                                     }}
                                                     min="1"
                                                     max={item.left_in_stock}
-                                                    className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                    className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 />
                                                 <button
                                                     onClick={() =>
                                                         toggleDropdown(item.id)
                                                     }
-                                                    className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                                                    className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                                                 >
                                                     <svg
                                                         className="w-4 h-4 text-gray-500"
@@ -224,8 +224,8 @@ const Cart = () => {
                                                             className={`w-full px-3 py-2 text-left hover:bg-gray-50 ${
                                                                 item.quantity ===
                                                                 num
-                                                                    ? 'bg-gray-100'
-                                                                    : ''
+                                                                    ? "bg-gray-100"
+                                                                    : ""
                                                             }`}
                                                         >
                                                             {num}
@@ -266,7 +266,7 @@ const Cart = () => {
                                             to={`/products/${item.id}`}
                                             className="block"
                                         >
-                                            <h3 className="text-lg font-semibold hover:text-[#e9a83a] transition-colors">
+                                            <h3 className="text-lg font-semibold hover:text-primary transition-colors">
                                                 {item.name}
                                             </h3>
                                         </Link>
@@ -312,13 +312,13 @@ const Cart = () => {
                                                     }}
                                                     min="1"
                                                     max={item.left_in_stock}
-                                                    className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                    className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                 />
                                                 <button
                                                     onClick={() =>
                                                         toggleDropdown(item.id)
                                                     }
-                                                    className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                                                    className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                                                 >
                                                     <svg
                                                         className="w-4 h-4 text-gray-500"
@@ -357,8 +357,8 @@ const Cart = () => {
                                                             className={`w-full px-3 py-2 text-left hover:bg-gray-50 ${
                                                                 item.quantity ===
                                                                 num
-                                                                    ? 'bg-gray-100'
-                                                                    : ''
+                                                                    ? "bg-gray-100"
+                                                                    : ""
                                                             }`}
                                                         >
                                                             {num}
@@ -386,12 +386,12 @@ const Cart = () => {
                     <div className="lg:col-span-1">
                         <div className="bg-white rounded-lg shadow-sm p-6">
                             <h2 className="text-xl font-bold mb-6">
-                                {t('order_summary')}
+                                {t("order_summary")}
                             </h2>
                             <div className="space-y-4">
                                 <div className="flex justify-between">
                                     <span className="text-gray-600">
-                                        {t('sub_total')}
+                                        {t("sub_total")}
                                     </span>
                                     <PriceFormatter
                                         price={subtotal.toString()}
@@ -399,11 +399,11 @@ const Cart = () => {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-gray-600">
-                                        {t('delivery')}
+                                        {t("delivery")}
                                     </span>
                                     {freeShipping ? (
                                         <span className="font-semibold text-green-600">
-                                            {t('free')}
+                                            {t("free")}
                                         </span>
                                     ) : (
                                         <span className="font-semibold">
@@ -416,7 +416,7 @@ const Cart = () => {
                                 <div className="border-t pt-4 mt-4">
                                     <div className="flex justify-between">
                                         <span className="text-lg font-bold">
-                                            {t('total_price')}
+                                            {t("total_price")}
                                         </span>
                                         <span className="text-lg font-bold">
                                             <PriceFormatter
@@ -427,9 +427,9 @@ const Cart = () => {
                                 </div>
                                 <button
                                     onClick={handleCheckout}
-                                    className="w-full bg-[#e9a83a] hover:bg-[#fed874] text-white py-3 rounded-lg transition-colors mt-6"
+                                    className="w-full bg-primary hover:bg-secondary text-white py-3 rounded-lg transition-colors mt-6"
                                 >
-                                    {t('checkout')}
+                                    {t("checkout")}
                                 </button>
                             </div>
                         </div>

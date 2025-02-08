@@ -1,11 +1,11 @@
-import { Globe, Phone } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { setLanguage } from '../../store/features/languageSlice';
-import { TbTruckDelivery } from 'react-icons/tb';
-import { FaRegHeart } from 'react-icons/fa';
-import freeDelivery from '../../assets/image_2024-11-08_17-21-35.png';
+import { Globe, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { setLanguage } from "../../store/features/languageSlice";
+import { FaTruckFast } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
+import freeDelivery from "../../assets/image_2024-11-08_17-21-35.png";
 export default function TopBar() {
     const dispatch = useDispatch();
 
@@ -30,14 +30,14 @@ export default function TopBar() {
                     >
                         <FaRegHeart size={16} />
 
-                        <span>{t('wishlist')}</span>
+                        <span>{t("wishlist")}</span>
                     </Link>
                     <Link
                         to="/seregela-gebeya-v2/profile"
                         className="flex items-center gap-1 text-gray-600 hover:text-[#e7a334]"
                     >
-                        <TbTruckDelivery size={20} />
-                        <span>{t('track_order')}</span>
+                        <FaTruckFast size={20} />
+                        <span>{t("track_order")}</span>
                     </Link>
                 </div>
                 <div className="hidden xl:flex items-center justify-between mt-0">
@@ -48,9 +48,9 @@ export default function TopBar() {
                             className="w-14 h-12 object-contain"
                         />
                         <span className="text-xs text-center text-gray-600">
-                            {t('from_2,000_birr')}
+                            {t("from_2,000_birr")}
                             <br />
-                            <strong>{t('Addis_ababa_only')}</strong>
+                            <strong>{t("Addis_ababa_only")}</strong>
                         </span>
                     </div>
                 </div>
@@ -60,7 +60,7 @@ export default function TopBar() {
                         className="flex items-center gap-1 text-gray-600 hover:text-[#e7a334]"
                     >
                         <Phone size={16} />
-                        <span>{t('contact_us')} 7878 </span>
+                        <span>{t("contact_us")} 7878 </span>
                     </Link>
                     <div className="flex items-center gap-2 hover:text-[#e7a334]">
                         <Globe size={16} />

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addPackageToCart } from '../store/features/cartSlice';
-import { toggleWishlistItem } from '../store/features/wishlistSlice';
-import { ShoppingCart, Heart } from 'lucide-react';
-import { RootState } from '../store/store';
-import Loader from '../components/Loader';
-import defaultImage from '../assets/no-image-available-02.jpg';
-import './ProductDetail.css';
-import { useTranslation } from 'react-i18next';
-import { usePackages } from '../hooks/usePackages';
-import { Link } from 'react-router-dom';
-import PriceFormatter from './PriceFormatter';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPackageToCart } from "../store/features/cartSlice";
+import { toggleWishlistItem } from "../store/features/wishlistSlice";
+import { ShoppingCart, Heart } from "lucide-react";
+import { RootState } from "../store/store";
+import Loader from "../components/Loader";
+import defaultImage from "../assets/no-image-available-02.jpg";
+import "./ProductDetail.css";
+import { useTranslation } from "react-i18next";
+import { usePackages } from "../hooks/usePackages";
+import { Link } from "react-router-dom";
+import PriceFormatter from "./PriceFormatter";
 
 interface ProductDetailCardProps {
     id?: string;
@@ -38,7 +38,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
-        console.log('Selected Package ID:', id);
+        console.log("Selected Package ID:", id);
         if (id) {
             getPackageById(id);
         }
@@ -50,10 +50,10 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
         };
 
         checkIfMobile();
-        window.addEventListener('resize', checkIfMobile);
+        window.addEventListener("resize", checkIfMobile);
 
         return () => {
-            window.removeEventListener('resize', checkIfMobile);
+            window.removeEventListener("resize", checkIfMobile);
         };
     }, []);
 
@@ -102,7 +102,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                     name: packageItem.name,
                     price: String(packageItem.price),
                     quantity,
-                    image_path: packageItem.image_path || '',
+                    image_path: packageItem.image_path || "",
                     left_in_stock: packageItem.left_in_stock,
                 })
             );
@@ -117,7 +117,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
         return (
             <div className="flex justify-center items-center min-h-screen">
                 <div className="text-center">
-                    <p className="text-xl text-red-600 mb-4">{t('error')}</p>
+                    <p className="text-xl text-red-600 mb-4">{t("error")}</p>
                     <p className="text-gray-600">{packageItemError.message}</p>
                 </div>
             </div>
@@ -127,26 +127,26 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
     if (!packageItem) {
         return (
             <div className="flex justify-center items-center min-h-screen">
-                <p className="text-xl text-gray-600">{t('no_products')}</p>
+                <p className="text-xl text-gray-600">{t("no_products")}</p>
             </div>
         );
     }
 
     function PriceDisplay({ price }: { price: number }) {
         const formattedPrice = price.toFixed(2);
-        const [integerPart, decimalPart] = formattedPrice.split('.');
+        const [integerPart, decimalPart] = formattedPrice.split(".");
 
         return (
             <div className="flex items-center">
                 <span className="product-detail-integer-part items-center">
-                    {parseInt(integerPart).toLocaleString('en-US')}
+                    {parseInt(integerPart).toLocaleString("en-US")}
                 </span>
                 <div className="flex flex-col text-xs text-gray-500">
                     <span className="product-detail-decimal-part">
                         .{decimalPart}
                     </span>
                     <span className="product-detail-birr-part">
-                        {t('birr')}
+                        {t("birr")}
                     </span>
                 </div>
             </div>
@@ -182,10 +182,10 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                     style={{
                                         backgroundImage: `url(${packageItem.image_paths?.[selectedImageIndex]})`,
                                         backgroundPosition: `${mousePosition.x}% ${mousePosition.y}%`,
-                                        backgroundSize: '200%',
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundOrigin: 'content-box',
-                                        padding: '1rem',
+                                        backgroundSize: "200%",
+                                        backgroundRepeat: "no-repeat",
+                                        backgroundOrigin: "content-box",
+                                        padding: "1rem",
                                     }}
                                 />
                             )}
@@ -203,8 +203,8 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                             }
                                             className={`flex-shrink-0 w-20 h-20 rounded-lg border-2 transition-all ${
                                                 selectedImageIndex === index
-                                                    ? 'border-[#e9a83a]'
-                                                    : 'border-transparent hover:border-gray-300'
+                                                    ? "border-primary"
+                                                    : "border-transparent hover:border-gray-300"
                                             }`}
                                         >
                                             <img
@@ -250,8 +250,8 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                         size={24}
                                         className={
                                             isInWishlist
-                                                ? 'fill-[#e9a83a] text-[#e9a83a]'
-                                                : 'text-gray-400'
+                                                ? "fill-primary text-primary"
+                                                : "text-gray-400"
                                         }
                                     />
                                 </button>
@@ -271,11 +271,11 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                                     packageItem.discount
                                                 ) /
                                                     100)
-                                        ).toFixed(2)}{' '}
-                                        {t('birr')}
+                                        ).toFixed(2)}{" "}
+                                        {t("birr")}
                                     </span>
                                     <span className="text-sm text-red-500 font-medium">
-                                        {packageItem.discount}% {t('discount')}
+                                        {packageItem.discount}% {t("discount")}
                                     </span>
                                 </>
                             )}
@@ -288,7 +288,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                             <Link
                                                 to={`/seregela-gebeya-v2/products/${item.id}`}
                                                 key={item.id}
-                                                className="flex hover:text-[#e9a83a] hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row"
+                                                className="flex hover:text-primary hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row"
                                             >
                                                 <img
                                                     className="m-2 h-24 w-28 rounded-md border object-cover object-center"
@@ -300,7 +300,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                                         {item.name}
                                                     </span>
                                                     <span className="float-right text-gray-400">
-                                                        {t('quantity')}:{' '}
+                                                        {t("quantity")}:{" "}
                                                         {item.pivot.quantity}
                                                     </span>
                                                     <p className="text-lg font-bold">
@@ -320,7 +320,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                         {packageItem && (
                             <div className="flex items-center gap-4 mb-6">
                                 <span className="text-gray-600">
-                                    {t('quantity')}:
+                                    {t("quantity")}:
                                 </span>
                                 <div className="relative">
                                     <div className="flex items-center">
@@ -334,7 +334,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                             }
                                             min="1"
                                             max={packageItem.left_in_stock}
-                                            className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-[#e9a83a] w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                            className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <button
                                             onClick={() =>
@@ -342,7 +342,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                                     !isDropdownOpen
                                                 )
                                             }
-                                            className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-[#e9a83a]"
+                                            className="border border-l-0 rounded-r-lg px-3 py-3 hover:bg-gray-50 focus:outline-none focus:border-primary"
                                         >
                                             <svg
                                                 className="w-4 h-4 text-gray-500"
@@ -379,8 +379,8 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                                     }}
                                                     className={`w-full px-3 py-2 text-left hover:bg-gray-50 ${
                                                         quantity === num
-                                                            ? 'bg-gray-100'
-                                                            : ''
+                                                            ? "bg-gray-100"
+                                                            : ""
                                                     }`}
                                                 >
                                                     {num}
@@ -395,14 +395,14 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                         {/* Add to Cart Button */}
                         <button
                             onClick={handleAddToCart}
-                            className="button_cart w-full bg-[#e9a83a] hover:bg-[#fed874] text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            className="button_cart w-full bg-primary hover:bg-secondary text-white py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
                             disabled={packageItem.left_in_stock === 0}
                         >
                             <div className="default-btn">
                                 <ShoppingCart size={30} />
                                 {packageItem.left_in_stock === 0
-                                    ? t('out_of_stock')
-                                    : t('add_to_cart')}
+                                    ? t("out_of_stock")
+                                    : t("add_to_cart")}
                             </div>
                             <div className="hover-btn">
                                 <span className="mr-2">

@@ -1,31 +1,31 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { HelmetProvider } from 'react-helmet-async';
-import './App.css';
-import TopBar from './components/Header/TopBar';
-import MainHeader from './components/Header/MainHeader';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
-import PWABadge from './PWABadge';
-import ScrollToTop from './components/ScrollToTop';
-import Products from './pages/Products';
-import Cart from './pages/Cart';
-import ProductDetail from './pages/ProductDetail';
-import Category from './pages/Category';
-import Subcategory from './pages/Subcategory';
-import Login from './pages/Login';
-import Wishlist from './pages/Wishlist';
-import Delivery from './pages/Delivery';
-import Payment from './pages/Payment';
-import UserProfile from './pages/UserProfile';
-import PrivateRoute from './routes/PrivateRoute';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import "./App.css";
+import TopBar from "./components/Header/TopBar";
+import MainHeader from "./components/Header/MainHeader";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import PWABadge from "./PWABadge";
+import ScrollToTop from "./components/ScrollToTop";
+import Products from "./pages/Products";
+import Cart from "./pages/Cart";
+import ProductDetail from "./pages/ProductDetail";
+import Category from "./pages/Category";
+import Subcategory from "./pages/Subcategory";
+import Login from "./pages/Login";
+import Wishlist from "./pages/Wishlist";
+import Delivery from "./pages/Delivery";
+import Payment from "./pages/Payment";
+import PrivateRoute from "./routes/PrivateRoute";
+import ProfileUi from "./pages/ProfileUi";
 // import { RootState } from "./store/store";
-import { Navigate } from 'react-router-dom';
+import { Navigate } from "react-router-dom";
 // import { useSelector } from "react-redux";
 function App() {
     // const { user } = useSelector((state: RootState) => state.auth);
     // @ts-expect-error user is not null
-    const userData = JSON.parse(localStorage.getItem('user'));
+    const userData = JSON.parse(localStorage.getItem("user"));
     return (
         <>
             <Router>
@@ -33,6 +33,7 @@ function App() {
                 <HelmetProvider>
                     <TopBar />
                     <MainHeader />
+
                     <Routes>
                         <Route path="/seregela-gebeya-v2" element={<Home />} />
                         <Route
@@ -75,7 +76,7 @@ function App() {
                         <Route path="" element={<PrivateRoute />}>
                             <Route
                                 path="/seregela-gebeya-v2/profile"
-                                element={<UserProfile />}
+                                element={<ProfileUi />}
                             />
 
                             <Route
@@ -87,6 +88,7 @@ function App() {
                                 element={<Payment />}
                             />
                         </Route>
+                        {/* <Route path="/seregela-gebeya-v2/test" element={<ProfileUi />} /> */}
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />

@@ -1,18 +1,18 @@
 // import { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
-import Meta from '../components/Meta';
-import { getHomeMetaTags } from '../config/meta';
-import CategoryGrid from '../components/CategoryGrid';
-import MoreDeals from '../components/MoreDeals';
-import NewArrivals from '../components/NewArrivals';
-import FreshSavers from '../components/FreshSavers';
-import GrabOurBestDeals from '../components/GrabOurBestDeals';
-import left from '../assets/left.png';
-import right from '../assets/right.png';
-import HeroSlider from '../components/HeroSlider';
-import WelcomeSection from '../components/WelcomeSection';
-import CategorySidebar from '../components/CategorySidebar';
-import { useCategory } from '../hooks/useCategory';
+import { useTranslation } from "react-i18next";
+import Meta from "../components/Meta";
+import { getHomeMetaTags } from "../config/meta";
+import CategoryGrid from "../components/CategoryGrid";
+import MoreDeals from "../components/MoreDeals";
+import NewArrivals from "../components/NewArrivals";
+import FreshSavers from "../components/FreshSavers";
+import GrabOurBestDeals from "../components/GrabOurBestDeals";
+import left from "../assets/left.png";
+import right from "../assets/right.png";
+import HeroSlider from "../components/HeroSlider";
+import WelcomeSection from "../components/WelcomeSection";
+import CategorySidebar from "../components/CategorySidebar";
+import { useCategory } from "../hooks/useCategory";
 
 const Home = () => {
     const { categories, isLoading } = useCategory();
@@ -42,7 +42,7 @@ const Home = () => {
                 {/* Categories */}
                 <section className="mb-12 mt-6">
                     <h2 className="explore-more-deals font-semibold mb-6">
-                        {t('buy_from_choosen_categories')}
+                        {t("buy_from_choosen_categories")}
                     </h2>
                     <CategoryGrid />
                 </section>

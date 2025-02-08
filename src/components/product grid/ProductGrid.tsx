@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { usePackages } from '../../hooks/usePackages';
-import ProductSection from './ProductSection';
-import sidde from '../../assets/side.jpg';
-import { useSelector } from 'react-redux';
-import { selectRecentProducts } from '../../store/features/productSlice';
-import { useProducts } from '../../hooks/useProducts';
+import React, { useEffect } from "react";
+import { usePackages } from "../../hooks/usePackages";
+import ProductSection from "./ProductSection";
+import sidde from "../../assets/side.jpg";
+import { useSelector } from "react-redux";
+import { selectRecentProducts } from "../../store/features/productSlice";
+import { useProducts } from "../../hooks/useProducts";
 
 const ProductGrid: React.FC = () => {
     const {
@@ -16,7 +16,7 @@ const ProductGrid: React.FC = () => {
     const { filteredProducts: newArrivals, isLoading: newArrivalsLoading } =
         useProducts({
             id: undefined,
-            endpoint: 'products',
+            endpoint: "products",
             initialItemsToLoad: 18,
         });
     const recentProducts = useSelector(selectRecentProducts);
@@ -32,7 +32,7 @@ const ProductGrid: React.FC = () => {
                 </div>
                 <button
                     onClick={() => getPopularProductsForProductGrid(18, 1)}
-                    className="px-4 py-2 bg-[#e7a334] text-white rounded hover:bg-[#fed874] transition-colors duration-300"
+                    className="px-4 py-2 bg-[#e7a334] text-white rounded hover:bg-secondary transition-colors duration-300"
                 >
                     Retry
                 </button>
@@ -56,7 +56,7 @@ const ProductGrid: React.FC = () => {
                 {/* New Arrivals Section */}
                 {newArrivalsLoading ? (
                     <div className="flex justify-center ">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                     </div>
                 ) : (
                     <ProductSection
@@ -65,7 +65,7 @@ const ProductGrid: React.FC = () => {
                             newArrivals.map((product) => ({
                                 id: product.id,
                                 name: product.name,
-                                name_am: product.name_am ?? '',
+                                name_am: product.name_am ?? "",
                                 newPrice: product.price,
                                 image: [product.image_paths[0]],
                                 left_in_stock: product.left_in_stock,
@@ -77,7 +77,7 @@ const ProductGrid: React.FC = () => {
                 )}
                 {isLoadingPopularProducts ? (
                     <div className="flex justify-center ">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                     </div>
                 ) : (
                     <ProductSection
@@ -95,7 +95,7 @@ const ProductGrid: React.FC = () => {
                             recentProducts.map((product) => ({
                                 id: product.id,
                                 name: product.name,
-                                name_am: product.name_am ?? '',
+                                name_am: product.name_am ?? "",
                                 newPrice: product.price,
                                 image: [product.image_paths[0]],
                                 left_in_stock: product.left_in_stock,

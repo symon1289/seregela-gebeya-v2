@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown } from 'lucide-react';
-import { useCategory } from '../../hooks/useCategory'; // Import the useCategory hook
-import { useTranslation } from 'react-i18next';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
+import { useCategory } from "../../hooks/useCategory"; // Import the useCategory hook
+import { useTranslation } from "react-i18next";
 
 interface SubcategoryListProps {
     categoryId?: string;
@@ -25,9 +25,9 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
     const { categories, isLoading, error, hasMore, loadMore } = useCategory();
 
     useEffect(() => {
-        const urlParts = location.pathname.split('/');
+        const urlParts = location.pathname.split("/");
         const lastSegment = urlParts[urlParts.length - 1];
-        const isSubcategory = urlParts[urlParts.length - 2] === 'subcategory';
+        const isSubcategory = urlParts[urlParts.length - 2] === "subcategory";
 
         if (isSubcategory) {
             setActiveSubcategoryId(parseInt(lastSegment));
@@ -76,7 +76,7 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
     if (categories.length === 0) {
         return (
             <div className="text-gray-500 text-sm">
-                {t('no_categories_available')}
+                {t("no_categories_available")}
             </div>
         );
     }
@@ -93,8 +93,8 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
                         <div
                             className={`flex items-center justify-between ${
                                 category.id === activeCategoryId
-                                    ? 'bg-[#e7a334] text-white font-medium'
-                                    : 'text-gray-700 hover:bg-gray-50'
+                                    ? "bg-[#e7a334] text-white font-medium"
+                                    : "text-gray-700 hover:bg-gray-50"
                             }`}
                         >
                             <Link
@@ -116,9 +116,9 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
                                     <ChevronDown
                                         className={`w-4 h-4 transition-transform ${
                                             openCategories[category.id]
-                                                ? 'rotate-180'
-                                                : ''
-                                        } ${category.id === activeCategoryId ? 'text-white' : ''}`}
+                                                ? "rotate-180"
+                                                : ""
+                                        } ${category.id === activeCategoryId ? "text-white" : ""}`}
                                     />
                                 </button>
                             )}
@@ -135,8 +135,8 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
                                                 className={`block px-4 py-2 text-sm ${
                                                     subcategory.id ===
                                                     activeSubcategoryId
-                                                        ? 'bg-[#e7a334] text-white font-medium'
-                                                        : 'text-gray-600 hover:bg-gray-100'
+                                                        ? "bg-[#e7a334] text-white font-medium"
+                                                        : "text-gray-600 hover:bg-gray-100"
                                                 }`}
                                             >
                                                 <span className="flex items-center justify-between">
@@ -154,9 +154,9 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
             {hasMore && (
                 <button
                     onClick={() => loadMore()}
-                    className="w-full text-center text-sm text-[#e7a334] hover:text-[#fed874]"
+                    className="w-full text-center text-sm text-[#e7a334] hover:text-secondary"
                 >
-                    {t('load_more')}
+                    {t("load_more")}
                 </button>
             )}
         </div>

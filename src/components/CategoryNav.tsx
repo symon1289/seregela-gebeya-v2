@@ -1,6 +1,6 @@
-import React from 'react';
-import { Grid } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Grid } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface Subcategory {
     id: number;

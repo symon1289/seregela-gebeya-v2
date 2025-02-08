@@ -1,6 +1,6 @@
-import { UserData } from './user';
-import { Address } from './product';
-import { DeliveryType } from './order';
+import { UserData } from "./user";
+import { Address } from "./product";
+import { DeliveryType } from "./order";
 
 type ProductPivot = {
     package_id: number;

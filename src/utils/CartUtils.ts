@@ -1,4 +1,4 @@
-import { CartItem, CartPackage } from '../store/features/cartSlice';
+import { CartItem, CartPackage } from "../store/features/cartSlice";
 
 /**
  * Calculate the subtotal of all items in the cart
@@ -46,17 +46,17 @@ export const calculateSubtotal = (
  * @returns The shipping cost
  */
 export const calculateShipping = (subtotal: number): number => {
-    return subtotal > 10000 ? 0 : 100;
+    return subtotal > 2999.99 ? 0 : 300;
 };
 
 /**
  * Calculate discount amount based on subtotal and any special conditions
- * Currently, a discount of 1,000 Birr is applied for orders over 100,000 Birr
+ * Currently, a discount of 0 Birr is applied for orders over 100,000 Birr
  * @param subtotal The subtotal amount
  * @returns The discount amount
  */
 export const calculateDiscount = (subtotal: number): number => {
-    return subtotal > 100000 ? 1000 : 0;
+    return subtotal > 100000 ? 0 : 0;
 };
 
 /**

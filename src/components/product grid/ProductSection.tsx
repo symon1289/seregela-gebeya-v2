@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { ProductForGrid, SectionProps } from '../../types/extras';
-import { addToCart } from '../../store/features/cartSlice';
-import { useDispatch } from 'react-redux';
-import defaultImage from '../../assets/no-image-available-02.jpg';
-import { Plus } from 'lucide-react';
-import PriceFormatter from '../PriceFormatter';
+import React, { useEffect, useState } from "react";
+import { ProductForGrid, SectionProps } from "../../types/extras";
+import { addToCart } from "../../store/features/cartSlice";
+import { useDispatch } from "react-redux";
+import defaultImage from "../../assets/no-image-available-02.jpg";
+import { Plus } from "lucide-react";
+import PriceFormatter from "../PriceFormatter";
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 const ProductSection: React.FC<SectionProps> = ({
     title,
     products = [],

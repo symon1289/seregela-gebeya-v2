@@ -1,21 +1,21 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { RootState } from '../store/store';
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { RootState } from "../store/store";
 import {
     removeFromWishlist,
     clearWishlist,
-} from '../store/features/wishlistSlice';
-import { addToCart } from '../store/features/cartSlice';
-import { Trash2, ShoppingCart, ShoppingBag } from 'lucide-react';
-import Meta from '../components/Meta';
-import { getWishlistMetaTags } from '../config/meta';
-import { Product } from '../types/product';
-import { useTranslation } from 'react-i18next';
+} from "../store/features/wishlistSlice";
+import { addToCart } from "../store/features/cartSlice";
+import { Trash2, ShoppingCart, ShoppingBag } from "lucide-react";
+import Meta from "../components/Meta";
+import { getWishlistMetaTags } from "../config/meta";
+import { Product } from "../types/product";
+import { useTranslation } from "react-i18next";
 
 interface WishlistItem
     extends Pick<
         Product,
-        'id' | 'name' | 'price' | 'image_paths' | 'left_in_stock'
+        "id" | "name" | "price" | "image_paths" | "left_in_stock"
     > {
     quantity: number;
 }
@@ -52,28 +52,28 @@ const Wishlist = () => {
                 dispatch(addToCart({ ...item, quantity: 1 }));
             });
             dispatch(clearWishlist());
-            navigate('/cart');
+            navigate("/cart");
         }
     };
 
     if (wishlistItems.length === 0) {
         return (
             <>
-                {' '}
+                {" "}
                 <Meta config={getWishlistMetaTags()} />
                 <div className="max-w-screen-xl mx-auto px-4 py-8">
                     <div className="text-center py-16">
                         <h2 className="text-2xl font-bold mb-4">
-                            {t('no_items_in_wish_list')}
+                            {t("no_items_in_wish_list")}
                         </h2>
                         <p className="text-gray-600 mb-8">
-                            {t('add_item_to_empty_wishlist')}
+                            {t("add_item_to_empty_wishlist")}
                         </p>
                         <Link
-                            to="/products"
-                            className="inline-block bg-[#e9a83a] hover:bg-[#fed874] text-white px-6 py-3 rounded-lg transition-colors"
+                            to="/seregela-gebeya-v2/products"
+                            className="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors"
                         >
-                            {t('continue_shopping')}
+                            {t("continue_shopping")}
                         </Link>
                     </div>
                 </div>
@@ -83,15 +83,15 @@ const Wishlist = () => {
 
     return (
         <>
-            {' '}
+            {" "}
             <Meta config={getWishlistMetaTags()} />
             <div className="max-w-screen-xl mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-bold">{t('wish_list')}</h1>
+                    <h1 className="text-3xl font-bold">{t("wish_list")}</h1>
                     <div className="flex gap-4">
                         <button
                             onClick={handleBuyAll}
-                            className="bg-[#e9a83a] hover:bg-[#fed874] text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
+                            className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
                         >
                             <ShoppingBag size={20} />
                             Buy All
@@ -121,10 +121,10 @@ const Wishlist = () => {
                             </div>
                             <div className="space-y-2">
                                 <Link
-                                    to={`/products/${item.id}`}
+                                    to={`/seregela-gebeya-v2/products/${item.id}`}
                                     className="block"
                                 >
-                                    <h3 className="text-lg font-semibold hover:text-[#e9a83a] transition-colors">
+                                    <h3 className="text-lg font-semibold hover:text-primary transition-colors">
                                         {item.name}
                                     </h3>
                                 </Link>
@@ -134,7 +134,7 @@ const Wishlist = () => {
                                 <div className="flex gap-2">
                                     <button
                                         onClick={() => handleAddToCart(item)}
-                                        className="flex-1 bg-[#e9a83a] hover:bg-[#fed874] text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                                        className="flex-1 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
                                     >
                                         <ShoppingCart size={20} />
                                         Add to Cart

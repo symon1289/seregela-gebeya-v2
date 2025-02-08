@@ -1,27 +1,27 @@
-import { useQuery, useMutation, useInfiniteQuery } from '@tanstack/react-query';
-import api from '../utils/axios';
-import { OrderDetail, DeliveryType } from '../types/order';
+import { useQuery, useMutation, useInfiniteQuery } from "@tanstack/react-query";
+import api from "../utils/axios";
+import { OrderDetail, DeliveryType } from "../types/order";
 
 // Utility function for auth headers
 const getAuthHeader = () => ({
     headers: {
-        Authorization: 'Bearer ' + window.localStorage.getItem('token'),
+        Authorization: "Bearer " + window.localStorage.getItem("token"),
     },
 });
 
 // Query functions
 const fetchDeliveryTypes = async (): Promise<DeliveryType[]> => {
-    const { data } = await api.get('delivery-types', getAuthHeader());
+    const { data } = await api.get("delivery-types", getAuthHeader());
     return data.data;
 };
 
 const createOrder = async (order: OrderDetail) => {
-    const { data } = await api.post('orders', order, getAuthHeader());
+    const { data } = await api.post("orders", order, getAuthHeader());
     return data.data;
 };
 
 const fetchOrders = async ({ pageParam = 1 }: { pageParam?: number }) => {
-    const { data } = await api.get('orders', {
+    const { data } = await api.get("orders", {
         ...getAuthHeader(),
         params: { page: pageParam },
     });
@@ -34,7 +34,7 @@ const fetchOrders = async ({ pageParam = 1 }: { pageParam?: number }) => {
 };
 
 const fetchOrderByStatus = async (status: string) => {
-    const { data } = await api.get('orders', {
+    const { data } = await api.get("orders", {
         ...getAuthHeader(),
         params: { status },
     });
@@ -98,14 +98,14 @@ const checkCBE = async (checkoutID: string) => {
 };
 
 const fetchDiscounts = async () => {
-    const { data } = await api.get('discount-types', getAuthHeader());
+    const { data } = await api.get("discount-types", getAuthHeader());
     return data.data;
 };
 
 // Custom hooks
 export const useOrder = () => {
     const deliveryTypesQuery = useQuery({
-        queryKey: ['deliveryTypes'],
+        queryKey: ["deliveryTypes"],
         queryFn: fetchDeliveryTypes,
     });
 
@@ -114,7 +114,7 @@ export const useOrder = () => {
     });
 
     const ordersQuery = useInfiniteQuery({
-        queryKey: ['orders'],
+        queryKey: ["orders"],
         queryFn: fetchOrders,
         initialPageParam: 1,
         getNextPageParam: (lastPage) => {
@@ -122,18 +122,27 @@ export const useOrder = () => {
         },
     });
 
-    const useOrdersByStatus = (status: string) =>
-        useQuery({
-            queryKey: ['orders', status],
+    const useOrdersByStatus = (status: string | undefined) => {
+        if (!status) {
+            throw new Error("status is required");
+        }
+        return useQuery({
+            queryKey: ["order", status] as const,
             queryFn: () => fetchOrderByStatus(status),
+            enabled: true,
         });
+    };
 
-    const useOrderDetails = (orderId: string) =>
-        useQuery({
-            queryKey: ['order', orderId],
+    const useOrderDetails = (orderId: string | undefined) => {
+        if (!orderId) {
+            throw new Error("orderId is required");
+        }
+        return useQuery({
+            queryKey: ["order", orderId] as const,
             queryFn: () => fetchOrderById(orderId),
+            enabled: true,
         });
-
+    };
     const makePaymentMutation = useMutation({
         mutationFn: makePayment,
     });
@@ -155,7 +164,7 @@ export const useOrder = () => {
     });
 
     const discountsQuery = useQuery({
-        queryKey: ['discountTypes'],
+        queryKey: ["discountTypes"],
         queryFn: fetchDiscounts,
     });
 

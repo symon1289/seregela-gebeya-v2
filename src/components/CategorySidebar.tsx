@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Grid } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { CategoryItems } from './loading skeletons/category/CategorySideBar.tsx';
+import React, { useState } from "react";
+import { Grid } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { CategoryItems } from "./loading skeletons/category/CategorySideBar.tsx";
 interface Subcategory {
     id: number;
     name: string;
@@ -37,7 +37,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                         className="flex items-center gap-2 hover:text-[#e9a83a] text-sm font-medium ml-4"
                     >
                         <Grid className="w-8 h-8" />
-                        <span>{t('allProducts')}</span>
+                        <span>{t("allProducts")}</span>
                     </Link>
                 </li>
 
@@ -61,8 +61,8 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                                   <div
                                       className={`flex items-center justify-between py-2 group ${
                                           activeCategory === category.id
-                                              ? 'bg-gray-100 text-[#e9a83a]'
-                                              : ''
+                                              ? "bg-gray-100 text-[#e9a83a]"
+                                              : ""
                                       }`}
                                   >
                                       <Link
@@ -82,8 +82,8 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                       text-gray-400 
                       ${
                           activeCategory === category.id
-                              ? 'visible'
-                              : 'invisible'
+                              ? "visible"
+                              : "invisible"
                       }
                       transition-opacity duration-300
                     `}
@@ -100,8 +100,8 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                     absolute z-50 top-0 left-[calc(100%+0rem)] w-full h-full bg-white shadow-lg overflow-y-auto 
                     ${
                         activeCategory === category.id
-                            ? 'visible opacity-100 z-[1000]'
-                            : 'invisible opacity-0'
+                            ? "visible opacity-100 z-[1000]"
+                            : "invisible opacity-0"
                     }
                     transition-all duration-300 ease-in-out
                     bg-white 

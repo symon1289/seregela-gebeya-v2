@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search, User, X, Menu } from 'lucide-react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import CategoryNav from '../CategoryNav';
-import freeDelivery from '../../assets/image_2024-11-08_17-21-35.png';
-import { useCategory } from '../../hooks/useCategory';
-import { useProducts } from '../../hooks/useProducts';
-import { Product as HookProduct } from '../../types/product';
-import { Product } from '../../types/product';
-import logomini from '../../assets/logo.png';
-import { FaCartShopping } from 'react-icons/fa6';
-import { useTranslation } from 'react-i18next';
-import { calculateCartTotals } from '../../utils/CartUtils';
-import { FaUserAlt } from 'react-icons/fa';
-import PriceFormatter from '../PriceFormatter';
-import CategoryNavLoading from '../loading skeletons/category/CategoryNav.tsx';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Search, User, X, Menu } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import CategoryNav from "../CategoryNav";
+import freeDelivery from "../../assets/image_2024-11-08_17-21-35.png";
+import { useCategory } from "../../hooks/useCategory";
+import { useProducts } from "../../hooks/useProducts";
+import { Product as HookProduct } from "../../types/product";
+import { Product } from "../../types/product";
+import logomini from "../../assets/logo.png";
+import { FaCartShopping } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
+import { calculateCartTotals } from "../../utils/CartUtils";
+import { FaUserAlt } from "react-icons/fa";
+import PriceFormatter from "../PriceFormatter";
+import CategoryNavLoading from "../loading skeletons/category/CategoryNav.tsx";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -30,13 +30,13 @@ const Navbar = () => {
             setIsScrolled(scrollPosition > 0);
         };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
     });
 
     const { products: hookSearchResults, isLoading } = useProducts({
         id: undefined,
-        endpoint: 'products',
+        endpoint: "products",
         searchName: searchQuery,
     });
 
@@ -49,11 +49,11 @@ const Navbar = () => {
             description_am: null,
             supplier: {
                 id: 0,
-                name: '',
+                name: "",
                 name_am: null,
-                phone_number: '',
+                phone_number: "",
             },
-            brand: '',
+            brand: "",
             measurement_type: product.unit,
             price: product.price.toString(),
             discount: product.discount.toString(),
@@ -75,10 +75,10 @@ const Navbar = () => {
             originalPrice: product.originalPrice.toString(),
         })
     );
-    const userData = localStorage.getItem('user');
+    const userData = localStorage.getItem("user");
     const { first_name, last_name } = userData
         ? JSON.parse(userData)
-        : { first_name: '', last_name: '' };
+        : { first_name: "", last_name: "" };
     const cartItems = useSelector((state: RootState) => state.cart.items);
     const itemCount =
         cartItems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
@@ -105,7 +105,7 @@ const Navbar = () => {
 
     const handleResultClick = (product: Product) => {
         setIsSearchOpen(false);
-        setSearchQuery('');
+        setSearchQuery("");
         navigate(`/seregela-gebeya-v2/products/${product.id}`);
     };
 
@@ -122,7 +122,7 @@ const Navbar = () => {
     return (
         <nav
             className={`bg-[#e7a334]  shadow-black/15 text-white pb-2 pt-3 sticky top-0 z-[100] transition-all duration-300 ${
-                isScrolled ? 'shadow-xl pb-1.5 pt-2 ' : ''
+                isScrolled ? "shadow-xl pb-1.5 pt-2 " : ""
             }`}
         >
             <div className="max-w-screen-xl mx-auto pr-4">
@@ -170,7 +170,7 @@ const Navbar = () => {
                                     type="text"
                                     value={searchQuery}
                                     onChange={handleSearchChange}
-                                    placeholder={t('search')}
+                                    placeholder={t("search")}
                                     className="w-full px-10 py-2 rounded-full text-gray-900 focus:outline-none border border-transparent focus:border-[#e7a334]"
                                 />
 
@@ -257,7 +257,7 @@ const Navbar = () => {
                                 className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-2 py-2 text-[#e7a334] items-center gap-2"
                             >
                                 <User size={24} />
-                                <span>{t('login')}</span>
+                                <span>{t("login")}</span>
                             </Link>
                         )}
                         {/* Cart */}
@@ -276,7 +276,7 @@ const Navbar = () => {
                         {grandTotal > 100 && (
                             <div className="ml-4 hidden sm:flex flex-col font-bold">
                                 <span className="text-xs text-gray-100">
-                                    {t('your_cart')}
+                                    {t("your_cart")}
                                 </span>
                                 <PriceFormatter price={grandTotal.toString()} />
                             </div>
@@ -284,9 +284,9 @@ const Navbar = () => {
                         {grandTotal === 100 && (
                             <div className="ml-4 hidden sm:flex flex-col font-bold">
                                 <span className="text-xs text-gray-100">
-                                    {t('your_cart')}
+                                    {t("your_cart")}
                                 </span>
-                                <span>0.00 {t('birr')} </span>
+                                <span>0.00 {t("birr")} </span>
                             </div>
                         )}
                     </div>
@@ -303,8 +303,8 @@ const Navbar = () => {
                 <div
                     className={`${
                         isMobileMenuOpen
-                            ? 'translate-x-0'
-                            : '-translate-x-full '
+                            ? "translate-x-0"
+                            : "-translate-x-full "
                     } fixed inset-0 z-[51] xl:hidden transform transition-transform duration-300 ease-in-out w-[280px] xl:w-[300px]`}
                 >
                     {/* Menu Content */}
@@ -332,7 +332,7 @@ const Navbar = () => {
                                         onClick={() =>
                                             setIsMobileMenuOpen(false)
                                         }
-                                        className="absolute top-4 right-4 p-2 bg-[#e9a83a] hover:bg-[#fed874] rounded-full text-white"
+                                        className="absolute top-4 right-4 p-2 bg-[#e9a83a] hover:bg-[#fed874] rounded-full text-white z-50"
                                     >
                                         <X className="h-6 w-6" />
                                     </button>
@@ -356,7 +356,7 @@ const Navbar = () => {
                                         }
                                     >
                                         <User size={28} />
-                                        <span>{t('login')}</span>
+                                        <span>{t("login")}</span>
                                     </Link>
                                 )}
                                 {/* Categories */}
@@ -377,10 +377,10 @@ const Navbar = () => {
                                             className="w-12 h-10"
                                         />
                                         <span className="text-xs text-gray-600">
-                                            {t('from_2,000_birr')}
+                                            {t("from_2,000_birr")}
                                             <br />
                                             <strong>
-                                                {t('Addis_ababa_only')}
+                                                {t("Addis_ababa_only")}
                                             </strong>
                                         </span>
                                     </div>

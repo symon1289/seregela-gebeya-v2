@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
-import Sidebar from '../components/filters/Sidebar';
-import { useProducts } from '../hooks/useProducts';
-import Meta from '../components/Meta';
-import { getAllProductsMetaTags } from '../config/meta';
-import Breadcrumb from '../components/Breadcrumb';
-import { useTranslation } from 'react-i18next';
-import defaultImage from '../assets/no-image-available-02.jpg';
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
+import Sidebar from "../components/filters/Sidebar";
+import { useProducts } from "../hooks/useProducts";
+import Meta from "../components/Meta";
+import { getAllProductsMetaTags } from "../config/meta";
+import Breadcrumb from "../components/Breadcrumb";
+import { useTranslation } from "react-i18next";
+import defaultImage from "../assets/no-image-available-02.jpg";
 
 const Products: React.FC = () => {
     const location = useLocation();
     const { t } = useTranslation();
     const searchParams = new URLSearchParams(location.search);
-    const searchName = searchParams.get('name') || '';
+    const searchName = searchParams.get("name") || "";
 
     const {
         filteredProducts,
@@ -28,7 +28,7 @@ const Products: React.FC = () => {
         handleSortChange,
     } = useProducts({
         id: undefined,
-        endpoint: 'products',
+        endpoint: "products",
         searchName,
     });
 
@@ -65,14 +65,14 @@ const Products: React.FC = () => {
 
     return (
         <>
-            {' '}
+            {" "}
             <Meta config={getAllProductsMetaTags()} />
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <Breadcrumb
                     paths={[
                         {
-                            name: 'Products',
-                            url: '/seregela-gebeya-v2/products',
+                            name: "Products",
+                            url: "/seregela-gebeya-v2/products",
                         },
                     ]}
                 />
@@ -109,7 +109,7 @@ const Products: React.FC = () => {
 
                         {isLoading && (
                             <div className="flex justify-center mt-8">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#e9a83a]"></div>
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                             </div>
                         )}
 
@@ -117,9 +117,9 @@ const Products: React.FC = () => {
                             <div className="flex justify-center mt-8">
                                 <button
                                     onClick={loadMore}
-                                    className="px-6 py-2 bg-[#e9a83a] text-white rounded-md hover:bg-[#d49732] transition-colors"
+                                    className="px-6 py-2 bg-primary text-white rounded-md hover:bg-[#d49732] transition-colors"
                                 >
-                                    {t('loadMore')}
+                                    {t("loadMore")}
                                 </button>
                             </div>
                         )}
@@ -128,7 +128,7 @@ const Products: React.FC = () => {
                             !hasMore &&
                             filteredProducts.length === 0 && (
                                 <div className="text-center mt-8 text-gray-500">
-                                    {t('no_items_via_this_filter')}
+                                    {t("no_items_via_this_filter")}
                                 </div>
                             )}
                     </div>

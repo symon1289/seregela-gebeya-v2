@@ -1,6 +1,6 @@
-import { useMemo } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 interface ImageAdvert {
     id: number;
@@ -30,7 +30,7 @@ export const useImageAdvert = (retryCount = 3, staleTime = 1000 * 60 * 60) => {
         isError,
         error,
     } = useQuery<ImageAdvert[], Error>({
-        queryKey: ['imageAdverts'],
+        queryKey: ["imageAdverts"],
         queryFn: fetchImageAdverts,
         retry: retryCount,
         staleTime,

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 interface CheckoutStepsProps {
     step1?: boolean;
@@ -69,8 +69,8 @@ const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
                             <a
                                 className={`flex h-6 w-6 items-center justify-center rounded-full ${
                                     step2
-                                        ? 'bg-emerald-200 text-emerald-700'
-                                        : 'bg-gray-600 text-white'
+                                        ? "bg-emerald-200 text-emerald-700"
+                                        : "bg-gray-600 text-white"
                                 } text-xs font-semibold`}
                                 href="#"
                             >
@@ -90,7 +90,7 @@ const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
                                         />
                                     </svg>
                                 ) : (
-                                    '2'
+                                    "2"
                                 )}
                             </a>
                             {step2 ? (
@@ -126,8 +126,8 @@ const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
                             <a
                                 className={`flex h-6 w-6 items-center justify-center rounded-full ${
                                     step3
-                                        ? 'bg-emerald-200 text-emerald-700'
-                                        : 'bg-gray-400 text-white'
+                                        ? "bg-emerald-200 text-emerald-700"
+                                        : "bg-gray-400 text-white"
                                 } text-xs font-semibold`}
                                 href="#"
                             >
@@ -147,7 +147,7 @@ const CheckoutSteps: React.FC<CheckoutStepsProps> = ({
                                         />
                                     </svg>
                                 ) : (
-                                    '3'
+                                    "3"
                                 )}
                             </a>
 

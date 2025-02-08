@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
     FaUser,
     FaEnvelope,
@@ -9,20 +9,20 @@ import {
     FaSave,
     FaChevronDown,
     FaChevronRight,
-} from 'react-icons/fa';
-import { RiLogoutBoxRLine } from 'react-icons/ri';
-import { toast } from 'react-toastify';
-import { useOrder } from '../hooks/useOrder';
-import { OrderDetails } from '../types/order';
-import { UserData } from '../types/user';
-import { useTranslation } from 'react-i18next';
-import useUser from '../hooks/useUser';
-import Loader from '../components/Loader';
-import PriceFormatter from '../components/PriceFormatter';
-import { UseInfiniteQueryResult } from '@tanstack/react-query';
-import { logout } from '../store/features/authSlice';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+} from "react-icons/fa";
+import { RiLogoutBoxRLine } from "react-icons/ri";
+import { toast } from "react-toastify";
+import { useOrder } from "../hooks/useOrder";
+import { OrderDetails } from "../types/order";
+import { UserData } from "../types/user";
+import { useTranslation } from "react-i18next";
+import useUser from "../hooks/useUser";
+import Loader from "../components/Loader";
+import PriceFormatter from "../components/PriceFormatter";
+import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { logout } from "../store/features/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 // Reusable Profile Field Component
 const ProfileField = ({
@@ -31,7 +31,7 @@ const ProfileField = ({
     name,
     isEditing,
     onChange,
-    type = 'text',
+    type = "text",
     placeholder,
 }: {
     icon: React.ReactNode;
@@ -51,7 +51,7 @@ const ProfileField = ({
                 name={name}
                 value={value}
                 onChange={onChange}
-                className="w-full border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+                className="w-full border rounded px-2 py-1 focus:border-primary focus:ring-primary"
                 placeholder={placeholder}
             />
         ) : (
@@ -77,32 +77,32 @@ const AddressFields = ({
                 <input
                     type="text"
                     name="address.city"
-                    value={user?.address?.city || ''}
+                    value={user?.address?.city || ""}
                     onChange={onChange}
-                    className="border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+                    className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
                     placeholder="City"
                 />
                 <input
                     type="text"
                     name="address.sub_city"
-                    value={user?.address?.sub_city || ''}
+                    value={user?.address?.sub_city || ""}
                     onChange={onChange}
-                    className="border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+                    className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
                     placeholder="Sub City"
                 />
                 <input
                     type="text"
                     name="address.woreda"
-                    value={user?.address?.woreda || ''}
+                    value={user?.address?.woreda || ""}
                     onChange={onChange}
-                    className="border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
+                    className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
                     placeholder="Woreda"
                 />
             </div>
         ) : (
             <p>
-                {`${user?.address?.city || ''}, ${user?.address?.sub_city || ''}, ${
-                    user?.address?.woreda || ''
+                {`${user?.address?.city || ""}, ${user?.address?.sub_city || ""}, ${
+                    user?.address?.woreda || ""
                 }`}
             </p>
         )}
@@ -147,13 +147,13 @@ const UserProfile: React.FC = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
+        const storedUser = localStorage.getItem("user");
         setUser(storedUser ? JSON.parse(storedUser) : null);
     }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        const [field, subField] = name.split('.');
+        const [field, subField] = name.split(".");
 
         setUser((prev) => {
             if (!prev) return null;
@@ -174,21 +174,21 @@ const UserProfile: React.FC = () => {
 
     const handleEditToggle = () => {
         if (isEditing && user) {
-            if (!user.email.includes('@')) {
-                toast.error('Invalid email address.');
+            if (!user.email.includes("@")) {
+                toast.error("Invalid email address.");
                 return;
             }
             if (user.phone_number.length < 10) {
-                toast.error('Invalid phone number.');
+                toast.error("Invalid phone number.");
                 return;
             }
             try {
                 updateUser(user, user.phone_number);
-                localStorage.setItem('user', JSON.stringify(user));
-                toast.success('Profile updated successfully!');
+                localStorage.setItem("user", JSON.stringify(user));
+                toast.success("Profile updated successfully!");
             } catch (error) {
-                console.error('Error saving user data:', error);
-                toast.error('Failed to save profile.');
+                console.error("Error saving user data:", error);
+                toast.error("Failed to save profile.");
             }
         }
         setIsEditing(!isEditing);
@@ -201,7 +201,7 @@ const UserProfile: React.FC = () => {
     const handleLogout = () => {
         setLoading(true);
         dispach(logout());
-        navigate('/seregela-gebeya-v2');
+        navigate("/seregela-gebeya-v2");
     };
 
     return (
@@ -214,11 +214,11 @@ const UserProfile: React.FC = () => {
                     <div className="mb-6 col-span-1">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-2xl font-bold text-gray-800">
-                                {t('User Profile')}
+                                {t("User Profile")}
                             </h2>
                             <button
                                 onClick={handleEditToggle}
-                                className="text-[#e9a83a] hover:text-[#f1c87d] transition-colors"
+                                className="text-primary hover:text-[#f1c87d] transition-colors"
                             >
                                 {isEditing ? (
                                     <FaSave className="text-xl" />
@@ -238,18 +238,18 @@ const UserProfile: React.FC = () => {
                                         <input
                                             type="text"
                                             name="first_name"
-                                            value={user?.first_name || ''}
+                                            value={user?.first_name || ""}
                                             onChange={handleInputChange}
-                                            className="w-1/2 border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
-                                            placeholder={t('First Name')}
+                                            className="w-1/2 border rounded px-2 py-1 focus:border-primary focus:ring-primary"
+                                            placeholder={t("First Name")}
                                         />
                                         <input
                                             type="text"
                                             name="last_name"
-                                            value={user?.last_name || ''}
+                                            value={user?.last_name || ""}
                                             onChange={handleInputChange}
-                                            className="w-1/2 border rounded px-2 py-1 focus:border-[#e9a83a] focus:ring-[#e9a83a]"
-                                            placeholder={t('Last Name')}
+                                            className="w-1/2 border rounded px-2 py-1 focus:border-primary focus:ring-primary"
+                                            placeholder={t("Last Name")}
                                         />
                                     </>
                                 ) : (
@@ -264,22 +264,22 @@ const UserProfile: React.FC = () => {
                             <ProfileField
                                 icon={<FaEnvelope className="text-gray-500" />}
                                 label="Email"
-                                value={user?.email || ''}
+                                value={user?.email || ""}
                                 name="email"
                                 isEditing={isEditing}
                                 onChange={handleInputChange}
                                 type="email"
-                                placeholder={t('Email')}
+                                placeholder={t("Email")}
                             />
                             <ProfileField
                                 icon={<FaPhone className="text-gray-500" />}
                                 label="Phone"
-                                value={user?.phone_number || ''}
+                                value={user?.phone_number || ""}
                                 name="phone_number"
                                 isEditing={isEditing}
                                 onChange={handleInputChange}
                                 type="tel"
-                                placeholder={t('Phone Number')}
+                                placeholder={t("Phone Number")}
                             />
                             <AddressFields
                                 user={user}
@@ -289,17 +289,17 @@ const UserProfile: React.FC = () => {
                             <div className="flex items-center space-x-4">
                                 <FaWallet className="text-gray-500" />
                                 <p>
-                                    {t('Wallet Balance')}:{' '}
-                                    {user?.wallet_balance?.toFixed(2)}{' '}
-                                    {t('birr')}
+                                    {t("Wallet Balance")}:{" "}
+                                    {user?.wallet_balance?.toFixed(2)}{" "}
+                                    {t("birr")}
                                 </p>
                             </div>
                             <button
                                 onClick={handleLogout}
-                                className="space-x-4 hover:bg-[#e7a334] duration-300 p-2 rounded-lg border border-[#e7a334] text-[#e9a83a] flex items-center justify-center text-center hover:text-white transition-colors"
+                                className="space-x-4 hover:bg-[#e7a334] duration-300 p-2 rounded-lg border border-[#e7a334] text-primary flex items-center justify-center text-center hover:text-white transition-colors"
                             >
                                 <RiLogoutBoxRLine />
-                                <span className="ml-2">{t('Logout')}</span>
+                                <span className="ml-2">{t("Logout")}</span>
                             </button>
                         </div>
                     </div>
@@ -307,14 +307,14 @@ const UserProfile: React.FC = () => {
                     {/* Orders Section */}
                     <div className="col-span-2">
                         <h3 className="text-xl font-semibold mb-4 text-gray-800">
-                            {t('Order History')}
+                            {t("Order History")}
                         </h3>
                         <div className="bg-gray-50 rounded-lg">
                             <div className="grid grid-cols-4 p-3 bg-gray-100 font-medium text-gray-700">
-                                <div>{t('Order Number')}</div>
-                                <div>{t('Date')}</div>
-                                <div>{t('Total')}</div>
-                                <div>{t('Actions')}</div>
+                                <div>{t("Order Number")}</div>
+                                <div>{t("Date")}</div>
+                                <div>{t("Total")}</div>
+                                <div>{t("Actions")}</div>
                             </div>
                             {isOrdersLoading ? (
                                 <>
@@ -326,14 +326,14 @@ const UserProfile: React.FC = () => {
                                 <div className="text-red-500 p-4">
                                     <p>
                                         {t(
-                                            'Failed to load orders. Please try again.'
+                                            "Failed to load orders. Please try again."
                                         )}
                                     </p>
                                     <button
                                         onClick={() => refetch()}
                                         className="px-4 py-2 bg-gray-300 rounded"
                                     >
-                                        {t('Retry')}
+                                        {t("Retry")}
                                     </button>
                                 </div>
                             ) : (
@@ -365,7 +365,7 @@ const UserProfile: React.FC = () => {
                                                             order.id
                                                         )
                                                     }
-                                                    className="text-[#e9a83a] hover:text-[#f1c87d] flex items-center"
+                                                    className="text-primary hover:text-[#f1c87d] flex items-center"
                                                 >
                                                     {expandedOrderId ===
                                                     order.id ? (
@@ -376,8 +376,8 @@ const UserProfile: React.FC = () => {
                                                     <span className="ml-2">
                                                         {expandedOrderId ===
                                                         order.id
-                                                            ? t('Collapse')
-                                                            : t('Expand')}
+                                                            ? t("Collapse")
+                                                            : t("Expand")}
                                                     </span>
                                                 </button>
                                             </div>
@@ -388,20 +388,20 @@ const UserProfile: React.FC = () => {
                                                             <tr>
                                                                 <th className="p-2 text-left">
                                                                     {t(
-                                                                        'Product Name'
+                                                                        "Product Name"
                                                                     )}
                                                                 </th>
                                                                 <th className="p-2 text-left">
                                                                     {t(
-                                                                        'Quantity'
+                                                                        "Quantity"
                                                                     )}
                                                                 </th>
                                                                 <th className="p-2 text-left">
-                                                                    {t('Price')}
+                                                                    {t("Price")}
                                                                 </th>
                                                                 <th className="p-2 text-left">
                                                                     {t(
-                                                                        'Subtotal'
+                                                                        "Subtotal"
                                                                     )}
                                                                 </th>
                                                             </tr>
@@ -434,9 +434,9 @@ const UserProfile: React.FC = () => {
                                                                                 product.price
                                                                             ).toFixed(
                                                                                 2
-                                                                            )}{' '}
+                                                                            )}{" "}
                                                                             {t(
-                                                                                'birr'
+                                                                                "birr"
                                                                             )}
                                                                         </td>
                                                                         <td className="p-2">
@@ -449,9 +449,9 @@ const UserProfile: React.FC = () => {
                                                                                 )
                                                                             ).toFixed(
                                                                                 2
-                                                                            )}{' '}
+                                                                            )}{" "}
                                                                             {t(
-                                                                                'birr'
+                                                                                "birr"
                                                                             )}
                                                                         </td>
                                                                     </tr>
@@ -469,9 +469,9 @@ const UserProfile: React.FC = () => {
                                 <button
                                     onClick={() => fetchNextPage()}
                                     disabled={!hasNextPage}
-                                    className="px-4 py-2 bg-[#e9a83a] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white hover:text-[#e9a83a] hover:border-[#e9a83a] border rounded-lg text-white transition-colors duration-300"
+                                    className="px-4 py-2 bg-primary disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white hover:text-primary hover:border-primary border rounded-lg text-white transition-colors duration-300"
                                 >
-                                    {t('Load More')}
+                                    {t("Load More")}
                                 </button>
                             </div>
                         </div>

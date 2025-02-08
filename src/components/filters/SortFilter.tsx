@@ -1,21 +1,21 @@
-import React from 'react';
-import { ChevronDown } from 'lucide-react';
+import React from "react";
+import { ChevronDown } from "lucide-react";
 
 export interface SortOption {
-    value: 'price' | 'created_at' | '-price';
+    value: "price" | "created_at" | "-price";
     label: string;
 }
 
 interface SortFilterProps {
-    sortBy: SortOption['value'];
-    onSortChange: (value: SortOption['value']) => void;
+    sortBy: SortOption["value"];
+    onSortChange: (value: SortOption["value"]) => void;
     options: SortOption[];
 }
 
 const defaultOptions: SortOption[] = [
-    { value: 'created_at', label: 'Latest' },
-    { value: 'price', label: 'Price: Low to High' },
-    { value: '-price', label: 'Price: High to Low' },
+    { value: "created_at", label: "Latest" },
+    { value: "price", label: "Price: Low to High" },
+    { value: "-price", label: "Price: High to Low" },
 ];
 
 const SortFilter: React.FC<SortFilterProps> = ({
@@ -28,9 +28,9 @@ const SortFilter: React.FC<SortFilterProps> = ({
             <select
                 value={sortBy}
                 onChange={(e) =>
-                    onSortChange(e.target.value as SortOption['value'])
+                    onSortChange(e.target.value as SortOption["value"])
                 }
-                className="w-full pl-3 pr-8 py-2 border rounded-lg appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-3 pr-8 py-2 border rounded-lg appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 aria-label="Sort products"
             >
                 {options.map((option) => (

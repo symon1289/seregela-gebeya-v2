@@ -1,9 +1,9 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { addToCart } from '../store/features/cartSlice';
-import { Plus } from 'lucide-react';
-import defaultImage from '../assets/no-image-available-02.jpg';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addToCart } from "../store/features/cartSlice";
+import { Plus } from "lucide-react";
+import defaultImage from "../assets/no-image-available-02.jpg";
 
 interface ProductCardProps {
     id: number;
@@ -51,12 +51,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
         // Convert string price to number and format
         const numericPrice = parseFloat(price);
         const formattedPrice = numericPrice.toFixed(2);
-        const [integerPart, decimalPart] = formattedPrice.split('.');
+        const [integerPart, decimalPart] = formattedPrice.split(".");
 
         return (
             <div className="flex items-center ">
                 <span className="product-card-integer-part items-center">
-                    {parseInt(integerPart).toLocaleString('en-US')}
+                    {parseInt(integerPart).toLocaleString("en-US")}
                 </span>
                 <div className="flex flex-col text-xs text-gray-500">
                     <span className="product-card-decimal-part">

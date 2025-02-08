@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import { Product } from '../../types/product';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import { Product } from "../../types/product";
 
 interface ProductState {
     products: Product[];
@@ -9,7 +9,7 @@ interface ProductState {
 
 const loadState = (): ProductState => {
     try {
-        const serializedState = localStorage.getItem('recentProducts');
+        const serializedState = localStorage.getItem("recentProducts");
         if (serializedState === null) {
             return {
                 products: [],
@@ -29,7 +29,7 @@ const loadState = (): ProductState => {
 const initialState: ProductState = loadState();
 
 const productSlice = createSlice({
-    name: 'products',
+    name: "products",
     initialState,
     reducers: {
         addRecentProduct: (state, action: PayloadAction<Product>) => {
@@ -44,12 +44,12 @@ const productSlice = createSlice({
             }
 
             // Save to localStorage
-            localStorage.setItem('recentProducts', JSON.stringify(state));
+            localStorage.setItem("recentProducts", JSON.stringify(state));
         },
         clearRecentProducts: (state) => {
             state.products = [];
             // Clear localStorage
-            localStorage.removeItem('recentProducts');
+            localStorage.removeItem("recentProducts");
         },
     },
 });

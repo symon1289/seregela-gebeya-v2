@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import { useCategory } from '../hooks/useCategory';
-import React, { useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import CategoryCardLoading from './loading skeletons/category/CategoryGrid.tsx';
+import { Link } from "react-router-dom";
+import { useCategory } from "../hooks/useCategory";
+import React, { useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import CategoryCardLoading from "./loading skeletons/category/CategoryGrid.tsx";
 const CategoryGrid: React.FC = () => {
     const { categories, isLoading, error, hasMore, loadMore } = useCategory();
 
@@ -23,22 +23,22 @@ const CategoryGrid: React.FC = () => {
         checkScrollability();
         const container = scrollContainerRef.current;
         if (container) {
-            container.addEventListener('scroll', checkScrollability);
+            container.addEventListener("scroll", checkScrollability);
         }
         return () => {
             if (container) {
-                container.removeEventListener('scroll', checkScrollability);
+                container.removeEventListener("scroll", checkScrollability);
             }
         };
     }, [categories]);
 
-    const scroll = (direction: 'left' | 'right') => {
+    const scroll = (direction: "left" | "right") => {
         const container = scrollContainerRef.current;
         if (container) {
             const scrollAmount = 200;
             container.scrollBy({
-                left: direction === 'left' ? -scrollAmount : scrollAmount,
-                behavior: 'smooth',
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
             });
         }
     };
@@ -48,7 +48,7 @@ const CategoryGrid: React.FC = () => {
             <div className="relative">
                 {canScrollLeft && (
                     <button
-                        onClick={() => scroll('left')}
+                        onClick={() => scroll("left")}
                         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
                         <ChevronLeft />
@@ -56,7 +56,7 @@ const CategoryGrid: React.FC = () => {
                 )}
                 {canScrollRight && (
                     <button
-                        onClick={() => scroll('right')}
+                        onClick={() => scroll("right")}
                         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
                         <ChevronRight />

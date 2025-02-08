@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Clock, Tag, Eye } from 'lucide-react';
-import image6 from '../assets/image_2024-11-09_13-19-04.png';
-import image7 from '../assets/image_2024-11-09_13-19-05.png';
-import { usePackages } from '../hooks/usePackages';
-import { Package } from '../types/product';
-import ProductDetailCard from './ProductDetailCard';
-import Loader from './Loader';
+import React, { useState, useEffect } from "react";
+import { Clock, Tag, Eye } from "lucide-react";
+import image6 from "../assets/image_2024-11-09_13-19-04.png";
+import image7 from "../assets/image_2024-11-09_13-19-05.png";
+import { usePackages } from "../hooks/usePackages";
+import { Package } from "../types/product";
+import ProductDetailCard from "./ProductDetailCard";
+import Loader from "./Loader";
 
 interface FeaturedDeal {
     id: number;
@@ -17,14 +17,14 @@ interface FeaturedDeal {
 const featuredDeals: FeaturedDeal[] = [
     {
         id: 6,
-        title: '',
-        discount: 'Limited Time Offer',
+        title: "",
+        discount: "Limited Time Offer",
         imageUrl: image6,
     },
     {
         id: 7,
-        title: '',
-        discount: 'Special Deal',
+        title: "",
+        discount: "Special Deal",
         imageUrl: image7,
     },
 ];
@@ -38,7 +38,7 @@ const RegularDealCard: React.FC<Package & { onViewDetails: () => void }> = ({
     <div className="group relative overflow-hidden rounded-xl shadow-md h-[388px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 z-10" />
         <img
-            src={image_path || 'https://via.placeholder.com/300'} // Fallback image
+            src={image_path || "https://via.placeholder.com/300"} // Fallback image
             alt={name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
@@ -166,7 +166,7 @@ const MoreDeals: React.FC = () => {
                     <h2 className="explore-more-deals font-semibold text-black">
                         Explore More Deals!
                     </h2>
-                    <div className="flex items-center gap-2 text-[#e9a83a]">
+                    <div className="flex items-center gap-2 text-primary">
                         <Clock className="w-5 h-5" />
                         <span className="font-semibold">
                             Limited Time Offers

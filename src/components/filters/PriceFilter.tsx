@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface PriceFilterProps {
     minPrice: number;
@@ -52,7 +52,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
         const value = e.target.value;
         setLocalMin(value);
 
-        const numValue = value === '' ? 0 : Math.max(0, parseInt(value));
+        const numValue = value === "" ? 0 : Math.max(0, parseInt(value));
         if (!isNaN(numValue) && numValue <= parseInt(localMax) - MIN_GAP) {
             onPriceChange(numValue, parseInt(localMax));
             if (minRangeRef.current) {
@@ -67,7 +67,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
         setLocalMax(value);
 
         const numValue =
-            value === ''
+            value === ""
                 ? ABSOLUTE_MAX
                 : Math.min(ABSOLUTE_MAX, parseInt(value));
         if (!isNaN(numValue) && numValue >= parseInt(localMin) + MIN_GAP) {
@@ -102,7 +102,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
     };
 
     const handleMinBlur = () => {
-        const numValue = localMin === '' ? 0 : Math.max(0, parseInt(localMin));
+        const numValue = localMin === "" ? 0 : Math.max(0, parseInt(localMin));
         if (isNaN(numValue)) {
             setLocalMin(minPrice.toString());
         } else if (numValue > parseInt(localMax) - MIN_GAP) {
@@ -118,7 +118,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
 
     const handleMaxBlur = () => {
         const numValue =
-            localMax === ''
+            localMax === ""
                 ? ABSOLUTE_MAX
                 : Math.min(ABSOLUTE_MAX, parseInt(localMax));
         if (isNaN(numValue)) {
@@ -135,7 +135,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
             (e.target as HTMLInputElement).blur();
         }
     };
@@ -215,7 +215,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
                         aria-label="Minimum price"
                     />
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
-                        {t('birr')}
+                        {t("birr")}
                     </span>
                 </div>
 
@@ -232,7 +232,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
                         aria-label="Maximum price"
                     />
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
-                        {t('birr')}
+                        {t("birr")}
                     </span>
                 </div>
             </div>

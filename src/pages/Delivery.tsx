@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import CheckoutSteps from '../components/CheckoutSteps';
-import { Link, useNavigate } from 'react-router-dom';
-import useOrder from '../hooks/useOrder';
-import Loader from '../components/Loader';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import { calculateCartTotals } from '../utils/CartUtils';
-import { getDeliveryMetaTags } from '../config/meta';
-import Meta from '../components/Meta';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from "react";
+import CheckoutSteps from "../components/CheckoutSteps";
+import { Link, useNavigate } from "react-router-dom";
+import useOrder from "../hooks/useOrder";
+import Loader from "../components/Loader";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { calculateCartTotals } from "../utils/CartUtils";
+import { getDeliveryMetaTags } from "../config/meta";
+import Meta from "../components/Meta";
+import { useTranslation } from "react-i18next";
 import {
     saveShippingDetails,
     saveDeliveryType,
-} from '../store/features/cartSlice';
-import PriceFormatter from '../components/PriceFormatter';
+} from "../store/features/cartSlice";
+import PriceFormatter from "../components/PriceFormatter";
 const Delivery: React.FC = () => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const Delivery: React.FC = () => {
     } = deliveryTypesQuery;
     const cartItems = useSelector((state: RootState) => state.cart);
     // @ts-expect-error user is not null
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem("user"));
     const address = user?.address;
     const [selectedDeliveryType, setSelectedDeliveryType] = useState<number>(0);
     const [locationClicked, setLocationClicked] = useState<boolean>(false);
@@ -41,11 +41,11 @@ const Delivery: React.FC = () => {
         longitude: 0,
     });
     const [customLocation, setCustomLocation] = useState({
-        city: address?.city || '',
-        woreda: address?.woreda || '',
-        sub_city: address?.sub_city || '',
-        neighborhood: '',
-        house_number: address?.house_number || '',
+        city: address?.city || "",
+        woreda: address?.woreda || "",
+        sub_city: address?.sub_city || "",
+        neighborhood: "",
+        house_number: address?.house_number || "",
     });
     const [disableInput, setDisableInput] = useState<boolean>(false);
 
@@ -61,14 +61,14 @@ const Delivery: React.FC = () => {
                         latitude: pos.coords.latitude,
                         longitude: pos.coords.longitude,
                     });
-                    toast.success('Location registered');
+                    toast.success("Location registered");
                 },
                 (err) => {
                     toast.error(err.message);
                 }
             );
         } else {
-            toast.error('Geolocation is not supported by this browser.');
+            toast.error("Geolocation is not supported by this browser.");
             setLocationClicked(false);
         }
         setDisableInput(true);
@@ -98,20 +98,20 @@ const Delivery: React.FC = () => {
 
             dispatch(saveDeliveryType(selectedDeliveryType));
 
-            navigate('/seregela-gebeya-v2/checkout/payment');
+            navigate("/seregela-gebeya-v2/checkout/payment");
         } else {
             if (!location.latitude) {
                 if (!locationClicked) {
-                    toast.warning('Current location is empty');
+                    toast.warning("Current location is empty");
                 } else {
                     getCurrentLocation();
                 }
             }
             if (customLocation.neighborhood.length < 4) {
-                toast.warning('Neighborhood is empty');
+                toast.warning("Neighborhood is empty");
             }
             if (!selectedDeliveryType) {
-                toast.warning('Please select a shipping method.');
+                toast.warning("Please select a shipping method.");
             }
         }
     };
@@ -124,10 +124,10 @@ const Delivery: React.FC = () => {
                 <div className="grid lg:grid-cols-2 ">
                     <div className="px-4 pt-8">
                         <p className="text-xl font-medium">
-                            {t('shipping_methods')}
+                            {t("shipping_methods")}
                         </p>
                         <p className="text-gray-400">
-                            {t('shipping_details_desc_delivery_type')}
+                            {t("shipping_details_desc_delivery_type")}
                         </p>
 
                         <form className="mt-5 grid md:grid-cols-3 gap-2">
@@ -168,7 +168,7 @@ const Delivery: React.FC = () => {
                             ) : (
                                 deliveryTypes?.map((item) => (
                                     <div
-                                        className="relative  hover:cursor-pointer hover:bg-gray-50 hover:text-[#e9a83a]"
+                                        className="relative  hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
                                         key={item.id}
                                     >
                                         <input
@@ -184,9 +184,9 @@ const Delivery: React.FC = () => {
                                                 selectedDeliveryType === item.id
                                             }
                                         />
-                                        <span className="peer-checked:border-[#e9a83a] absolute right-3 top-1/2 lg:top-6 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
+                                        <span className="peer-checked:border-primary absolute right-3 top-1/2 lg:top-6 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
                                         <label
-                                            className="peer-checked:border-2 peer-checked:border-[#e9a83a] peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                                            className="peer-checked:border-2 peer-checked:border-primary peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
                                             htmlFor={`radio_${item.id}`}
                                         >
                                             <div className="ml-1">
@@ -194,10 +194,10 @@ const Delivery: React.FC = () => {
                                                     {item.name}
                                                 </span>
                                                 <p className="text-slate-500 text-xs xl:text-sm  lg:line-clamp-1 leading-6">
-                                                    {t('delivery')}:{' '}
+                                                    {t("delivery")}:{" "}
                                                     {item.number_of_days === 1
-                                                        ? `${item.number_of_days} ${t('day')}`
-                                                        : `${item.number_of_days} ${t('days')}`}
+                                                        ? `${item.number_of_days} ${t("day")}`
+                                                        : `${item.number_of_days} ${t("days")}`}
                                                 </p>
                                             </div>
                                         </label>
@@ -209,22 +209,22 @@ const Delivery: React.FC = () => {
                         <div className=" pt-4 mt-4 justify-between items-center flex">
                             <div>
                                 <p className="text-xl font-medium">
-                                    {t('shipping_details')}
+                                    {t("shipping_details")}
                                 </p>
                                 <p className="text-gray-400 line-clamp-1">
-                                    {t('shipping_details_desc')}
+                                    {t("shipping_details_desc")}
                                 </p>
                             </div>
                             <div>
                                 <button
-                                    className="px-4 py-2 bg-gray-50 flex justify-around items-center w-full border-gray-200 rounded-lg hover:bg-[#fed874] transition-colors duration-300"
+                                    className="px-4 py-2 bg-gray-50 flex justify-around items-center w-full border-gray-200 rounded-lg hover:bg-secondary transition-colors duration-300"
                                     onClick={getCurrentLocation}
                                 >
                                     <svg
                                         className={
                                             locationClicked
-                                                ? 'text-[#e9a83a]'
-                                                : 'text-black'
+                                                ? "text-primary"
+                                                : "text-black"
                                         }
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="48px"
@@ -242,7 +242,7 @@ const Delivery: React.FC = () => {
                                             d="M13 4.069V2h-2v2.069A8.01 8.01 0 0 0 4.069 11H2v2h2.069A8.008 8.008 0 0 0 11 19.931V22h2v-2.069A8.007 8.007 0 0 0 19.931 13H22v-2h-2.069A8.008 8.008 0 0 0 13 4.069zM12 18c-3.309 0-6-2.691-6-6s2.691-6 6-6s6 2.691 6 6s-2.691 6-6 6z"
                                         />
                                     </svg>
-                                    {t('current_location')}
+                                    {t("current_location")}
                                 </button>
                             </div>
                         </div>
@@ -251,7 +251,7 @@ const Delivery: React.FC = () => {
                                 htmlFor="city"
                                 className="mt-4 mb-2 block text-sm font-medium"
                             >
-                                {t('city')}
+                                {t("city")}
                             </label>
                             <div className="relative">
                                 <input
@@ -259,12 +259,12 @@ const Delivery: React.FC = () => {
                                     id="city"
                                     name="city"
                                     disabled={disableInput}
-                                    className={`w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
+                                    className={`w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-primary focus:ring-primary ${
                                         disableInput
-                                            ? 'cursor-not-allowed bg-gray-100'
-                                            : 'bg-white'
+                                            ? "cursor-not-allowed bg-gray-100"
+                                            : "bg-white"
                                     }`}
-                                    placeholder={t('city_hint')}
+                                    placeholder={t("city_hint")}
                                     value={customLocation.city}
                                     onChange={(e) =>
                                         setCustomLocation({
@@ -279,7 +279,7 @@ const Delivery: React.FC = () => {
                                 htmlFor="sub_city"
                                 className="mt-4 mb-2 block text-sm font-medium"
                             >
-                                {t('sub_city')}
+                                {t("sub_city")}
                             </label>
                             <div className="relative">
                                 <input
@@ -287,12 +287,12 @@ const Delivery: React.FC = () => {
                                     id="sub_city"
                                     name="sub_city"
                                     disabled={disableInput}
-                                    className={`w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
+                                    className={`w-full rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-primary focus:ring-primary ${
                                         disableInput
-                                            ? 'cursor-not-allowed bg-gray-100'
-                                            : 'bg-white'
+                                            ? "cursor-not-allowed bg-gray-100"
+                                            : "bg-white"
                                     }`}
-                                    placeholder={t('sub_city_hint')}
+                                    placeholder={t("sub_city_hint")}
                                     value={customLocation.sub_city}
                                     onChange={(e) =>
                                         setCustomLocation({
@@ -307,7 +307,7 @@ const Delivery: React.FC = () => {
                                 htmlFor="neighborhood"
                                 className="mt-4 mb-2 block text-sm font-medium"
                             >
-                                {t('neighborhood')}
+                                {t("neighborhood")}
                             </label>
                             <div className="flex">
                                 <div className="relative w-7/12 flex-shrink-0">
@@ -315,12 +315,12 @@ const Delivery: React.FC = () => {
                                         type="text"
                                         id="neighborhood"
                                         name="neighborhood"
-                                        className={`w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
+                                        className={`w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-primary focus:ring-primary ${
                                             !customLocation.neighborhood
-                                                ? 'border-red-500'
-                                                : 'border-gray-200'
+                                                ? "border-red-500"
+                                                : "border-gray-200"
                                         }`}
-                                        placeholder={t('neighborhood_hint')}
+                                        placeholder={t("neighborhood_hint")}
                                         value={customLocation.neighborhood}
                                         onChange={(e) =>
                                             setCustomLocation({
@@ -336,12 +336,12 @@ const Delivery: React.FC = () => {
                                     id="house_number"
                                     name="house_number"
                                     disabled={disableInput}
-                                    className={`w-full sm:ml-4 rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-[#e9a83a] focus:ring-[#e9a83a] ${
+                                    className={`w-full sm:ml-4 rounded-md border border-gray-200 px-4 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-primary focus:ring-primary ${
                                         disableInput
-                                            ? 'cursor-not-allowed bg-gray-100'
-                                            : 'bg-white'
+                                            ? "cursor-not-allowed bg-gray-100"
+                                            : "bg-white"
                                     }`}
-                                    placeholder={t('house_number_hint')}
+                                    placeholder={t("house_number_hint")}
                                     value={customLocation.house_number}
                                     onChange={(e) =>
                                         setCustomLocation({
@@ -355,10 +355,10 @@ const Delivery: React.FC = () => {
                     </div>
                     <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
                         <p className="text-xl font-medium">
-                            {t('order_summary')}
+                            {t("order_summary")}
                         </p>
                         <p className="text-gray-400 line-clamp-1">
-                            {t('order_summary_check')}
+                            {t("order_summary_check")}
                         </p>
                         <div className="mt-4 space-y-3 rounded-lg overflow-y-auto border max-h-72  bg-white px-2 py-4 sm:px-6">
                             <div className="border-b  border-gray-200">
@@ -366,7 +366,7 @@ const Delivery: React.FC = () => {
                                     <Link
                                         to={`/seregela-gebeya-v2/products/${item.id}`}
                                         key={item.id}
-                                        className="flex hover:text-[#e9a83a] hover:cursor-pointer flex-row rounded-lg bg-white sm:flex-row"
+                                        className="flex hover:text-primary hover:cursor-pointer flex-row rounded-lg bg-white sm:flex-row"
                                     >
                                         <img
                                             className="m-2 h-24 w-28 rounded-md border object-cover object-center"
@@ -378,7 +378,7 @@ const Delivery: React.FC = () => {
                                                 {item.name}
                                             </span>
                                             <span className="float-right text-gray-400">
-                                                {t('quantity')}: {item.quantity}
+                                                {t("quantity")}: {item.quantity}
                                             </span>
                                             <p className="text-lg font-bold">
                                                 <PriceFormatter
@@ -419,18 +419,18 @@ const Delivery: React.FC = () => {
                         <div className="mt-6 border-t border-b py-2">
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-gray-900">
-                                    {t('sub_total')}
+                                    {t("sub_total")}
                                 </p>
                                 <PriceFormatter price={subtotal.toString()} />
                             </div>
                             <div className="flex items-center justify-between">
                                 <p className="text-sm font-medium text-gray-900">
-                                    {t('delivery')}
+                                    {t("delivery")}
                                 </p>
                                 <p className="font-semibold text-gray-900">
                                     {freeShipping ? (
                                         <span className="font-semibold text-green-600">
-                                            {t('free')}
+                                            {t("free")}
                                         </span>
                                     ) : (
                                         <PriceFormatter
@@ -442,17 +442,17 @@ const Delivery: React.FC = () => {
                         </div>
                         <div className="mt-6 flex items-center justify-between">
                             <p className="text-sm font-medium text-gray-900">
-                                {t('total_price')}
+                                {t("total_price")}
                             </p>
                             <p className="text-2xl font-semibold text-gray-900">
                                 <PriceFormatter price={grandTotal.toString()} />
                             </p>
                         </div>
                         <button
-                            className="mt-4 mb-8 w-full rounded-md bg-[#e9a83a] hover:bg-[#fed874] px-6 py-3 font-medium text-white"
+                            className="mt-4 mb-8 w-full rounded-md bg-primary hover:bg-secondary px-6 py-3 font-medium text-white"
                             onClick={handleSubmit}
                         >
-                            {t('place_order')}
+                            {t("place_order")}
                         </button>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const NotFound: React.FC = () => {
     const { t } = useTranslation();
@@ -9,16 +9,16 @@ const NotFound: React.FC = () => {
             <div className="text-center">
                 <h1 className="text-9xl font-bold text-gray-800">404</h1>
                 <h2 className="text-4xl font-semibold text-gray-600 mt-4">
-                    {t('page_not_found')}
+                    {t("page_not_found")}
                 </h2>
                 <p className="text-gray-500 mt-4 mb-8">
-                    {t('page_not_found_desc')}
+                    {t("page_not_found_desc")}
                 </p>
                 <Link
                     to="/seregela-gebeya-v2"
-                    className="px-6 py-3 text-white rounded-lg bg-[#e9a83a] hover:bg-[#fed874]  transition-colors duration-300"
+                    className="px-6 py-3 text-white rounded-lg bg-primary hover:bg-secondary  transition-colors duration-300"
                 >
-                    {t('go_to_home_page')}
+                    {t("go_to_home_page")}
                 </Link>
             </div>
         </div>

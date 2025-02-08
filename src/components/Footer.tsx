@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom';
-import { FaAnglesUp, FaFacebookF } from 'react-icons/fa6';
-import { PiInstagramLogoFill } from 'react-icons/pi';
-import { BiLogoTelegram } from 'react-icons/bi';
-import { ImLinkedin2 } from 'react-icons/im';
-import { useTranslation } from 'react-i18next';
-import logo from '../assets/logo.png';
-import { useCategory } from '../hooks/useCategory';
+import { Link } from "react-router-dom";
+import { FaAnglesUp, FaFacebookF } from "react-icons/fa6";
+import { PiInstagramLogoFill } from "react-icons/pi";
+import { BiLogoTelegram } from "react-icons/bi";
+import { ImLinkedin2 } from "react-icons/im";
+import { useTranslation } from "react-i18next";
+import logo from "../assets/logo.png";
+import { useCategory } from "../hooks/useCategory";
 
 const Footer = () => {
     const { categories: categories, isLoading, error } = useCategory();
 
     const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     const { t } = useTranslation();
@@ -28,7 +28,7 @@ const Footer = () => {
                         className="animate-bounce hover:animate-ping"
                     />
                     <span className="font-bold back-t-top text-[30px]">
-                        {t('back_to_top')}
+                        {t("back_to_top")}
                     </span>
                 </button>
             </div>
@@ -94,13 +94,13 @@ const Footer = () => {
                     {/* Categories */}
                     <div className="flex flex-col items-center md:items-center lg:items-start">
                         <h3 className="text-lg font-semibold text-white mb-4 h-3-footer">
-                            {t('categories')}
+                            {t("categories")}
                         </h3>
                         <ul className="space-y-2 text-amber-100">
                             {isLoading ? (
                                 <div className="relative">
                                     <div className="w-12 h-12 rounded-full absolute border border-solid border-gray-200"></div>
-                                    <div className="w-12 h-12 rounded-full animate-spin absolute border border-solid border-[#e9a83a] border-t-transparent"></div>
+                                    <div className="w-12 h-12 rounded-full animate-spin absolute border border-solid border-primary border-t-transparent"></div>
                                 </div>
                             ) : error ? (
                                 <div>{error}</div>
@@ -129,7 +129,7 @@ const Footer = () => {
                     {/* Customer Service */}
                     <div className="flex flex-col items-center md:items-center lg:items-start">
                         <h3 className="text-lg font-semibold text-white mb-4 h-3-footer">
-                            {t('customer_service')}
+                            {t("customer_service")}
                         </h3>
                         <ul className="space-y-2 text-amber-100">
                             <li className="li-footer-footer">
@@ -137,7 +137,7 @@ const Footer = () => {
                                     to="/contact"
                                     className="hover:text-white transition-colors"
                                 >
-                                    {t('contact_us')}
+                                    {t("contact_us")}
                                 </Link>
                             </li>
                             <li className="li-footer-footer">
@@ -145,7 +145,7 @@ const Footer = () => {
                                     to="/seregela-gebeya-v2"
                                     className="hover:text-white transition-colors"
                                 >
-                                    {t('shipping_policy')}
+                                    {t("shipping_policy")}
                                 </Link>
                             </li>
                             <li className="li-footer-footer">
@@ -153,7 +153,7 @@ const Footer = () => {
                                     to="/seregela-gebeya-v2"
                                     className="hover:text-white transition-colors"
                                 >
-                                    {t('return_policy')}
+                                    {t("return_policy")}
                                 </Link>
                             </li>
                             <li className="li-footer-footer">
@@ -178,7 +178,7 @@ const Footer = () => {
                     {/* About */}
                     <div className="flex flex-col items-center md:items-center lg:items-start">
                         <h3 className="text-lg font-semibold text-white mb-4 h-3-footer">
-                            {t('about_seregela')}
+                            {t("about_seregela")}
                         </h3>
                         <ul className="space-y-2 text-amber-100">
                             <li className="li-footer-footer">

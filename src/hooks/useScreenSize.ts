@@ -1,31 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-type ScreenSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+type ScreenSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 const useScreenSize = (): ScreenSize => {
-    const [screenSize, setScreenSize] = useState<ScreenSize>('lg');
+    const [screenSize, setScreenSize] = useState<ScreenSize>("lg");
 
     const updateScreenSize = () => {
         const width = window.innerWidth;
 
         if (width < 640) {
-            setScreenSize('xs');
+            setScreenSize("xs");
         } else if (width < 768) {
-            setScreenSize('sm');
+            setScreenSize("sm");
         } else if (width < 1024) {
-            setScreenSize('md');
+            setScreenSize("md");
         } else if (width < 1280) {
-            setScreenSize('lg');
+            setScreenSize("lg");
         } else {
-            setScreenSize('xl');
+            setScreenSize("xl");
         }
     };
 
     useEffect(() => {
         updateScreenSize();
-        window.addEventListener('resize', updateScreenSize);
+        window.addEventListener("resize", updateScreenSize);
 
-        return () => window.removeEventListener('resize', updateScreenSize);
+        return () => window.removeEventListener("resize", updateScreenSize);
     }, []);
 
     return screenSize;

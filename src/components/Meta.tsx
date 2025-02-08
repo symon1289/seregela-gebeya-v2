@@ -1,6 +1,6 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { MetaConfig } from '../config/meta';
+import React from "react";
+import { Helmet } from "react-helmet-async";
+import { MetaConfig } from "../config/meta";
 
 interface MetaProps {
     config: MetaConfig;

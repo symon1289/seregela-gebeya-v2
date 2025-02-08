@@ -1,13 +1,13 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { useState, useMemo } from 'react';
-import { SortOption } from '../components/filters/SortFilter';
-import { Product } from '../types/product';
-import { useTranslation } from 'react-i18next';
-import api from '../utils/axios';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useState, useMemo } from "react";
+import { SortOption } from "../components/filters/SortFilter";
+import { Product } from "../types/product";
+import { useTranslation } from "react-i18next";
+import api from "../utils/axios";
 
 interface UseProductsProps {
     id: number | undefined;
-    endpoint: 'categories' | 'subcategories' | 'products';
+    endpoint: "categories" | "subcategories" | "products";
     initialItemsToLoad?: number;
     searchName?: string;
 }
@@ -21,10 +21,10 @@ interface UseProductsReturn {
     page: number;
     minPrice: number;
     maxPrice: number;
-    sortBy: SortOption['value'];
+    sortBy: SortOption["value"];
     loadMore: () => void;
     handlePriceChange: (min: number, max: number) => void;
-    handleSortChange: (value: SortOption['value']) => void;
+    handleSortChange: (value: SortOption["value"]) => void;
     isFetchingNextPage: boolean;
 }
 
@@ -32,16 +32,16 @@ export const useProducts = ({
     id,
     endpoint,
     initialItemsToLoad = 15,
-    searchName = '',
+    searchName = "",
 }: UseProductsProps): UseProductsReturn => {
     const { i18n } = useTranslation();
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(100000);
-    const [sortBy, setSortBy] = useState<SortOption['value']>('created_at');
+    const [sortBy, setSortBy] = useState<SortOption["value"]>("created_at");
 
     const getUrl = (page: number) => {
-        let url = '';
-        if (endpoint === 'products') {
+        let url = "";
+        if (endpoint === "products") {
             url = `products?page=${page}&paginate=${initialItemsToLoad}`;
             if (searchName) {
                 url += `&name=${encodeURIComponent(searchName)}`;
@@ -60,7 +60,7 @@ export const useProducts = ({
         fetchNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery({
-        queryKey: ['products', endpoint, id, initialItemsToLoad, searchName],
+        queryKey: ["products", endpoint, id, initialItemsToLoad, searchName],
         queryFn: async ({ pageParam = 1 }) => {
             const url = getUrl(pageParam);
             if (!url) return { data: [], nextPage: null };
@@ -107,7 +107,7 @@ export const useProducts = ({
         },
         getNextPageParam: (lastPage) => lastPage.nextPage,
         initialPageParam: 1,
-        enabled: Boolean(endpoint === 'products' || id),
+        enabled: Boolean(endpoint === "products" || id),
     });
 
     const allProducts = useMemo(
@@ -124,11 +124,11 @@ export const useProducts = ({
 
         filtered.sort((a, b) => {
             switch (sortBy) {
-                case 'price':
+                case "price":
                     return parseFloat(a.price) - parseFloat(b.price);
-                case '-price':
+                case "-price":
                     return parseFloat(b.price) - parseFloat(a.price);
-                case 'created_at':
+                case "created_at":
                 default:
                     return (
                         new Date(b.created_at).getTime() -
@@ -140,11 +140,11 @@ export const useProducts = ({
         return filtered.map((product) => ({
             ...product,
             name:
-                (i18n.language === 'am' ? product.name_am : product.name) ?? '',
+                (i18n.language === "am" ? product.name_am : product.name) ?? "",
             description:
-                (i18n.language === 'am'
+                (i18n.language === "am"
                     ? product.description_am
-                    : product.description) ?? '',
+                    : product.description) ?? "",
         }));
     }, [allProducts, minPrice, maxPrice, sortBy, i18n.language]);
 
@@ -159,7 +159,7 @@ export const useProducts = ({
         setMaxPrice(max);
     };
 
-    const handleSortChange = (value: SortOption['value']) => {
+    const handleSortChange = (value: SortOption["value"]) => {
         setSortBy(value);
     };
 

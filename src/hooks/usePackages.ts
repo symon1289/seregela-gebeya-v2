@@ -1,10 +1,10 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import api from '../utils/axios';
-import { Product, Package } from '../types/product';
-import { ProductForGrid } from '../types/extras';
-import { useTranslation } from 'react-i18next';
-import { useEffect, useMemo, useState } from 'react';
-import { PackageProduct } from '../types/product';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import api from "../utils/axios";
+import { Product, Package } from "../types/product";
+import { ProductForGrid } from "../types/extras";
+import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useState } from "react";
+import { PackageProduct } from "../types/product";
 
 type ApiResponse<T> = {
     data: T;
@@ -12,11 +12,11 @@ type ApiResponse<T> = {
 };
 
 type QueryKeys = {
-    popularProducts: ['popularProducts', number, number];
-    popularProductsForGrid: ['popularProductsForGrid', number, number];
-    product: ['product', string];
-    packages: ['packages'];
-    package: ['package', string];
+    popularProducts: ["popularProducts", number, number];
+    popularProductsForGrid: ["popularProductsForGrid", number, number];
+    product: ["product", string];
+    packages: ["packages"];
+    package: ["package", string];
 };
 type Tail<T extends any[]> = T extends [any, ...infer U] ? U : never;
 
@@ -52,12 +52,12 @@ const getTranslatedField = (
     obj: any,
     field: string,
     language: string
-): string => (language === 'am' ? obj[`${field}_am`] || '' : obj[field] || '');
+): string => (language === "am" ? obj[`${field}_am`] || "" : obj[field] || "");
 
 export const usePackages = (): UsePackagesReturn => {
     const { i18n } = useTranslation();
     const queryClient = useQueryClient();
-    const [packageId, setPackageId] = useState<string>('');
+    const [packageId, setPackageId] = useState<string>("");
     const [popularProductsParams, setPopularProductsParams] = useState<{
         paginate: number;
         page: number;
@@ -67,7 +67,7 @@ export const usePackages = (): UsePackagesReturn => {
     });
 
     const popularProductsQuery = useQuery<ApiResponse<Product[]>, Error>({
-        queryKey: createQueryKey('popularProducts', 0, 0),
+        queryKey: createQueryKey("popularProducts", 0, 0),
         queryFn: async ({ queryKey }) => {
             const [, paginate, page] = queryKey;
             const response = await api.get(
@@ -83,23 +83,23 @@ export const usePackages = (): UsePackagesReturn => {
         Error
     >({
         queryKey: createQueryKey(
-            'popularProductsForGrid',
+            "popularProductsForGrid",
             popularProductsParams.paginate,
             popularProductsParams.page
         ), // Use the state variable
         queryFn: async ({ queryKey }) => {
             const [, paginate, page] = queryKey;
-            console.log('Fetching popular products with:', { paginate, page }); // Debugging
+            console.log("Fetching popular products with:", { paginate, page }); // Debugging
             const response = await api.get(
                 `popular-products?page=${page}&paginate=${paginate}`
             );
             const transformedData = response.data.data.map((product: any) => ({
-                id: product.id ?? 'unknown',
+                id: product.id ?? "unknown",
                 name:
-                    getTranslatedField(product, 'name', i18n.language) ??
-                    'Unnamed Product',
+                    getTranslatedField(product, "name", i18n.language) ??
+                    "Unnamed Product",
                 oldPrice:
-                    product.discount && product.discount !== '0.00'
+                    product.discount && product.discount !== "0.00"
                         ? (
                               parseFloat(product.price || 0) +
                               parseFloat(product.discount || 0)
@@ -115,7 +115,7 @@ export const usePackages = (): UsePackagesReturn => {
     });
 
     const productQuery = useQuery<ApiResponse<Product>, Error>({
-        queryKey: createQueryKey('product', ''),
+        queryKey: createQueryKey("product", ""),
         queryFn: async ({ queryKey }) => {
             const [, id] = queryKey;
             const response = await api.get(`products/${id}`);
@@ -125,19 +125,19 @@ export const usePackages = (): UsePackagesReturn => {
     });
 
     const packagesQuery = useQuery<ApiResponse<Package[]>, Error>({
-        queryKey: createQueryKey('packages'),
+        queryKey: createQueryKey("packages"),
         queryFn: async () => {
-            const response = await api.get('packages');
+            const response = await api.get("packages");
             return response;
         },
         enabled: false,
     });
 
     const packageItemQuery = useQuery<ApiResponse<Package>, Error>({
-        queryKey: createQueryKey('package', packageId),
+        queryKey: createQueryKey("package", packageId),
         queryFn: async ({ queryKey }) => {
             const [, id] = queryKey;
-            if (!id) throw new Error('Package ID is required');
+            if (!id) throw new Error("Package ID is required");
             const response = await api.get(`packages/${id}`);
             return response;
         },
@@ -149,10 +149,10 @@ export const usePackages = (): UsePackagesReturn => {
             popularProducts:
                 popularProductsQuery.data?.data?.map((product) => ({
                     ...product,
-                    name: getTranslatedField(product, 'name', i18n.language),
+                    name: getTranslatedField(product, "name", i18n.language),
                     description: getTranslatedField(
                         product,
-                        'description',
+                        "description",
                         i18n.language
                     ),
                 })) || [],
@@ -162,12 +162,12 @@ export const usePackages = (): UsePackagesReturn => {
                 ...productQuery.data.data,
                 name: getTranslatedField(
                     productQuery.data.data,
-                    'name',
+                    "name",
                     i18n.language
                 ),
                 description: getTranslatedField(
                     productQuery.data.data,
-                    'description',
+                    "description",
                     i18n.language
                 ),
             },
@@ -176,13 +176,13 @@ export const usePackages = (): UsePackagesReturn => {
                 ? // @ts-expect-error packagesQuery is not an array
                   packagesQuery.data.data.data.map((pkg) => ({
                       ...pkg,
-                      name: getTranslatedField(pkg, 'name', i18n.language),
+                      name: getTranslatedField(pkg, "name", i18n.language),
                       products: Array.isArray(pkg.products)
                           ? pkg.products.map((product: PackageProduct) => ({
                                 ...product,
                                 name: getTranslatedField(
                                     product,
-                                    'name',
+                                    "name",
                                     i18n.language
                                 ),
                             }))
@@ -196,7 +196,7 @@ export const usePackages = (): UsePackagesReturn => {
                 name: getTranslatedField(
                     // @ts-expect-error packageItemQuery is not an array
                     packageItemQuery.data.data.data,
-                    'name',
+                    "name",
                     i18n.language
                 ),
             },
@@ -220,7 +220,7 @@ export const usePackages = (): UsePackagesReturn => {
         paginate: number,
         page: number
     ) => {
-        console.log('getPopularProductsForProductGrid called with:', {
+        console.log("getPopularProductsForProductGrid called with:", {
             paginate,
             page,
         }); // Debugging
@@ -233,7 +233,7 @@ export const usePackages = (): UsePackagesReturn => {
             popularProductsParams.page !== 0
         ) {
             console.log(
-                'Refetching popular products with:',
+                "Refetching popular products with:",
                 popularProductsParams
             ); // Debugging
             popularProductsForGridQuery.refetch();
@@ -258,18 +258,18 @@ export const usePackages = (): UsePackagesReturn => {
         ...transformedData,
         getPopularProducts: (paginate: number, page: number) =>
             invalidateAndRefetch(
-                createQueryKey('popularProducts', paginate, page),
+                createQueryKey("popularProducts", paginate, page),
                 popularProductsQuery.refetch
             ),
         getPopularProductsForProductGrid,
         getProductById: (id: string) =>
             invalidateAndRefetch(
-                createQueryKey('product', id),
+                createQueryKey("product", id),
                 productQuery.refetch
             ),
         getPackages: () =>
             invalidateAndRefetch(
-                createQueryKey('packages'),
+                createQueryKey("packages"),
                 packagesQuery.refetch
             ),
         getPackageById,
