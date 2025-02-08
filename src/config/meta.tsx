@@ -87,8 +87,7 @@ export const getCartMetaTags = (): MetaConfig => ({
     ogType: "website",
     twitterCard: "summary",
     twitterTitle: "Shopping Cart - Seregela Gebeya",
-    twitterDescription:
-        "View and manage your shopping cart at Seregela Gebeya.",
+    twitterDescription: "View and manage your shopping cart at Seregela Gebeya.",
 });
 
 export const getCheckoutMetaTags = (): MetaConfig => ({

@@ -7,22 +7,23 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import enTranslation from "./locales/en/translation.json";
 import amTranslation from "./locales/am/translation.json";
 
-i18n.use(LanguageDetector)
-    .use(initReactI18next)
-    .init({
-        fallbackLng: "en",
-        debug: false, // Enable debug mode in development
-        interpolation: {
-            escapeValue: false,
-        },
-        resources: {
-            en: {
-                translation: enTranslation,
-            },
-            am: {
-                translation: amTranslation,
-            },
-        },
-    });
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: "en",
+    debug: false, // Enable debug mode in development
+    interpolation: {
+      escapeValue: false,
+    },
+    resources: {
+      en: {
+        translation: enTranslation,
+      },
+      am: {
+        translation: amTranslation,
+      },
+    },
+  });
 
 export default i18n;
