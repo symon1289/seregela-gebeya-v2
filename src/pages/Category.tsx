@@ -9,6 +9,7 @@ import { getCategoryMetaTags } from "../config/meta";
 import Breadcrumb from "../components/Breadcrumb";
 import { useTranslation } from "react-i18next";
 import defaultImage from "../assets/no-image-available-02.jpg";
+import ProductCardLoading from "../components/loading skeletons/product/Card.tsx";
 const Category: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
@@ -94,7 +95,11 @@ const Category: React.FC = () => {
 
           <div className="flex-1">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[11px]">
-              {filteredProducts.map((product) => (
+              {isLoading
+                  ? Array.from({ length: 15 }).map((_, index) => (
+                      <ProductCardLoading key={index} />
+                  ))
+                  :filteredProducts.map((product) => (
                 <ProductCard
                   key={product.id}
                   id={product.id}
