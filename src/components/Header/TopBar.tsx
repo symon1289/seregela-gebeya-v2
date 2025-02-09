@@ -22,19 +22,19 @@ export default function TopBar() {
   };
   return (
     <div className=" bg-gray-100 py-0.5 text-sm">
-      <div className="max-w-screen-xl container mx-auto px-4 flex justify-between items-center">
-        <div className="flex items-center gap-2">
+      <div className="max-w-screen-xl container mx-auto px-2 sm:px-4 flex justify-between items-center">
+        <div className="flex items-center gap-2 font-medium sm:font-normal">
           <Link
             to="/seregela-gebeya-v2/wishlist"
-            className="flex items-center gap-1 text-gray-600 relative hover:text-[#e7a334]"
+            className="flex items-center gap-1 text-xs sm:text-sm text-gray-600 relative hover:text-[#e7a334]"
           >
-            <FaRegHeart size={16} />
+            <FaRegHeart size={16}/>
 
             <span>{t("wishlist")}</span>
           </Link>
           <Link
             to="/seregela-gebeya-v2/profile"
-            className="flex items-center gap-1 text-gray-600 hover:text-[#e7a334]"
+            className="flex items-center gap-1 text-xs sm:text-sm  text-gray-600 hover:text-[#e7a334]"
           >
             <FaTruckFast size={20} />
             <span>{t("track_order")}</span>
@@ -54,15 +54,15 @@ export default function TopBar() {
             </span>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4 font-medium sm:font-normal">
           <Link
             to="tel: +2517878"
-            className="flex items-center gap-1 text-gray-600 hover:text-[#e7a334]"
+            className="flex items-center gap-1 text-xs sm:text-sm text-gray-600 hover:text-[#e7a334]"
           >
             <Phone size={16} />
             <span>{t("contact_us")} 7878 </span>
           </Link>
-          <div className="flex items-center gap-2 hover:text-[#e7a334]">
+          <div className="flex items-center gap-2 text-xs sm:text-sm hover:text-[#e7a334]">
             <Globe size={16} />
             <select
               className="bg-transparent border-none text-gray-600 cursor-pointer "
