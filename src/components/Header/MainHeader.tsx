@@ -125,7 +125,7 @@ const Navbar = () => {
                 isScrolled ? "shadow-xl pb-1.5 pt-2 " : ""
             }`}
         >
-            <div className="max-w-screen-xl mx-auto pr-4">
+            <div className="max-w-screen-xl mx-auto pr-4 pl-1 sm:pl-4">
                 {/* Top Bar */}
                 <div className="flex items-center justify-between gap-4 h-16">
                     {/* Logo and Menu Button */}
@@ -144,7 +144,7 @@ const Navbar = () => {
                         </button>
                         <Link
                             to="/seregela-gebeya-v2"
-                            className="flex items-center justify-end h-[65px] w-[80px] md:w-[180px] lg:w-[220px]"
+                            className="hidden sm:flex items-center justify-end h-[65px] w-[80px] md:w-[180px] lg:w-[220px]"
                         >
                             <img
                                 src={logomini}
@@ -186,7 +186,7 @@ const Navbar = () => {
                                     searchResults.length > 0 &&
                                     !isLoading && (
                                         <div className="absolute top-full left-0 right-0 mt-0 bg-white rounded-lg shadow-lg z-[100] max-h-96 overflow-y-auto">
-                                            <ul className="py-2">
+                                            <ul className="py-2 divide-y divide-gray-100">
                                                 {searchResults.map(
                                                     (product) => (
                                                         <li

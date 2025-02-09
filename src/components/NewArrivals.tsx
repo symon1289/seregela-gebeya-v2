@@ -15,16 +15,16 @@ const NewArrivals = () => {
         initialItemsToLoad: 14,
     });
     return (
-        <section className="mb-0 mt-6">
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="explore-more-deals font-semibold mb-6">
+        <section className="mb-0 my-10 sm:my-16">
+            <div className="flex justify-between items-center my-6">
+                <h2 className="text-2xl sm:text-3xl leading-[19px] font-semibold">
                     {" "}
                     {t("new_arrivals")}
                 </h2>
                 {!newArrivalsLoading && hasMoreNewArrivals && (
                     <button
                         onClick={loadMoreNewArrivals}
-                        className="bg-[#e9a83a] hover:bg-[#fed874] text-white transition-colors py-2 px-4 rounded-lg font-semibold"
+                        className="bg-[#e9a83a] hover:bg-[#fed874] text-white text-sm sm:text-base transition-colors py-2 px-4 rounded-lg font-semibold"
                     >
                         {t("loadMore")}
                     </button>
