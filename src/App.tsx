@@ -19,72 +19,88 @@ import Delivery from "./pages/Delivery";
 import Payment from "./pages/Payment";
 import PrivateRoute from "./routes/PrivateRoute";
 import ProfileUi from "./pages/ProfileUi";
+import TestLogin from "./pages/TestLogin";
 // import { RootState } from "./store/store";
 import { Navigate } from "react-router-dom";
 // import { useSelector } from "react-redux";
 function App() {
-  // const { user } = useSelector((state: RootState) => state.auth);
-  // @ts-expect-error user is not null
-  const userData = JSON.parse(localStorage.getItem("user"));
-  return (
-    <>
-      <Router>
-        <ScrollToTop />
-        <HelmetProvider>
-          <TopBar />
-          <MainHeader />
+    // const { user } = useSelector((state: RootState) => state.auth);
+    // @ts-expect-error user is not null
+    const userData = JSON.parse(localStorage.getItem("user"));
+    return (
+        <>
+            <Router>
+                <ScrollToTop />
+                <HelmetProvider>
+                    <TopBar />
+                    <MainHeader />
 
-          <Routes>
-            <Route path="/seregela-gebeya-v2" element={<Home />} />
-            <Route path="/seregela-gebeya-v2/products" element={<Products />} />
-            <Route path="/seregela-gebeya-v2/cart" element={<Cart />} />
-            <Route
-              path="/seregela-gebeya-v2/products/:id"
-              element={<ProductDetail />}
-            />
-            <Route
-              path="/seregela-gebeya-v2/category/:id"
-              element={<Category />}
-            />
-            <Route
-              path="/seregela-gebeya-v2/subcategory/:id"
-              element={<Subcategory />}
-            />
-            <Route path="/seregela-gebeya-v2/wishlist" element={<Wishlist />} />
-            <Route
-              path="/seregela-gebeya-v2/login"
-              element={
-                userData ? (
-                  <Navigate to="/seregela-gebeya-v2" replace />
-                ) : (
-                  <Login />
-                )
-              }
-            />
-            <Route path="" element={<PrivateRoute />}>
-              <Route
-                path="/seregela-gebeya-v2/profile"
-                element={<ProfileUi />}
-              />
+                    <Routes>
+                        <Route path="/seregela-gebeya-v2" element={<Home />} />
+                        <Route
+                            path="/seregela-gebeya-v2/products"
+                            element={<Products />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/cart"
+                            element={<Cart />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/products/:id"
+                            element={<ProductDetail />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/category/:id"
+                            element={<Category />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/subcategory/:id"
+                            element={<Subcategory />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/wishlist"
+                            element={<Wishlist />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/login"
+                            element={
+                                userData ? (
+                                    <Navigate
+                                        to="/seregela-gebeya-v2"
+                                        replace
+                                    />
+                                ) : (
+                                    <Login />
+                                )
+                            }
+                        />
+                        <Route path="" element={<PrivateRoute />}>
+                            <Route
+                                path="/seregela-gebeya-v2/profile"
+                                element={<ProfileUi />}
+                            />
 
-              <Route
-                path="/seregela-gebeya-v2/checkout/shipping"
-                element={<Delivery />}
-              />
-              <Route
-                path="/seregela-gebeya-v2/checkout/payment"
-                element={<Payment />}
-              />
-            </Route>
-            {/* <Route path="/seregela-gebeya-v2/test" element={<ProfileUi />} /> */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
-          <PWABadge />
-        </HelmetProvider>
-      </Router>
-    </>
-  );
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/shipping"
+                                element={<Delivery />}
+                            />
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/payment"
+                                element={<Payment />}
+                            />
+                        </Route>
+                        <Route
+                            path="/seregela-gebeya-v2/test"
+                            element={<TestLogin />}
+                        />
+                        <Route path="*" element={<NotFound />} />
+                    </Routes>
+                    <Footer />
+                    <PWABadge />
+                </HelmetProvider>
+            </Router>
+        </>
+    );
 }
 
 export default App;

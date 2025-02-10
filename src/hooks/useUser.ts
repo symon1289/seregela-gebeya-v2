@@ -1,15 +1,36 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { useState } from "react";
+import firebaseAuth from "firebase/auth";
 import api from "../utils/axios";
 import {
     setAuth,
     setUser,
     logout,
     recoverTokenFromStorage,
+    sendOTP,
+    verifyOtp,
 } from "../store/features/authSlice";
 
-const useUser = () => {
+interface UseUserReturnType {
+    authState: any;
+    loading: boolean;
+    error: string | null;
+    loginUser: (phone: string, authToken: string) => Promise<any>;
+    fetchUser: () => Promise<void>;
+    registerUser: (userInfo: any, phoneNumber: string) => Promise<any>;
+    updateUser: (userInfo: any, phoneNumber: string) => Promise<any>;
+    getNotifications: () => Promise<any>;
+    sendOtp: (val: {
+        verify: firebaseAuth.ApplicationVerifier;
+        phone: string;
+    }) => Promise<any>;
+    verifyOtpCode: (otp: string) => Promise<any>;
+    handleLogout: () => Promise<void>;
+    recoverSession: () => void;
+}
+
+const useUser = (): UseUserReturnType => {
     const dispatch = useDispatch<AppDispatch>();
     const authState = useSelector((state: RootState) => state.auth);
     const [loading, setLoading] = useState(false);
@@ -93,7 +114,9 @@ const useUser = () => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
                     },
                 }
             );
@@ -126,32 +149,35 @@ const useUser = () => {
     };
 
     // Send OTP for phone verification
-    // const sendOtp = async (val: { verify: firebase.auth.ApplicationVerifier; phone: string }) => {
-    //     try {
-    //         setLoading(true);
-    //         const result = await dispatch(sendOTP(val)).unwrap();
-    //         setLoading(false);
-    //         return result;
-    //     } catch (err: any) {
-    //         setLoading(false);
-    //         setError(err.message || "Failed to send OTP");
-    //         throw err;
-    //     }
-    // };
+    const sendOtp = async (val: {
+        verify: firebaseAuth.ApplicationVerifier;
+        phone: string;
+    }) => {
+        try {
+            setLoading(true);
+            const result = await dispatch(sendOTP(val)).unwrap();
+            setLoading(false);
+            return result;
+        } catch (err: any) {
+            setLoading(false);
+            setError(err.message || "Failed to send OTP");
+            throw err;
+        }
+    };
 
     // Verify OTP code
-    // const verifyOtpCode = async (otp: string) => {
-    //     try {
-    //         setLoading(true);
-    //         const result = await dispatch(verifyOtp(otp)).unwrap();
-    //         setLoading(false);
-    //         return result;
-    //     } catch (err: any) {
-    //         setLoading(false);
-    //         setError(err.message || "Failed to verify OTP");
-    //         throw err;
-    //     }
-    // };
+    const verifyOtpCode = async (otp: string) => {
+        try {
+            setLoading(true);
+            const result = await dispatch(verifyOtp(otp)).unwrap();
+            setLoading(false);
+            return result;
+        } catch (err: any) {
+            setLoading(false);
+            setError(err.message || "Failed to verify OTP");
+            throw err;
+        }
+    };
 
     // Logout user
     const handleLogout = async () => {
@@ -180,8 +206,8 @@ const useUser = () => {
         registerUser,
         updateUser,
         getNotifications,
-        // sendOtp,
-        // verifyOtpCode,
+        sendOtp,
+        verifyOtpCode,
         handleLogout,
         recoverSession,
     };

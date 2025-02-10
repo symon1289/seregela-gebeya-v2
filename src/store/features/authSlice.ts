@@ -1,9 +1,13 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-// import firebase from "firebase/app";
-import "firebase/auth";
-// import { AppDispatch } from "../store";
-
+import {
+    signInWithPhoneNumber,
+    // ConfirmationResult,
+    // ApplicationVerifier,
+} from "firebase/auth";
+import { auth } from "../../firebase/firebase";
+import UserAPI from "../../utils/UserAPI";
+// import firebase from 'firebase/app';
 interface AuthState {
     user: Record<string, any> | null;
     isLoggedIn: boolean;
@@ -17,9 +21,8 @@ interface AuthState {
     returnRoute: string;
 }
 
-//important!!! for develoment only
 const initialState: AuthState = {
-    user: {},
+    user: null,
     isLoggedIn: false,
     phoneNumber: "",
     count: 0,
@@ -31,62 +34,100 @@ const initialState: AuthState = {
     returnRoute: "",
 };
 
-// export const sendOTP = createAsyncThunk(
-//   "auth/sendOTP",
-//   async (val: { verify: firebase.auth.ApplicationVerifier; phone: string }, { dispatch }) => {
-//     try {
-//       const confirmationResult = await firebase
-//         .auth()
-//         .signInWithPhoneNumber(val.phone, val.verify);
-//       window.confirmationResult = confirmationResult;
-//       return { payload: val, smsSent: true };
-//     } catch (error) {
-//       console.error(error);
-//       throw error;
+// declare global {
+//     interface Window {
+//         confirmationResult?: ConfirmationResult;
 //     }
-//   }
-// );
+// }
 
-// export const verifyAccessToken = createAsyncThunk(
-//   "auth/verifyAccessToken",
-//   async (idToken: string, { dispatch }) => {
+// // ✅ Send OTP via Firebase Auth
+// export const sendOTP = createAsyncThunk<
+//     { "sms-sent": boolean },
+//     { verify: ApplicationVerifier; phone: string }
+// >("auth/sendOTP", async ({ verify, phone }, { dispatch, rejectWithValue }) => {
 //     try {
-//       const response = await UserAPI.userLogin(idToken);
-//       dispatch(setAuth(response));
-//       dispatch(setUser(response));
-//       return response;
+//         const confirmationResult = await signInWithPhoneNumber(
+//             auth,
+//             phone,
+//             verify
+//         );
+//         window.confirmationResult = confirmationResult;
+//         dispatch(setPayload({ phone }));
+//         return { "sms-sent": true };
 //     } catch (error) {
-//       console.error(error);
-//       throw error;
+//         console.error("Error sending OTP:", error);
+//         return rejectWithValue("Failed to send OTP. Please try again.");
 //     }
-//   }
-// );
+// });
 
-// export const verifyOtp = createAsyncThunk(
-//   "auth/verifyOtp",
-//   async (otp: string, { dispatch }) => {
+// // ✅ Verify OTP & Authenticate User
+// export const verifyOtp = createAsyncThunk<
+//     { tokenPass: boolean; otp: boolean },
+//     string
+// >("auth/verifyOtp", async (otp, { dispatch, rejectWithValue }) => {
 //     try {
-//       const confirmationResult = window.confirmationResult;
-//       if (!confirmationResult) {
-//         throw new Error("No confirmation result available");
-//       }
+//         if (!window.confirmationResult) {
+//             return rejectWithValue("OTP confirmation not found. Please retry.");
+//         }
 
-//       const result = await confirmationResult.confirm(otp);
-//       const idToken = await result.user?.getIdToken();
-//       if (idToken) {
+//         const result = await window.confirmationResult.confirm(otp);
+//         const idToken = await result.user.getIdToken();
+
+//         if (!idToken) throw new Error("Failed to retrieve token");
+
 //         dispatch(verifyAccessToken(idToken));
 //         dispatch(setToken(idToken));
 //         return { tokenPass: true, otp: true };
-//       } else {
-//         throw new Error("Token not retrieved");
-//       }
 //     } catch (error) {
-//       console.error(error);
-//       return { tokenPass: false, otp: false };
+//         console.error("OTP Verification Failed:", error);
+//         return rejectWithValue("Invalid OTP. Please try again.");
 //     }
-//   }
+// });
+
+// // ✅ Verify Access Token with Backend
+// export const verifyAccessToken = createAsyncThunk<any, string>(
+//     "auth/verifyAccessToken",
+//     async (idToken, { dispatch, getState, rejectWithValue }) => {
+//         try {
+//             const state = getState() as RootState;
+//             const phoneNumber = state.auth.payload?.phone || "";
+
+//             const response = await UserAPI.userLogin(phoneNumber, idToken);
+//             dispatch(setAuth(response));
+//             dispatch(setUser(response));
+
+//             return response;
+//         } catch (error) {
+//             console.error("Token Verification Error:", error);
+//             return rejectWithValue("Failed to verify access token.");
+//         }
+//     }
 // );
 
+export const sendOTP = createAsyncThunk(
+    "auth/sendOTP",
+    async ({ phone, verify }: { phone: string; verify: any }) => {
+        return await signInWithPhoneNumber(auth, phone, verify);
+    }
+);
+
+export const verifyOtp = createAsyncThunk(
+    "auth/verifyOtp",
+    async (otp: string, { getState }) => {
+        const state = getState() as { auth: AuthState };
+        const confirmationResult = (window as any).confirmationResult;
+        if (confirmationResult) {
+            const result = await confirmationResult.confirm(otp);
+            const idToken = await result.user.getIdToken(true);
+            await UserAPI.userLogin(
+                state.auth.payload.phone.substring(1),
+                idToken
+            );
+            return idToken;
+        }
+        throw new Error("Invalid OTP");
+    }
+);
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -101,11 +142,8 @@ const authSlice = createSlice({
         setAuth: (state, action: PayloadAction<any>) => {
             state.isLoggedIn = true;
             state.isAuthenticated = true;
+            state.token = action.payload.access_token;
             localStorage.setItem("token", action.payload.access_token);
-        },
-        setCaptcha: (state, action: PayloadAction<string>) => {
-            state.token = action.payload;
-            localStorage.setItem("_grecaptcha", action.payload);
         },
         setUser: (state, action: PayloadAction<any>) => {
             state.count += 1;
@@ -119,9 +157,9 @@ const authSlice = createSlice({
                 const user = localStorage.getItem("user");
                 state.status = !!token;
                 state.firebaseToken = token || "";
-                state.user = user ? JSON.parse(user) : {};
+                state.user = user ? JSON.parse(user) : null;
             } catch (error) {
-                console.error(error);
+                console.error("Token Recovery Error:", error);
                 state.status = false;
             }
         },
@@ -129,12 +167,24 @@ const authSlice = createSlice({
             state.user = null;
             state.isLoggedIn = false;
             state.isAuthenticated = false;
+            state.token = "";
+            state.firebaseToken = "";
+            state.status = false;
+
             localStorage.removeItem("token");
             localStorage.removeItem("firebaseToken");
-            localStorage.removeItem("_grecaptcha");
-            localStorage.removeItem("cart");
             localStorage.removeItem("user");
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(sendOTP.fulfilled, (state, action) => {
+            (window as any).confirmationResult = action.payload;
+            state.status = true;
+        });
+        builder.addCase(verifyOtp.fulfilled, (state, action) => {
+            state.firebaseToken = action.payload;
+            state.isAuthenticated = true;
+        });
     },
 });
 
@@ -143,7 +193,6 @@ export const {
     setPayload,
     setAuth,
     setUser,
-    setCaptcha,
     recoverTokenFromStorage,
     logout,
 } = authSlice.actions;

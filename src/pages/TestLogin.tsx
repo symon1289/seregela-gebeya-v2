@@ -3,27 +3,23 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { auth } from "../firebase/firebase";
-import {
-    RecaptchaVerifier,
-    signInWithPhoneNumber,
-    ConfirmationResult,
-    ApplicationVerifier,
-} from "firebase/auth";
-
+import { auth, RecaptchaVerifier } from "../firebase/firebase";
+import { useDispatch } from "react-redux";
+import useUser from "../hooks/useUser";
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const redirect = searchParams.get("redirect") || "/home";
 
+    const { sendOtp, verifyOtpCode } = useUser();
     const [phoneNumber, setPhoneNumber] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showOTP, setShowOTP] = useState(false);
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
-    const [confirmationResult, setConfirmationResult] =
-        useState<ConfirmationResult | null>(null);
+    const [appVerifier, setAppVerifier] = useState<any>(null);
 
     const inputRefs = [
         useRef<HTMLInputElement>(null),
@@ -34,7 +30,24 @@ const Login = () => {
         useRef<HTMLInputElement>(null),
     ];
 
-    const recaptchaVerifierRef = useRef<ApplicationVerifier | null>(null);
+    useEffect(() => {
+        initReCaptcha();
+    }, []);
+
+    const initReCaptcha = () => {
+        setTimeout(() => {
+            const verifier = new RecaptchaVerifier(
+                auth,
+                "recaptcha-container",
+                {
+                    size: "normal",
+                    callback: () => {},
+                    "expired-callback": () => {},
+                }
+            );
+            setAppVerifier(verifier);
+        }, 500);
+    };
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\D/g, "");
@@ -48,43 +61,29 @@ const Login = () => {
         setError(null);
     };
 
-    useEffect(() => {
-        recaptchaVerifierRef.current = new RecaptchaVerifier(
-            auth,
-            "recaptcha-container",
-            {
-                size: "normal",
-                callback: () => console.log("reCAPTCHA solved"),
-            }
-        );
-    }, []);
-
-    const handleSendOTP = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (phoneNumber.length !== 9) return;
 
-        setIsLoading(true);
-        setError(null);
-
-        try {
-            const formattedPhoneNumber = `+251${phoneNumber}`;
-            if (!recaptchaVerifierRef.current) return;
-
-            const confirmation = await signInWithPhoneNumber(
-                auth,
-                formattedPhoneNumber,
-                recaptchaVerifierRef.current
-            );
-            setConfirmationResult(confirmation);
-            setShowOTP(true);
-            toast.success("OTP sent!");
-        } catch (error) {
-            console.error("Error sending OTP:", error);
-            setError("Failed to send OTP.");
-            toast.error("Failed to send OTP.");
+        if (
+            phoneNumber.length >= 9 &&
+            (phoneNumber.charAt(0) === "9" || phoneNumber.charAt(0) === "7")
+        ) {
+            setIsLoading(true);
+            try {
+                // @ts-expect-error expected
+                await dispatch(sendOtp({phone: `+251${phoneNumber}`,verify: appVerifier,})
+                );
+                setShowOTP(true);
+                toast.success("OTP sent!");
+            } catch (error) {
+                setError("Failed to send OTP");
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
+        } else {
+            setError("Invalid phone number");
         }
-
-        setIsLoading(false);
     };
 
     const handleOtpChange = (index: number, value: string) => {
@@ -110,22 +109,15 @@ const Login = () => {
 
     const handleVerifyOTP = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (otp.some((digit) => digit === "")) return;
-
-        setIsLoading(true);
-        setError(null);
-
         try {
-            if (!confirmationResult) return;
-            await confirmationResult.confirm(otp.join(""));
-            toast.success(t("login_successful"));
+            //@ts-expect-error  sssss
+            await dispatch(verifyOtpCode(otp)).unwrap();
+            toast.success("OTP verified!");
             navigate(redirect);
         } catch (error) {
-            console.error("Error verifying OTP:", error);
-            setError(t("invalid_otp"));
+            setError("Invalid OTP");
+            console.log(error);
         }
-
-        setIsLoading(false);
     };
 
     return (
@@ -141,7 +133,7 @@ const Login = () => {
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                     {!showOTP ? (
-                        <form className="space-y-6" onSubmit={handleSendOTP}>
+                        <form className="space-y-6" onSubmit={handleSubmit}>
                             <div>
                                 <label
                                     htmlFor="phone"
