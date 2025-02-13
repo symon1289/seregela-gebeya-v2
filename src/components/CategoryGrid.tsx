@@ -48,6 +48,7 @@ const CategoryGrid: React.FC = () => {
             <div className="relative">
                 {canScrollLeft && (
                     <button
+                        aria-label="left"
                         onClick={() => scroll("left")}
                         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
@@ -56,6 +57,7 @@ const CategoryGrid: React.FC = () => {
                 )}
                 {canScrollRight && (
                     <button
+                        aria-label="right"
                         onClick={() => scroll("right")}
                         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
@@ -101,6 +103,7 @@ const CategoryGrid: React.FC = () => {
             {/*)}*/}
             {!isLoading && hasMore && (
                 <button
+                    aria-label="Load More"
                     onClick={() => loadMore()}
                     className="bg-[#e9a83a] hover:bg-[#fed874] text-white transition-colors py-2 px-4 rounded-lg font-semibold"
                 >

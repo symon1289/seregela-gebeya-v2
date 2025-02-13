@@ -15,7 +15,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
-    const redirect = searchParams.get("redirect") || "/home";
+    const redirect = searchParams.get("redirect") || "/seregela-gebeya-v2";
 
     const [phoneNumber, setPhoneNumber] = useState("");
     const [isLoading, setIsLoading] = useState(false);

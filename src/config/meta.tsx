@@ -87,7 +87,8 @@ export const getCartMetaTags = (): MetaConfig => ({
     ogType: "website",
     twitterCard: "summary",
     twitterTitle: "Shopping Cart - Seregela Gebeya",
-    twitterDescription: "View and manage your shopping cart at Seregela Gebeya.",
+    twitterDescription:
+        "View and manage your shopping cart at Seregela Gebeya.",
 });
 
 export const getCheckoutMetaTags = (): MetaConfig => ({
@@ -313,4 +314,16 @@ export const getMyOrdersMetaTags = (): MetaConfig => ({
     twitterCard: "summary",
     twitterTitle: "My Orders - Seregela Gebeya",
     twitterDescription: "View and manage your orders at Seregela Gebeya.",
+});
+
+export const getSearchMetaTags = (query: string): MetaConfig => ({
+    title: `${query} - Seregela Gebeya`,
+    description: "Search for products at Seregela Gebeya.",
+    keywords: `${query} , online shopping, Ethiopia, Seregela Gebeya`,
+    ogTitle: `${query} - Seregela Gebeya`,
+    ogDescription: "Search for products at Seregela Gebeya.",
+    ogType: "website",
+    twitterCard: "summary",
+    twitterTitle: `${query} - Seregela Gebeya`,
+    twitterDescription: "Search for products at Seregela Gebeya.",
 });

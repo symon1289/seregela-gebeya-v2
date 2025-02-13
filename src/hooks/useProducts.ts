@@ -49,6 +49,7 @@ export const useProducts = ({
         } else if (id) {
             url = `${endpoint}/${id}/products?page=${page}&paginate=${initialItemsToLoad}`;
         }
+        url += `&price[gte]=${minPrice}&price[lte]=${maxPrice}`;
         return url;
     };
 
@@ -60,7 +61,15 @@ export const useProducts = ({
         fetchNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery({
-        queryKey: ["products", endpoint, id, initialItemsToLoad, searchName],
+        queryKey: [
+            "products",
+            endpoint,
+            id,
+            initialItemsToLoad,
+            searchName,
+            minPrice,
+            maxPrice,
+        ],
         queryFn: async ({ pageParam = 1 }) => {
             const url = getUrl(pageParam);
             if (!url) return { data: [], nextPage: null };
@@ -116,11 +125,7 @@ export const useProducts = ({
     );
 
     const filteredProducts = useMemo(() => {
-        //eslint-disable-next-line
-        let filtered = allProducts.filter((product) => {
-            const productPrice = parseFloat(product.price);
-            return productPrice >= minPrice && productPrice <= maxPrice;
-        });
+        const filtered = allProducts;
 
         filtered.sort((a, b) => {
             switch (sortBy) {
@@ -146,7 +151,7 @@ export const useProducts = ({
                     ? product.description_am
                     : product.description) ?? "",
         }));
-    }, [allProducts, minPrice, maxPrice, sortBy, i18n.language]);
+    }, [allProducts, sortBy, i18n.language]);
 
     const loadMore = () => {
         if (!isFetchingNextPage && hasNextPage) {
