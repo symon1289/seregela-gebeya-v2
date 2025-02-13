@@ -370,5 +370,8 @@
     "invalid_number": "The phone number you entered is not valid",
     "too_many_attempts": "Too many incorrect attempts. please try again",
     "code_expired": "The verification code has expired. Please request a new code",
-    "invalid_code": "The code you entered is incorrect. Please double-check the code and try again"
+    "invalid_code": "The code you entered is incorrect. Please double-check the code and try again",
+    "search_by_id": "Search by Order ID",
+    "search_by_product_name": "Search by Product Name",
+    "search_by_package_name": "Search by Package Name"
 }
