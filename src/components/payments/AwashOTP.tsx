@@ -8,7 +8,7 @@ const CBEmobile: React.FC = () => {
                         STEPS
                     </p>
                     <h3 className="text-3xl sm:text-5xl leading-normal font-extrabold tracking-tight text-gray-900">
-                        How it <span className="text-indigo-600">Works?</span>
+                        How it <span className="text-primary">Works?</span>
                     </h3>
                 </div>
                 <div className="mt-20">

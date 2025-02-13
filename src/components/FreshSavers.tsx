@@ -1,26 +1,62 @@
-import { useEffect, useState, useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ProductCard from "./ProductCard";
-import { Product } from "../types/product";
+import { useProducts } from "../hooks/useProducts";
 import defaultImage from "../assets/no-image-available-02.jpg";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCardLoading from "./loading skeletons/product/Card.tsx";
+
 const FreshSavers = () => {
     const { t } = useTranslation();
-    const [freshSavers, setFreshSavers] = useState<Product[]>([]);
-    const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(true);
-    const [loadingMore, setLoadingMore] = useState(false);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const previousCountRef = useRef(0);
+
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const initialItemsToLoad = 14;
+    const {
+        filteredProducts: freshSavers,
+        loadMore,
+        hasMore,
+        isFetchingNextPage: loadingMore,
+    } = useProducts({
+        id: 111,
+        endpoint: "subcategories",
+        initialItemsToLoad: 14,
+    });
 
-    const formatPrice = (price: string | number): number => {
-        const num = typeof price === "string" ? parseFloat(price) : price;
-        return +num.toFixed(2);
+    useEffect(() => {
+        if (freshSavers.length > previousCountRef.current) {
+            const previousCount = previousCountRef.current;
+            previousCountRef.current = freshSavers.length; // Update ref before scrolling
+
+            requestAnimationFrame(() => {
+                const container = scrollContainerRef.current;
+                if (container) {
+                    const firstNewProduct = container.children[
+                        previousCount
+                    ] as HTMLElement;
+                    if (firstNewProduct) {
+                        firstNewProduct.scrollIntoView({
+                            behavior: "smooth",
+                            block: "nearest",
+                            inline: "start",
+                        });
+                    }
+                }
+            });
+        }
+    }, [freshSavers]);
+
+    const scroll = (direction: "left" | "right") => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            const scrollAmount = 200; // Adjust scroll amount as needed
+            container.scrollBy({
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
+            });
+        }
     };
-
     const checkScrollability = () => {
         const container = scrollContainerRef.current;
         if (container) {
@@ -31,77 +67,6 @@ const FreshSavers = () => {
             );
         }
     };
-
-    useEffect(() => {
-        const fetchFreshSavers = async () => {
-            setLoadingMore(true);
-            try {
-                const response = await fetch(
-                    import.meta.env.VITE_API_BASE_URL +
-                        `/subcategories/111/products?page=${page}&paginate=${initialItemsToLoad}`
-                );
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                setHasMore(data.meta.last_page > (page === 1 ? 1 : page)); // Adjust hasMore logic
-
-                const fetchedProducts: Product[] = data.data.map(
-                    (item: any) => ({
-                        id: item.id,
-                        name: item.name,
-                        price: formatPrice(item.price),
-                        discount: parseFloat(item.discount),
-                        image:
-                            item.image_paths && item.image_paths.length > 0
-                                ? item.image_paths[0]
-                                : defaultImage,
-                        unit: item.measurement_type,
-                        originalPrice: parseFloat(item.price),
-                        created_at: item.created_at,
-                    })
-                );
-
-                const previousCount = freshSavers.length;
-
-                if (page === 1) {
-                    setFreshSavers(
-                        fetchedProducts.slice(0, initialItemsToLoad)
-                    );
-                } else {
-                    setFreshSavers((prevSavers) => [
-                        ...prevSavers,
-                        ...fetchedProducts,
-                    ]);
-
-                    setTimeout(() => {
-                        const container = scrollContainerRef.current;
-                        if (container) {
-                            const firstNewProduct = container.children[
-                                previousCount
-                            ] as HTMLElement;
-                            if (firstNewProduct) {
-                                firstNewProduct.scrollIntoView({
-                                    behavior: "smooth",
-                                    block: "nearest", // Prevent vertical scrolling
-                                    inline: "start",
-                                });
-                            }
-                        }
-                    }, 0);
-                }
-            } catch (error) {
-                console.error("Error fetching fresh savers:", error);
-            } finally {
-                setLoadingMore(false);
-            }
-        };
-
-        fetchFreshSavers();
-    }, [page]);
-
     useEffect(() => {
         checkScrollability();
         const container = scrollContainerRef.current;
@@ -115,23 +80,6 @@ const FreshSavers = () => {
         };
     }, [freshSavers]);
 
-    const scroll = (direction: "left" | "right") => {
-        const container = scrollContainerRef.current;
-        if (container) {
-            const scrollAmount = 200; // Adjust scroll amount as needed
-            container.scrollBy({
-                left: direction === "left" ? -scrollAmount : scrollAmount,
-                behavior: "smooth",
-            });
-        }
-    };
-
-    const loadMore = () => {
-        if (!loadingMore && hasMore) {
-            setPage((prevPage) => prevPage + 1);
-        }
-    };
-
     return (
         <section className="mb-0">
             <div className="flex justify-between items-center mb-6">
@@ -140,6 +88,7 @@ const FreshSavers = () => {
                 </h2>
                 {!loadingMore && hasMore && (
                     <button
+                        aria-label="Load More"
                         onClick={loadMore}
                         className="bg-[#e9a83a] hover:bg-[#fed874] text-white text-sm sm:text-base transition-colors py-2 px-4 rounded-lg font-semibold"
                     >
@@ -155,6 +104,7 @@ const FreshSavers = () => {
             <div className="relative">
                 {canScrollLeft && (
                     <button
+                        aria-label="Left"
                         onClick={() => scroll("left")}
                         className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
@@ -163,6 +113,7 @@ const FreshSavers = () => {
                 )}
                 {canScrollRight && (
                     <button
+                        aria-label="Right"
                         onClick={() => scroll("right")}
                         className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2 shadow-md z-10"
                     >
@@ -195,12 +146,6 @@ const FreshSavers = () => {
                           ))}
                 </div>
             </div>
-
-            {!loadingMore && !hasMore && (
-                <div className="text-center">
-                    {/* <p className="text-gray-600 text-lg">No more products to load.</p> */}
-                </div>
-            )}
         </section>
     );
 };

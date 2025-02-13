@@ -4,7 +4,7 @@ import ProductCard from "../components/ProductCard";
 import Sidebar from "../components/filters/Sidebar";
 import { useProducts } from "../hooks/useProducts";
 import Meta from "../components/Meta";
-import { getAllProductsMetaTags } from "../config/meta";
+import { getAllProductsMetaTags, getSearchMetaTags } from "../config/meta";
 import Breadcrumb from "../components/Breadcrumb";
 import { useTranslation } from "react-i18next";
 import ProductCardLoading from "../components/loading skeletons/product/Card.tsx";
@@ -67,7 +67,8 @@ const Products: React.FC = () => {
     return (
         <>
             {" "}
-            <Meta config={getAllProductsMetaTags()} />
+            {searchName && <Meta config={getSearchMetaTags(searchName)} />}
+            {!searchName && <Meta config={getAllProductsMetaTags()} />}
             <div className="max-w-7xl mx-auto px-4 py-4">
                 <Breadcrumb
                     paths={[

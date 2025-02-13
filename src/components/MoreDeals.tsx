@@ -176,7 +176,9 @@ const MoreDeals: React.FC = () => {
                 {/* Regular Deals Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                     {isLoadingPackages ? (
-                        Array.from({length:3}).map((_,index)=><PackageLoading key={index}/>)
+                        Array.from({ length: 3 }).map((_, index) => (
+                            <PackageLoading key={index} />
+                        ))
                     ) : packagesError ? (
                         <ErrorDisplay error={packagesError} />
                     ) : (

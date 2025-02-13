@@ -21,6 +21,7 @@ const Login = () => {
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const redirect = searchParams.get("redirect") || "/seregela-gebeya-v2";
+
     const [phoneNumber, setPhoneNumber] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);

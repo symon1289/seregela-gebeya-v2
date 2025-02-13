@@ -70,12 +70,14 @@ export default function HeroSlider() {
                 {nonPopupAdverts.length > 1 && (
                     <>
                         <button
+                            aria-label="Left"
                             onClick={handlePrev}
                             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
                         >
                             <ChevronLeft />
                         </button>
                         <button
+                            aria-label="Right"
                             onClick={handleNext}
                             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
                         >
@@ -85,6 +87,7 @@ export default function HeroSlider() {
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                             {nonPopupAdverts.map((_, index) => (
                                 <button
+                                    aria-label="Slide"
                                     key={index}
                                     onClick={() => {
                                         resetTimeout();

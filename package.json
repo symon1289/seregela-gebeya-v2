@@ -5,7 +5,7 @@
     "type": "module",
     "homepage": "https://symon1289.github.io/seregela-gebeya-v2/",
     "scripts": {
-        "dev": "vite --port=8076 --force",
+        "dev": "vite --port=8001 && --force",
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "vite preview",

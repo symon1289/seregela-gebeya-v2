@@ -86,6 +86,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     />
                     <div className="absolute bottom-2 right-2">
                         <button
+                            aria-label="Add to Cart"
                             className="bg-blue-500 p-2 rounded-full text-white hover:bg-blue-600 transition-colors"
                             onClick={handleAddToCart}
                         >

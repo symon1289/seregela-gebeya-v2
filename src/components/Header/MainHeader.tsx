@@ -21,6 +21,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -37,7 +38,7 @@ const Navbar = () => {
     const { products: hookSearchResults, isLoading } = useProducts({
         id: undefined,
         endpoint: "products",
-        searchName: searchQuery,
+        searchName: debouncedSearchQuery,
     });
 
     const searchResults: Product[] = hookSearchResults.map(
@@ -75,10 +76,8 @@ const Navbar = () => {
             originalPrice: product.originalPrice.toString(),
         })
     );
-    const userData = localStorage.getItem("user");
-    const { first_name, last_name } = userData
-        ? JSON.parse(userData)
-        : { first_name: "", last_name: "" };
+    const userData = useSelector((state: RootState) => state.auth.user);
+    const { first_name, last_name } = userData?.auth ?? {};
     const cartItems = useSelector((state: RootState) => state.cart.items);
     const itemCount =
         cartItems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
@@ -99,7 +98,9 @@ const Navbar = () => {
         event.preventDefault();
         setIsSearchOpen(false);
         navigate(
-            `/seregela-gebeya-v2/products?name=${encodeURIComponent(searchQuery)}`
+            `/seregela-gebeya-v2/products?name=${encodeURIComponent(
+                searchQuery
+            )}`
         );
     };
 
@@ -110,13 +111,11 @@ const Navbar = () => {
     };
 
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            if (!searchQuery) {
-                setIsSearchOpen(false);
-            }
-        }, 300);
+        const handler = setTimeout(() => {
+            setDebouncedSearchQuery(searchQuery);
+        }, 1000);
 
-        return () => clearTimeout(delayDebounceFn);
+        return () => clearTimeout(handler);
     }, [searchQuery]);
 
     return (

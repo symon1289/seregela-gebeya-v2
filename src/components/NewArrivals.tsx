@@ -23,6 +23,7 @@ const NewArrivals = () => {
                 </h2>
                 {!newArrivalsLoading && hasMoreNewArrivals && (
                     <button
+                        aria-label="Load More"
                         onClick={loadMoreNewArrivals}
                         className="bg-[#e9a83a] hover:bg-[#fed874] text-white text-sm sm:text-base transition-colors py-2 px-4 rounded-lg font-semibold"
                     >

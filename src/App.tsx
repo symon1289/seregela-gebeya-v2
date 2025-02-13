@@ -22,6 +22,13 @@ import ProfileUi from "./pages/ProfileUi";
 import TestLogin from "./pages/TestLogin";
 // import { RootState } from "./store/store";
 import { Navigate } from "react-router-dom";
+import CBEmobile from "./components/payments/CBEmobile";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfServices from "./pages/TermsOfServices";
+import FAQ from "./pages/FAQ";
+import DeliveryReturnPolicy from "./pages/DeliveryReturnPolicy";
+import ContactUs from "./pages/ContactUs";
+import Apollo from "./components/payments/Apollo";
 // import { useSelector } from "react-redux";
 function App() {
     // const { user } = useSelector((state: RootState) => state.auth);
@@ -62,6 +69,26 @@ function App() {
                             element={<Wishlist />}
                         />
                         <Route
+                            path="/seregela-gebeya-v2/privacy-policy"
+                            element={<PrivacyPolicy />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/terms-of-service"
+                            element={<TermsOfServices />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/faq"
+                            element={<FAQ />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/return-policy"
+                            element={<DeliveryReturnPolicy />}
+                        />
+                        <Route
+                            path="/seregela-gebeya-v2/contact"
+                            element={<ContactUs />}
+                        />
+                        <Route
                             path="/seregela-gebeya-v2/login"
                             element={
                                 userData ? (
@@ -87,6 +114,14 @@ function App() {
                             <Route
                                 path="/seregela-gebeya-v2/checkout/payment"
                                 element={<Payment />}
+                            />
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/payment/cbebanking"
+                                element={<CBEmobile />}
+                            />
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/payment/apollo"
+                                element={<Apollo />}
                             />
                         </Route>
                         <Route
