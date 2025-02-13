@@ -67,7 +67,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                                   >
                                       <Link
                                           to={`/seregela-gebeya-v2/category/${category.id}`}
-                                          className="flex items-center gap-3 ml-4 text-[#1a1a1a] hover:text-[#e9a83a] text-sm font-medium transition-colors duration-200"
+                                          className="flex items-center gap-3 ml-4 text-[#1a1a1a] hover:text-[#e9a83a] text-[12px] lg:text-sm font-medium transition-colors duration-200"
                                       >
                                           <img
                                               src={category.image_path}

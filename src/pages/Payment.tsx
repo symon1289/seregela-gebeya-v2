@@ -21,11 +21,18 @@ import useUser from "../hooks/useUser";
 import PinComponent from "../components/payments/PinComponent";
 
 const Payment: React.FC = () => {
+    const noBank = {
+        id: 13,
+        name: "No Bank",
+        image: Bunna_Bank,
+        sendingName: "loan",
+    };
+
     const bunnaBank = {
         id: 11,
         name: "Bunna Bank",
         image: Bunna_Bank,
-        sendingName: "loan",
+        sendingName: "bunna",
     };
 
     const { fetchUser } = useUser();
@@ -88,6 +95,15 @@ const Payment: React.FC = () => {
                     } as OrderDetail)
             );
             dispatch(savePaymentMethod(selectedOption.sendingName));
+        } else if (id === noBank.id) {
+            setOrderDetail(
+                (prev) =>
+                    ({
+                        ...prev,
+                        payment_method: noBank.sendingName,
+                    } as OrderDetail)
+            );
+            dispatch(savePaymentMethod(noBank.sendingName));
         } else {
             setOrderDetail(
                 (prev) =>
@@ -149,7 +165,7 @@ const Payment: React.FC = () => {
                     setTimeout(() => {
                         setShowApprove(1);
                         toast.success(t("success.order_placed"));
-                    }, 500);
+                    }, 700);
                     setTimeout(() => {
                         dispatch(setReceipt(response));
                     }, 2000);
@@ -251,7 +267,7 @@ const Payment: React.FC = () => {
         <>
             <Meta config={getPaymentMethodsMetaTags()} />
             {showApprove === 0 && (
-                <div className="max-w-screen-xl mx-auto  bg-white pb-6 pt-3 ">
+                <div className="max-w-screen-xl mx-auto  bg-white pb-6 pt-1 ">
                     <CheckoutSteps step1 step2 />
                     <div className="grid lg:grid-cols-2 ">
                         {/* Payment Options */}
@@ -263,53 +279,13 @@ const Payment: React.FC = () => {
                                 {t("payment_details")}
                             </p>
 
-                            <form className="mt-5 grid sm:grid-cols-2 gap-2">
+                            <form className="mt-5 grid sm:grid-cols-2 md:grid-cols-3 gap-2">
                                 {createOrderMutation.isPending ? (
                                     <Loader />
                                 ) : (
                                     <>
-                                        {paymentOptions.map((item) => (
-                                            <div
-                                                className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
-                                                key={item.id}
-                                            >
-                                                <input
-                                                    className="peer hidden"
-                                                    id={`radio_${item.id}`}
-                                                    type="radio"
-                                                    name="radio"
-                                                    value={item.id}
-                                                    onChange={() =>
-                                                        handlePaymentChange(
-                                                            item.id
-                                                        )
-                                                    }
-                                                    checked={
-                                                        paymentOptionId ===
-                                                        item.id
-                                                    }
-                                                />
-                                                <span className="peer-checked:border-primary absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
-                                                <label
-                                                    className="peer-checked:border-2 peer-checked:border-primary peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 py-6 px-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary"
-                                                    htmlFor={`radio_${item.id}`}
-                                                >
-                                                    <img
-                                                        className="w-14 h-7 object-contain object-center"
-                                                        src={item.image}
-                                                        alt={item.name}
-                                                    />
-                                                    <div className="ml-5">
-                                                        <span className="mt-2 font-semibold">
-                                                            {item.name}
-                                                        </span>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        ))}
-
                                         {/* Conditionally render Bunna Bank option */}
-                                        {userData?.bank &&
+                                        {userData?.bank?.id === 22 &&
                                             userData?.loan_balance > 0 && (
                                                 <div
                                                     className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
@@ -336,23 +312,122 @@ const Payment: React.FC = () => {
                                                         className="peer-checked:border-2 peer-checked:border-primary peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 py-6 px-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary"
                                                         htmlFor={`radio_${bunnaBank.id}`}
                                                     >
+                                                        <div className="flex flex-col items-center space-x-5">
+                                                            <img
+                                                                className="w-full h-20 object-contain object-center"
+                                                                src={
+                                                                    bunnaBank.image
+                                                                }
+                                                                alt={
+                                                                    bunnaBank.name
+                                                                }
+                                                            />
+                                                            <div className="ml-5 justify-start">
+                                                                <span className="mt-2 font-semibold text-center text-sm">
+                                                                    {t(
+                                                                        "your_loan_balance"
+                                                                    )}{" "}
+                                                                    {
+                                                                        userData?.loan_balance
+                                                                    }{" "}
+                                                                    {t("birr")}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            )}
+                                        {paymentOptions.map((item) => (
+                                            <div
+                                                className={`relative hover:cursor-pointer hover:border-primary hover:border-2 border-gray-200 border-2 hover:text-primary ${item.backroundColor} rounded-lg`}
+                                                key={item.id}
+                                            >
+                                                <input
+                                                    className="peer hidden"
+                                                    id={`radio_${item.id}`}
+                                                    type="radio"
+                                                    name="radio"
+                                                    value={item.id}
+                                                    onChange={() =>
+                                                        handlePaymentChange(
+                                                            item.id
+                                                        )
+                                                    }
+                                                    checked={
+                                                        paymentOptionId ===
+                                                        item.id
+                                                    }
+                                                />
+                                                <span className="peer-checked:border-primary absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
+                                                <label
+                                                    className={`peer-checked:border-2 peer-checked:border-primary peer-checked:${item.backroundColor} flex cursor-pointer select-none rounded-lg border border-gray-200 py-6 px-2 text-sm font-medium text-gray-900  hover:text-primary`}
+                                                    htmlFor={`radio_${item.id}`}
+                                                >
+                                                    <div className="flex flex-col items-center space-x-5">
                                                         <img
-                                                            className="w-14 h-7 object-contain object-center"
-                                                            src={
-                                                                bunnaBank.image
-                                                            }
-                                                            alt={bunnaBank.name}
+                                                            className="w-full h-20 object-contain object-center"
+                                                            src={item.image}
+                                                            alt={item.name}
                                                         />
-                                                        <div className="ml-5">
-                                                            <span className="mt-2 font-semibold">
-                                                                {t(
-                                                                    "your_loan_balance"
-                                                                )}{" "}
-                                                                {
-                                                                    userData.loan_balance
-                                                                }{" "}
-                                                                {t("birr")}
-                                                            </span>
+                                                        <div className="ml-5 justify-start">
+                                                            {/* <span className="mt-2 font-semibold">
+                                                                {item.name}
+                                                            </span> */}
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        ))}
+
+                                        {/* Conditionally render No Bank option */}
+                                        {userData?.bank?.id !== 22 &&
+                                            userData?.loan_balance > 0 && (
+                                                <div
+                                                    className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
+                                                    key={noBank.id}
+                                                >
+                                                    <input
+                                                        className="peer hidden"
+                                                        id={`radio_${noBank.id}`}
+                                                        type="radio"
+                                                        name="radio"
+                                                        value={noBank.id}
+                                                        onChange={() =>
+                                                            handlePaymentChange(
+                                                                noBank.id
+                                                            )
+                                                        }
+                                                        checked={
+                                                            paymentOptionId ===
+                                                            noBank.id
+                                                        }
+                                                    />
+                                                    <span className="peer-checked:border-primary absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white" />
+                                                    <label
+                                                        className="peer-checked:border-2 peer-checked:border-primary peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 py-6 px-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary"
+                                                        htmlFor={`radio_${noBank.id}`}
+                                                    >
+                                                        <div className="flex flex-col items-center space-x-5">
+                                                            <img
+                                                                className="w-full h-14 object-contain object-center"
+                                                                src={
+                                                                    noBank.image
+                                                                }
+                                                                alt={
+                                                                    noBank.name
+                                                                }
+                                                            />
+                                                            <div className="ml-5 justify-start  text-center text-[12px]">
+                                                                <span className="mt-0.5 font-semibold">
+                                                                    {t(
+                                                                        "your_loan_balance"
+                                                                    )}{" "}
+                                                                    {
+                                                                        userData?.loan_balance
+                                                                    }{" "}
+                                                                    {t("birr")}
+                                                                </span>
+                                                            </div>
                                                         </div>
                                                     </label>
                                                 </div>

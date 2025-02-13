@@ -51,7 +51,7 @@ export default function HeroSlider() {
         };
 
         return (
-            <div className="relative group h-[400px] overflow-hidden shadow-lg">
+            <div className="relative group h-[235px] sm:h-[400px] overflow-hidden shadow-lg">
                 {nonPopupAdverts.map((slide, index) => (
                     <div
                         key={slide.id}
@@ -62,7 +62,7 @@ export default function HeroSlider() {
                         <img
                             src={slide.image_path}
                             alt={slide.title}
-                            className="w-full h-full object-cover -z-10"
+                            className="w-full h-full object-contain sm:object-cover -z-10"
                         />
                     </div>
                 ))}

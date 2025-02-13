@@ -13,64 +13,29 @@ export default function WelcomeSection() {
         ? JSON.parse(userData)
         : { first_name: "", last_name: "" };
     return (
-        <div
-            className="bg-white shadow-lg 
-      w-full h-[400px] 
-      flex flex-col 
-      p-4 sm:p-6"
-        >
+        <div className="bg-white shadow-lg w-full h-[400px] flex flex-col p-4 sm:p-6">
             <div className="text-center mb-1">
                 <img
                     src={logo}
                     alt="seregela gebeya logo"
                     className="w-12 h-10 sm:w-12 sm:h-12 mx-auto text-[#e7a334] mb-2"
                 />
-                <h2 className="text-base sm:text-lg font-semibold mb-1">
+                <h2 className="text-[14px] lg:text-lg font-semibold mb-1">
                     {t("welcome")}
                 </h2>
-                <div className="flex gap-2 mb-1">
+                <div className="flex gap-2 mb-4 lg:mb-1">
                     {userData ? (
                         <Link
                             to="/seregela-gebeya-v2/profile"
                             className="w-full"
                         >
-                            <button
-                                className="
-              w-full 
-              bg-[#e7a334] 
-              text-white 
-              py-2 px-4 
-              rounded 
-              hover:bg-white 
-              hover:text-[#e7a334] 
-              border 
-              border-[#e7a334] 
-              transition-colors 
-              duration-300
-              text-sm sm:text-base
-            "
-                            >
+                            <button className="w-full bg-[#e7a334] text-white py-2 px-4 rounded hover:bg-white hover:text-[#e7a334] border border-[#e7a334] transition-colors duration-300 text-[12px] lg:text-base">
                                 {t("hello")} {first_name} {last_name}
                             </button>
                         </Link>
                     ) : (
                         <Link to="/seregela-gebeya-v2/login" className="w-full">
-                            <button
-                                className="
-            w-full 
-            bg-[#e7a334] 
-            text-white 
-            py-2 px-4 
-            rounded 
-            hover:bg-white 
-            hover:text-[#e7a334] 
-            border 
-            border-[#e7a334] 
-            transition-colors 
-            duration-300
-            text-sm sm:text-base
-          "
-                            >
+                            <button className="w-full bg-[#e7a334] text-white py-2 px-4 rounded hover:bg-white  hover:text-[#e7a334] border border-[#e7a334] transition-colors duration-300 text-[12px] lg:text-base  ">
                                 {t("register_now")}
                             </button>
                         </Link>
@@ -113,9 +78,7 @@ export default function WelcomeSection() {
                 ].map(({ Icon, title, description }, index) => (
                     <div
                         key={index}
-                        className="flex items-center gap-3 
-              transform transition-transform duration-300 
-              hover:translate-x-1"
+                        className="flex items-center gap-3 transform transition-transform duration-300 hover:translate-x-1"
                     >
                         <img
                             src={Icon}
@@ -126,7 +89,7 @@ export default function WelcomeSection() {
                             <h3 className="font-medium text-[10px] md:text-xs lg:text-sm ">
                                 {title}
                             </h3>
-                            <p className="md:text-[10px] text-[10px]  text-gray-600 line-clamp-1">
+                            <p className="text-[8px] md:text-[10px]  text-gray-600 line-clamp-1">
                                 {description}
                             </p>
                         </div>

@@ -17,6 +17,7 @@ const FreshSavers = () => {
         filteredProducts: freshSavers,
         loadMore,
         hasMore,
+        isLoading,
         isFetchingNextPage: loadingMore,
     } = useProducts({
         id: 111,
@@ -124,7 +125,7 @@ const FreshSavers = () => {
                     ref={scrollContainerRef}
                     className="grid auto-cols-[10.5rem] grid-flow-col gap-3 overflow-x-auto row-span-2 grid-rows-2"
                 >
-                    {loadingMore
+                    {loadingMore || isLoading
                         ? Array.from({ length: 14 }).map((_, index) => (
                               <ProductCardLoading key={index} />
                           ))

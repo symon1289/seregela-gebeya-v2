@@ -17,6 +17,7 @@ const GrabOurBestDeals = () => {
         filteredProducts: bestDeals,
         loadMore,
         hasMore,
+        isLoading,
         isFetchingNextPage: loadingMore,
     } = usePopular({
         id: undefined,
@@ -124,7 +125,7 @@ const GrabOurBestDeals = () => {
                     ref={scrollContainerRef}
                     className="grid auto-cols-[10.5rem] grid-flow-col gap-3 overflow-x-auto"
                 >
-                    {loadingMore
+                    {loadingMore || isLoading
                         ? Array.from({ length: 14 }).map((_, index) => (
                               <ProductCardLoading key={index} />
                           ))
