@@ -20,6 +20,7 @@
     "payment_methods": "የክፍያ ዘዴዎች",
     "payment_details": "ተስማሚ የክፍያ ዘዴን ይምረጡ።  ",
     "order_summary_check": "እቃዎችህን አረጋግጥ።",
+
     "shipping_details_desc": "የማጓጓዣ ዝርዝሮችዎን በማቅረብ ትዕዛዝዎን ያጠናቅቁ።",
     "shipping_details_desc_delivery_type": "ተስማሚ የማጓጓዣ ዘዴን ይምረጡ።  ",
     "category": "ምድብ",
@@ -371,9 +372,11 @@
 
     "delivery_expected_today": "ዛሬ የሚደርስ",
     "expected_delivery_on": "የሚደርስበት ቀን",
-
     "invalid_number": "ያስገቡት ስልክ ቁጥር ትክክል አይደለም። እባክዎ ቁጥሩን አረጋግጠው እንደገና ይሞክሩ",
     "too_many_attempts": "ብዙ ጊዜ ሞክረዋል። እባክዎ ቆይተው እንደገና ይሞክሩ",
     "code_expired": "ያስገቡት ኮድ ጊዜው አልፎአል",
-    "invalid_code": "የገባው ኮድ ትክክል አይደለም። እባክዎ ኮዱን በድጋሚ አረጋግጠው ይሞክሩ"
+    "invalid_code": "የገባው ኮድ ትክክል አይደለም። እባክዎ ኮዱን በድጋሚ አረጋግጠው ይሞክሩ",
+    "search_by_id": "በትዕዛዝ ቁጥር ይፈልጉ",
+    "search_by_product_name": "በእቃ ስም ይፈልጉ",
+    "search_by_package_name": "በጥቅል ስም ይፈልጉ"
 }

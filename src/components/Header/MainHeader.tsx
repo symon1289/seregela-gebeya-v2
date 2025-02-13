@@ -18,6 +18,8 @@ import PriceFormatter from "../PriceFormatter";
 import CategoryNavLoading from "../loading skeletons/category/CategoryNav.tsx";
 
 const Navbar = () => {
+    const userData = useSelector((state: RootState) => state.auth.user);
+
     const navigate = useNavigate();
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -76,7 +78,6 @@ const Navbar = () => {
             originalPrice: product.originalPrice.toString(),
         })
     );
-    const userData = useSelector((state: RootState) => state.auth.user);
     const { first_name, last_name } = userData?.auth ?? {};
     const cartItems = useSelector((state: RootState) => state.cart.items);
     const itemCount =

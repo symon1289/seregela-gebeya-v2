@@ -91,21 +91,21 @@ const Myorders: React.FC = () => {
                 <div className="flex space-x-2">
                     <input
                         type="text"
-                        placeholder="Search by Order ID"
+                        placeholder={t("search_by_id")}
                         value={orderId}
                         onChange={(e) => setOrderId(e.target.value)}
                         className="border p-2 rounded shadow-sm outline-none focus:z-10 focus:border-primary focus:ring-primary"
                     />
                     <input
                         type="text"
-                        placeholder="Search by Product Name"
+                        placeholder={t("search_by_product_name")}
                         value={productName}
                         onChange={(e) => setProductName(e.target.value)}
                         className="border p-2 rounded shadow-sm outline-none focus:z-10 focus:border-primary focus:ring-primary"
                     />
                     <input
                         type="text"
-                        placeholder="Search by Package Name"
+                        placeholder={t("search_by_package_name")}
                         value={packageName}
                         onChange={(e) => setPackageName(e.target.value)}
                         className="border p-2 rounded shadow-sm outline-none focus:z-10 focus:border-primary focus:ring-primary"
