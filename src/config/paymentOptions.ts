@@ -9,6 +9,8 @@ import Apollo from "../assets/payment-option-8.png";
 import Enat_Bank from "../assets/payment-option-9.png";
 import Eth_Switch from "../assets/payment-option-10.png";
 import Abay_Bank from "../assets/payment-option-12.jpg";
+import Bunna_Bank from "../assets/payment-option-11.png";
+
 export interface PaymentOption {
     id: number;
     name: string;
@@ -26,7 +28,12 @@ export const paymentOptions: PaymentOption[] = [
         backroundColor: "bg-[#4E1B57]",
     },
     { id: 1, name: "Telebirr", image: Tele_Birr, sendingName: "telebirr" },
-
+    {
+        id: 11,
+        name: "Bunna Bank",
+        image: Bunna_Bank,
+        sendingName: "bunna",
+    },
     {
         id: 12,
         name: "Abay Bank",

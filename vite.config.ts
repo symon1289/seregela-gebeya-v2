@@ -15,29 +15,29 @@ export default defineConfig({
                 theme_color: "#ffffff",
                 background_color: "#ffffff",
                 display: "standalone",
-                start_url: "/",
+                start_url: "/seregela-gebeya-v2/",
                 orientation: "portrait",
                 icons: [
                     {
-                        src: "/pwa-192x192.png",
+                        src: "/seregela-gebeya-v2/pwa-192x192.png",
                         sizes: "192x192",
                         type: "image/png",
                         purpose: "any",
                     },
                     {
-                        src: "/pwa-512x512.png",
+                        src: "/seregela-gebeya-v2/pwa-512x512.png",
                         sizes: "512x512",
                         type: "image/png",
                         purpose: "any",
                     },
                     {
-                        src: "/pwa-maskable-192x192.png",
+                        src: "/seregela-gebeya-v2/pwa-maskable-192x192.png",
                         sizes: "192x192",
                         type: "image/png",
                         purpose: "maskable",
                     },
                     {
-                        src: "/pwa-maskable-512x512.png",
+                        src: "/seregela-gebeya-v2/pwa-maskable-512x512.png",
                         sizes: "512x512",
                         type: "image/png",
                         purpose: "maskable",
@@ -61,6 +61,18 @@ export default defineConfig({
                             expiration: {
                                 maxEntries: 10,
                                 maxAgeSeconds: 60 * 60 * 24 * 30,
+                            },
+                        },
+                    },
+                    {
+                        urlPattern: ({ url }) =>
+                            url.pathname.startsWith("/api"),
+                        handler: "NetworkFirst",
+                        options: {
+                            cacheName: "api-cache",
+                            expiration: {
+                                maxEntries: 50,
+                                maxAgeSeconds: 24 * 60 * 60,
                             },
                         },
                     },

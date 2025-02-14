@@ -1,5 +1,5 @@
 // Cache name for static assets
-const CACHE_NAME = "seregela-gebeya-cache-v1";
+const CACHE_NAME = "seregela-gebeya-cache-v2";
 
 // Install event: Cache static assets
 self.addEventListener("install", (event) => {
@@ -8,12 +8,25 @@ self.addEventListener("install", (event) => {
             return cache.addAll([
                 "/",
                 "/index.html",
-                "/products",
-                "/cart",
-                "/login",
-                "/wishlist",
-                "/checkout/shipping",
-                "/checkout/payment",
+                "/seregela-gebeya-v2",
+                "/seregela-gebeya-v2/products",
+                "/seregela-gebeya-v2/cart",
+                "/seregela-gebeya-v2/products/:id",
+                "/seregela-gebeya-v2/category/:id",
+                "/seregela-gebeya-v2/subcategory/:id",
+                "/seregela-gebeya-v2/wishlist",
+                "/seregela-gebeya-v2/privacy-policy",
+                "/seregela-gebeya-v2/terms-of-service",
+                "/seregela-gebeya-v2/faq",
+                "/seregela-gebeya-v2/return-policy",
+                "/seregela-gebeya-v2/contact",
+                "/seregela-gebeya-v2/login",
+                "/seregela-gebeya-v2/profile",
+                "/seregela-gebeya-v2/checkout/shipping",
+                "/seregela-gebeya-v2/checkout/payment",
+                "/seregela-gebeya-v2/checkout/payment/cbebanking",
+                "/seregela-gebeya-v2/checkout/payment/apollo",
+                "/seregela-gebeya-v2/test",
                 "/manifest.json",
                 "/apple-touch-icon.png",
                 "/favicon.ico",

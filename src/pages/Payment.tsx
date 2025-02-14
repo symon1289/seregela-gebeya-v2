@@ -28,12 +28,12 @@ const Payment: React.FC = () => {
         sendingName: "loan",
     };
 
-    const bunnaBank = {
-        id: 11,
-        name: "Bunna Bank",
-        image: Bunna_Bank,
-        sendingName: "bunna",
-    };
+    // const bunnaBank = {
+    //     id: 11,
+    //     name: "Bunna Bank",
+    //     image: Bunna_Bank,
+    //     sendingName: "bunna",
+    // };
 
     const { fetchUser } = useUser();
 
@@ -95,7 +95,26 @@ const Payment: React.FC = () => {
                     } as OrderDetail)
             );
             dispatch(savePaymentMethod(selectedOption.sendingName));
-        } else if (id === noBank.id) {
+        }
+        //  else if (id === noBank.id) {
+        //     setOrderDetail(
+        //         (prev) =>
+        //             ({
+        //                 ...prev,
+        //                 payment_method: noBank.sendingName,
+        //             } as OrderDetail)
+        //     );
+        //     dispatch(savePaymentMethod(noBank.sendingName));
+        // }
+        else {
+            // setOrderDetail(
+            //     (prev) =>
+            //         ({
+            //             ...prev,
+            //             payment_method: bunnaBank.sendingName,
+            //         } as OrderDetail)
+            // );
+            // dispatch(savePaymentMethod(bunnaBank.sendingName));
             setOrderDetail(
                 (prev) =>
                     ({
@@ -104,15 +123,6 @@ const Payment: React.FC = () => {
                     } as OrderDetail)
             );
             dispatch(savePaymentMethod(noBank.sendingName));
-        } else {
-            setOrderDetail(
-                (prev) =>
-                    ({
-                        ...prev,
-                        payment_method: bunnaBank.sendingName,
-                    } as OrderDetail)
-            );
-            dispatch(savePaymentMethod(bunnaBank.sendingName));
         }
     };
 
@@ -285,7 +295,7 @@ const Payment: React.FC = () => {
                                 ) : (
                                     <>
                                         {/* Conditionally render Bunna Bank option */}
-                                        {userData?.bank?.id === 22 &&
+                                        {/* {userData?.bank?.id === 22 &&
                                             userData?.loan_balance > 0 && (
                                                 <div
                                                     className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
@@ -336,7 +346,7 @@ const Payment: React.FC = () => {
                                                         </div>
                                                     </label>
                                                 </div>
-                                            )}
+                                            )} */}
                                         {paymentOptions.map((item) => (
                                             <div
                                                 className={`relative hover:cursor-pointer hover:border-primary hover:border-2 border-gray-200 border-2 hover:text-primary ${item.backroundColor} rounded-lg`}
