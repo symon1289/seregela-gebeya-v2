@@ -1,20 +1,26 @@
-// import { useEffect, useState } from "react";
+import React, { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import Meta from "../components/Meta";
 import { getHomeMetaTags } from "../config/meta";
 import CategoryGrid from "../components/CategoryGrid";
 import MoreDeals from "../components/MoreDeals";
 import NewArrivals from "../components/NewArrivals";
-import FreshSavers from "../components/FreshSavers";
-import GrabOurBestDeals from "../components/GrabOurBestDeals";
+// import FreshSavers from "../components/FreshSavers";
+// import GrabOurBestDeals from "../components/GrabOurBestDeals";
 import left from "../assets/left.png";
 import right from "../assets/right.png";
 import HeroSlider from "../components/HeroSlider";
 import WelcomeSection from "../components/WelcomeSection";
 import CategorySidebar from "../components/CategorySidebar";
 import { useCategory } from "../hooks/useCategory";
+import ProductCardLoading from "../components/loading skeletons/product/Card";
 
-const Home = () => {
+const FreshSavers = React.lazy(() => import("../components/FreshSavers"));
+const GrabOurBestDeals = React.lazy(
+    () => import("../components/GrabOurBestDeals")
+);
+
+const Home: React.FC = () => {
     const { categories, isLoading } = useCategory();
     const { t } = useTranslation();
     return (
@@ -48,8 +54,14 @@ const Home = () => {
                 </section>
 
                 {/* Fresh Savers */}
-                <FreshSavers />
-                <GrabOurBestDeals />
+                <Suspense
+                    fallback={Array.from({ length: 7 }).map((_, index) => (
+                        <ProductCardLoading key={index} />
+                    ))}
+                >
+                    <FreshSavers />
+                    <GrabOurBestDeals />
+                </Suspense>
                 {/* Offer Zone Banner */}
 
                 <section className="mb-16 sm:mb-12 mt-6">

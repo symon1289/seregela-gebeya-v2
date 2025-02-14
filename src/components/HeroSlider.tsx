@@ -86,14 +86,13 @@ export default function HeroSlider() {
 
                         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
                             {nonPopupAdverts.map((_, index) => (
-                                <button
-                                    aria-label="Slide"
+                                <div
                                     key={index}
                                     onClick={() => {
                                         resetTimeout();
                                         setCurrentSlide(index);
                                     }}
-                                    className={`w-2 h-2 rounded-full transition-colors ${
+                                    className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${
                                         index === currentSlide
                                             ? "bg-[#e7a334]"
                                             : "bg-white"

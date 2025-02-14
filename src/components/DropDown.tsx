@@ -9,7 +9,7 @@ interface DropDownProps {
 
 const DropDown: React.FC<DropDownProps> = ({
     options,
-    defaultLabel = "Select Item",
+    defaultLabel = "",
     onSelect,
     style,
 }) => {

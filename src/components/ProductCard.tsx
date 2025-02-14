@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { addToCart } from "../store/features/cartSlice";
 import { Plus } from "lucide-react";
 import defaultImage from "../assets/no-image-available-02.jpg";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface ProductCardProps {
     id: number;
@@ -28,7 +30,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const { t } = useTranslation();
     const handleAddToCart = (e: React.MouseEvent) => {
         e.stopPropagation();
         dispatch(
@@ -41,6 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 left_in_stock,
             })
         );
+        toast.success(name + " " + t("product_added_description"));
     };
 
     const handleCardClick = () => {
@@ -77,7 +80,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             className="w-full max-w-[280px] mb-4 cursor-pointer flex-shrink-0"
         >
             <div className="bg-white overflow-hidden shadow-sm rounded-[20px] border h-[280px] hover:shadow-lg transition-shadow duration-300">
-                <div className="relative h-40">
+                <div className="relative h-44">
                     <img
                         src={displayImage}
                         alt={name}
@@ -114,9 +117,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     </div>
 
                     <div className="w-full">
-                        <h4 className="text-black line-clamp-2 lowercase product-card-name">
+                        <p className="text-black line-clamp-2 lowercase product-card-name">
                             {name}
-                        </h4>
+                        </p>
                     </div>
                 </div>
             </div>

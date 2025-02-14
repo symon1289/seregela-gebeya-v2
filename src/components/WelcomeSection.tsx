@@ -18,7 +18,7 @@ export default function WelcomeSection() {
                 <img
                     src={logo}
                     alt="seregela gebeya logo"
-                    className="w-12 h-10 sm:w-12 sm:h-12 mx-auto text-[#e7a334] mb-2"
+                    className="w-20 h-10 sm:w-12 sm:h-12 mx-auto text-[#e7a334] mb-2 aspect-[720/555] object-contain"
                 />
                 <h2 className="text-[14px] lg:text-lg font-semibold mb-1">
                     {t("welcome")}

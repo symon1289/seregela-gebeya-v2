@@ -1,11 +1,11 @@
-import { Globe, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { setLanguage } from "../../store/features/languageSlice";
 import { FaTruckFast } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
-import freeDelivery from "../../assets/image_2024-11-08_17-21-35.png";
+// import freeDelivery from "../../assets/image_2024-11-08_17-21-35.png";
 export default function TopBar() {
     const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ export default function TopBar() {
                         <span>{t("track_order")}</span>
                     </Link>
                 </div>
-                <div className="hidden xl:flex items-center justify-between mt-0">
+                {/* <div className="hidden xl:flex items-center justify-between mt-0">
                     <div className="flex items-center space-x-2">
                         <img
                             src={freeDelivery}
@@ -53,7 +53,7 @@ export default function TopBar() {
                             <strong>{t("Addis_ababa_only")}</strong>
                         </span>
                     </div>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-2 sm:gap-4 font-medium sm:font-normal">
                     <Link
                         to="tel: +2517878"
@@ -62,7 +62,7 @@ export default function TopBar() {
                         <Phone size={16} />
                         <span>{t("contact_us")} 7878 </span>
                     </Link>
-                    <div className="flex items-center gap-2 text-[10px] sm:text-sm hover:text-[#e7a334]">
+                    {/* <div className="flex items-center gap-2 text-[10px] sm:text-sm hover:text-[#e7a334]">
                         <Globe size={16} />
                         <select
                             className="bg-transparent border-none text-gray-600 cursor-pointer "
@@ -72,6 +72,32 @@ export default function TopBar() {
                             <option value="en">English</option>
                             <option value="am">አማርኛ</option>
                         </select>
+                    </div> */}
+                    <div className="flex items-center gap-2 text-[10px] sm:text-sm hover:text-amber-500 cursor-pointer">
+                        <select
+                            className="appearance-none bg-transparent border-none text-gray-600 cursor-pointer pr-8 focus:outline-none"
+                            onChange={handleLanguageChange}
+                            value={i18n.language}
+                            aria-label="Change Language"
+                        >
+                            <option value="en">🇬🇧 English</option>
+                            <option value="am">🇪🇹 አማርኛ</option>
+                        </select>
+                        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                            <svg
+                                className="w-4 h-4 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 9l-7 7-7-7"
+                                />
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>

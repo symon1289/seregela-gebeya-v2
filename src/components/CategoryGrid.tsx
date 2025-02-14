@@ -83,7 +83,7 @@ const CategoryGrid: React.FC = () => {
                                       <div className="group relative bg-white rounded-lg overflow-hidden mb-2 aspect-square w-full">
                                           <img
                                               src={category.image_path}
-                                              alt={category.name}
+                                              alt=""
                                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200 -z-30"
                                               loading="lazy"
                                           />

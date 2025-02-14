@@ -1,282 +1,243 @@
 @import url("https://fonts.cdnfonts.com/css/gilam");
 :root {
-  /* Define variables at the root level for global access */
-  --text-body: #e7a334; /* Default dark gray */
-  --detail-medium-contrast: #eaeaea; /* Default light gray */
-  --font-body: "Gilam", sans-serif;
+    /* Define variables at the root level for global access */
+    --text-body: #e7a334; /* Default dark gray */
+    --detail-medium-contrast: #eaeaea; /* Default light gray */
+    --font-body: "Gilam", sans-serif;
 }
 
 /* Custom scrollbar styles */
 /* For WebKit browsers */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+    width: 6px;
+    height: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #e7a334;
-  border-radius: 10px;
-  cursor: pointer;
-  &:hover {
-    background-color: #e9a83a;
-  }
-  &:active {
     background-color: #e7a334;
-  }
+    border-radius: 10px;
+    cursor: pointer;
+    &:hover {
+        background-color: #e9a83a;
+    }
+    &:active {
+        background-color: #e7a334;
+    }
 }
 ::-webkit-scrollbar-track {
-  background-color: #f8f8f8;
+    background-color: #f8f8f8;
 }
 @-moz-document url-prefix() {
-  html {
-    scrollbar-width: thin;
-    scrollbar-gutter: calc(100% - 2px);
-  }
+    html {
+        scrollbar-width: thin;
+        scrollbar-gutter: calc(100% - 2px);
+    }
 }
 
 body {
-  font-family: var(--font-body);
+    font-family: var(--font-body);
 }
 
 @font-face {
-  font-family: "For-banner";
-  src: url("./assets/fonts/EthiopicSadiss-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-size: 100px;
-  line-height: 19px;
+    font-family: "For-banner";
+    src: url("./assets/fonts/EthiopicSadiss-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-size: 100px;
+    line-height: 19px;
 }
 @font-face {
-  font-family: "For-logo-amharic";
-  src: url("./assets/fonts/EthiopicSadiss-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 19px;
+    font-family: "For-logo-amharic";
+    src: url("./assets/fonts/EthiopicSadiss-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 19px;
 }
 @font-face {
-  font-family: "For-name";
-  src: url("./assets/fonts/EthiopicSadiss-Light.ttf") format("truetype");
+    font-family: "For-name";
+    src: url("./assets/fonts/EthiopicSadiss-Light.ttf") format("truetype");
 }
 @font-face {
-  font-family: "For-logo-english";
-  src: url("./assets/fonts/MalebuStd-Heavy.otf") format("opentype");
-  font-weight: lighter;
-  font-size: 20px;
-  line-height: 24px;
-}
-.embla__viewport {
-  overflow: hidden;
-}
-.embla__container {
-  display: flex;
-}
-.embla__slide {
-  flex: 0 0 100%;
-  min-width: 0;
-}
-
-.embla__dots {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-.embla__dot {
-  margin: 0.5rem;
-  transition: background-color 0.2s ease-in-out;
-  cursor: pointer;
-  background-color: var(--detail-medium-contrast); /* Add background color */
-  border-radius: 50%; /* Ensure border-radius is applied */
-  width: 1rem; /* Set explicit width and height */
-  height: 1rem;
-}
-.embla__dot:after {
-  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  display: block;
-  align-items: center;
-  content: "";
-}
-.embla__dot--selected {
-  /* Style the selected dot directly */
-  background-color: var(--text-body); /* Change background color on select */
+    font-family: "For-logo-english";
+    src: url("./assets/fonts/MalebuStd-Heavy.otf") format("opentype");
+    font-weight: lighter;
+    font-size: 20px;
+    line-height: 24px;
 }
 .product-card-name {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 18px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
 }
 .explore-more-deals {
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 19px;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 19px;
 }
 .back-t-top {
-  font-family: var(--font-body);
+    font-family: var(--font-body);
 }
 .h-3-footer {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 19px;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 19px;
 }
 .download-our-app {
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
 }
 .li-footer-footer {
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 34px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 34px;
 }
 /* price filter css */
 .thumb {
-  height: 0;
-  width: 100%;
-  outline: none;
-  position: absolute;
-  pointer-events: none;
-  -webkit-appearance: none;
+    height: 0;
+    width: 100%;
+    outline: none;
+    position: absolute;
+    pointer-events: none;
+    -webkit-appearance: none;
 }
 
 .thumb::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  -webkit-tap-highlight-color: transparent;
-  background-color: #ffffff;
-  border: 2px solid #e9a83a;
-  border-radius: 50%;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  height: 18px;
-  width: 18px;
-  margin-top: 4px;
-  pointer-events: all;
-  position: relative;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #ffffff;
+    border: 2px solid #e9a83a;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    margin-top: 4px;
+    pointer-events: all;
+    position: relative;
 }
 
 .thumb::-moz-range-thumb {
-  background-color: #ffffff;
-  border: 2px solid #e9a83a;
-  border-radius: 50%;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  height: 18px;
-  width: 18px;
-  margin-top: 4px;
-  pointer-events: all;
-  position: relative;
+    background-color: #ffffff;
+    border: 2px solid #e9a83a;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+    margin-top: 4px;
+    pointer-events: all;
+    position: relative;
 }
 
 .slider-track {
-  height: 4px;
-  top: 8px;
+    height: 4px;
+    top: 8px;
 }
 
 .slider-range {
-  height: 4px;
-  top: 8px;
+    height: 4px;
+    top: 8px;
 }
 
 /* product card css */
 .product-card-integer-part {
-  font-weight: 900;
-  font-size: 20px;
-  line-height: 18px;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 18px;
 }
 .product-card-decimal-part {
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 18px;
-  color: black;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 18px;
+    color: black;
 }
 .product-card-birr-part {
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 18px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 18px;
 }
 .product-detail-integer-part {
-  font-weight: 900;
-  font-size: 30px;
-  line-height: 28px;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 28px;
 }
 .product-detail-decimal-part {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 25px;
-  color: black;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 25px;
+    color: black;
 }
 .product-detail-birr-part {
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 25px;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 25px;
 }
 .kalubet-enadersalen {
-  font-family: "For-banner";
-  font-weight: 400;
-  font-size: 100px;
-  line-height: 19px;
+    font-family: "For-banner";
+    font-weight: 400;
+    font-size: 100px;
+    line-height: 19px;
 }
 @media (max-width: 576px) {
-  .kalubet-enadersalen {
-    font-family: "For-banner";
-    font-size: 40px;
-    line-height: 14px;
-  }
+    .kalubet-enadersalen {
+        font-family: "For-banner";
+        font-size: 40px;
+        line-height: 14px;
+    }
 }
 
 @media (min-width: 577px) and (max-width: 768px) {
-  .kalubet-enadersalen {
-    font-family: "For-banner";
-    font-size: 40px;
-    line-height: 16px;
-  }
+    .kalubet-enadersalen {
+        font-family: "For-banner";
+        font-size: 40px;
+        line-height: 16px;
+    }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
-  .kalubet-enadersalen {
-    font-family: "For-banner";
-    font-size: 60px;
-    line-height: 16px;
-  }
+    .kalubet-enadersalen {
+        font-family: "For-banner";
+        font-size: 60px;
+        line-height: 16px;
+    }
 }
 @media (min-width: 1024px) and (max-width: 1280px) {
-  .kalubet-enadersalen {
-    font-family: "For-banner";
-    font-size: 80px;
-    line-height: 16px;
-  }
+    .kalubet-enadersalen {
+        font-family: "For-banner";
+        font-size: 80px;
+        line-height: 16px;
+    }
 }
 .logo-amharic {
-  font-family: "For-logo-amharic";
+    font-family: "For-logo-amharic";
 }
 .logo-english {
-  font-family: "For-logo-english";
+    font-family: "For-logo-english";
 }
 
 .slide-in {
-  animation: slideIn 0.5s ease-out;
+    animation: slideIn 0.5s ease-out;
 }
 
 @keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .mini-cart-container {
-  position: fixed;
-  /* top: 132px;
+    position: fixed;
+    /* top: 132px;
   right: 48px; */
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
-  z-index: 1000;
-  max-height: 360px;
-  overflow-y: auto;
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    z-index: 1000;
+    max-height: 360px;
+    overflow-y: auto;
 }

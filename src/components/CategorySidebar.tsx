@@ -71,7 +71,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                                       >
                                           <img
                                               src={category.image_path}
-                                              alt={category.name}
+                                              alt=""
                                               className="w-8 h-8 rounded-full object-cover border border-gray-200"
                                           />
                                           <span>{t(category.name)}</span>

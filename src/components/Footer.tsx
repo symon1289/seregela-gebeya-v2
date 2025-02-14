@@ -54,6 +54,7 @@ const Footer = () => {
                         <div className="flex space-x-4 justify-center md:justify-center lg:justify-start">
                             <Link
                                 target="_blank"
+                                aria-label="facebook"
                                 to="https://facebook.com/SeregelaGebeya"
                                 className="text-quaternary bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
                             >
@@ -61,6 +62,7 @@ const Footer = () => {
                             </Link>
                             <Link
                                 target="_blank"
+                                aria-label="tiktok"
                                 to="https://www.tiktok.com/@seregelagebeya?_t=8qkf3qDbr7O&_r=1"
                                 className="text-quaternary bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
                             >
@@ -68,6 +70,7 @@ const Footer = () => {
                             </Link>
                             <Link
                                 target="_blank"
+                                aria-label="linkedin"
                                 to="https://linkedin.com/in/seregela-gebeya?fbclid=IwZXh0bgNhZW0CMTAAAR2LG5fLebCIiY4_rNWTHH2I6ZQySJagNeY9E3ieCbLUjxyjzN0wHrolAlM_aem_oxXh9TKsglpM8YIohcmVMw"
                                 className="text-quaternary bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
                             >
@@ -75,6 +78,7 @@ const Footer = () => {
                             </Link>
                             <Link
                                 target="_blank"
+                                aria-label="instagram"
                                 to="https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Fseregelagebeya%3Ffbclid%3DIwZXh0bgNhZW0CMTAAAR1j56d2HE7veUyIRk5cXSWb8_QNfBhOxFisFTnAeo2ptYbIajNmAyTI7_s_aem_6clWmtbHFG7zwMvZt0ZSBg&h=AT3OUapwodNIJS-nBv2tJjan3SQoYPtH9kI-smb7Cd8WWM-9XU1vgLDZ2rOulmjEnl75Sp1_JQk4CmWNPs1hLPkLLuVZLzHjKfOxwYKnFgEuGVt69qfG7fAXE4NhCLGA0L4j"
                                 className="text-quaternary bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
                             >
@@ -82,6 +86,7 @@ const Footer = () => {
                             </Link>
                             <Link
                                 target="_blank"
+                                aria-label="telegram"
                                 to="https://t.me/SeregelaMarket"
                                 className="text-quaternary bg-white flex items-center justify-center rounded w-[34.53px] h-[34.53px] hover:text-amber-200 transition-colors"
                             >

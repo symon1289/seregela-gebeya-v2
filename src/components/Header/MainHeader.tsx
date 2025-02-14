@@ -135,6 +135,7 @@ const Navbar = () => {
                                 setIsMobileMenuOpen(!isMobileMenuOpen)
                             }
                             className="block sm:block md:hidden lg:hidden xl:hidden text-white"
+                            aria-label="Toggle menu"
                         >
                             {isMobileMenuOpen ? (
                                 <X className="h-6 w-6" />
@@ -145,11 +146,12 @@ const Navbar = () => {
                         <Link
                             to="/seregela-gebeya-v2"
                             className="hidden sm:flex items-center justify-end h-[65px] w-[80px] md:w-[180px] lg:w-[220px]"
+                            aria-label="SeregelaGebeya"
                         >
                             <img
                                 src={logomini}
                                 alt="Logo"
-                                className="w-[80px] h-[60px]"
+                                className="w-[80px] h-[60px] aspect-[720/555] object-contain"
                             />
                             <div className="hidden md:flex md:flex-col lg:flex lg:flex-col lg:h-[23px] md:h-[23px] text-black ">
                                 <p className="logo-english">SeregelaGebeya</p>
@@ -248,13 +250,15 @@ const Navbar = () => {
                             <Link
                                 to="/seregela-gebeya-v2/profile"
                                 className="hidden xl:flex hover:text-gray-200 bg-[#e7a334] rounded-lg px-2 py-2 text-white items-center gap-2"
+                                aria-label="Profile"
                             >
                                 <FaUserAlt size={24} />
                             </Link>
                         ) : (
                             <Link
                                 to="/seregela-gebeya-v2/login"
-                                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-2 py-2 text-[#e7a334] items-center gap-2"
+                                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-2 py-2 text-quaternary items-center gap-2"
+                                aria-label="Login"
                             >
                                 <User size={24} />
                                 <span>{t("login")}</span>
@@ -264,6 +268,7 @@ const Navbar = () => {
                         <Link
                             to="/seregela-gebeya-v2/cart"
                             className="relative hover:text-gray-200 text-white rounded-lg px-1 py-2 "
+                            aria-label="Cart"
                         >
                             <FaCartShopping size={24} />
                             {itemCount + packagecount > 0 && (
