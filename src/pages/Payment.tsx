@@ -180,8 +180,12 @@ const Payment: React.FC = () => {
                         dispatch(setReceipt(response));
                     }, 2000);
                 },
-                onError: (error) => {
-                    toast.error(t("error.order_failed"));
+                onError: (error: any) => {
+                    toast.error(
+                        t("error.order_failed") +
+                            " " +
+                            error.response?.data?.message
+                    );
                     console.error("Error making order:", error);
                 },
             });
@@ -266,8 +270,12 @@ const Payment: React.FC = () => {
                 dispatch(removeReceipt(orderReturn.id));
                 navigate("/");
             },
-            onError: (error) => {
-                toast.error(t("error.order_cancel_failed"));
+            onError: (error: any) => {
+                toast.error(
+                    t("error.order_cancel_failed") +
+                        " " +
+                        error.response?.data?.message
+                );
                 console.error("Error cancelling order:", error);
             },
         });
