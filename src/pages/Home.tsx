@@ -23,6 +23,7 @@ const GrabOurBestDeals = React.lazy(
 const Home: React.FC = () => {
     const { categories, isLoading } = useCategory();
     const { t } = useTranslation();
+
     return (
         <>
             <Meta config={getHomeMetaTags()} />
@@ -36,10 +37,10 @@ const Home: React.FC = () => {
                             />
                         </div>
                     </div>
-                    <div className="md:col-span-6">
+                    <div className="md:col-span-9 lg:col-span-6">
                         <HeroSlider />
                     </div>
-                    <div className="hidden md:block sm:col-span- md:col-span-3">
+                    <div className="hidden lg:block sm:col-span- lg:col-span-3">
                         <div className="sticky top-4">
                             <WelcomeSection />
                         </div>

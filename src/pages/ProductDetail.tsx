@@ -402,7 +402,10 @@ const ProductDetail: React.FC = () => {
                     <div className="mb-0">
                         <Breadcrumb
                             paths={[
-                                { name: "Products", url: "/seregela-gebeya-v2/products" },
+                                {
+                                    name: "Products",
+                                    url: "/seregela-gebeya-v2/products",
+                                },
                                 ...(category
                                     ? [
                                           {
@@ -477,7 +480,9 @@ const ProductDetail: React.FC = () => {
                                     >
                                         <img
                                             src={image}
-                                            alt={`${product.name} - Thumbnail ${index + 1}`}
+                                            alt={`${product.name} - Thumbnail ${
+                                                index + 1
+                                            }`}
                                             className="w-full h-full object-contain rounded-lg"
                                         />
                                     </button>
@@ -536,7 +541,7 @@ const ProductDetail: React.FC = () => {
                                                 parseFloat(product.discount) /
                                                     100)
                                         ).toFixed(2)}{" "}
-                                        Birr
+                                        {t("birr")}
                                     </span>
                                     <span className="text-sm text-red-500 font-medium">
                                         {product.discount}% OFF
@@ -748,7 +753,7 @@ const ProductDetail: React.FC = () => {
                     <div className="mt-12">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-2xl font-bold">
-                                More from this Category
+                                {t("more_from_this_Category")}
                             </h2>
                             {hasMoreProducts && (
                                 <button
@@ -876,7 +881,11 @@ const ProductDetail: React.FC = () => {
                                                     >
                                                         <img
                                                             src={image}
-                                                            alt={`${product.name} - Thumbnail ${index + 1}`}
+                                                            alt={`${
+                                                                product.name
+                                                            } - Thumbnail ${
+                                                                index + 1
+                                                            }`}
                                                             className="w-full h-full object-contain rounded-lg"
                                                         />
                                                     </button>

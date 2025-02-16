@@ -26,9 +26,12 @@ const GrabOurBestDeals = () => {
     });
 
     useEffect(() => {
-        if (bestDeals.length > previousCountRef.current) {
+        if (
+            bestDeals.length > previousCountRef.current &&
+            previousCountRef.current !== 0
+        ) {
             const previousCount = previousCountRef.current;
-            previousCountRef.current = bestDeals.length; // Update ref before scrolling
+            previousCountRef.current = bestDeals.length;
 
             requestAnimationFrame(() => {
                 const container = scrollContainerRef.current;
@@ -45,6 +48,8 @@ const GrabOurBestDeals = () => {
                     }
                 }
             });
+        } else {
+            previousCountRef.current = bestDeals.length; // Set count without scrolling on first load
         }
     }, [bestDeals]);
 
@@ -136,7 +141,7 @@ const GrabOurBestDeals = () => {
                                   name={product.name}
                                   price={product.price}
                                   image={product.image || defaultImage}
-                                  originalPrice={product.price}
+                                  originalPrice={product.originalPrice}
                                   discount={
                                       product.discount
                                           ? Number(product.discount)

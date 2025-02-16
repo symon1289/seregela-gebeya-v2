@@ -11,137 +11,146 @@ import { useTranslation } from "react-i18next";
 import defaultImage from "../assets/no-image-available-02.jpg";
 import ProductCardLoading from "../components/loading skeletons/product/Card.tsx";
 const Category: React.FC = () => {
-  const { t } = useTranslation();
-  const { id } = useParams<{ id: string }>();
-  const { categories } = useCategory();
-  const {
-    filteredProducts,
-    isLoading,
-    error,
-    hasMore,
-    minPrice,
-    maxPrice,
-    sortBy,
-    loadMore,
-    handlePriceChange,
-    handleSortChange,
-  } = useProducts({ id: Number(id), endpoint: "categories" });
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const { t } = useTranslation();
+    const { id } = useParams<{ id: string }>();
+    const { categories } = useCategory();
+    const {
+        filteredProducts,
+        isLoading,
+        error,
+        hasMore,
+        minPrice,
+        maxPrice,
+        sortBy,
+        loadMore,
+        handlePriceChange,
+        handleSortChange,
+    } = useProducts({ id: Number(id), endpoint: "categories" });
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const activeCategory = categories.find((cat) => cat.id === Number(id));
+    const activeCategory = categories.find((cat) => cat.id === Number(id));
 
-  if (!id) {
+    if (!id) {
+        return (
+            <div className="flex items-center justify-center min-h-[400px]">
+                <div className="text-lg text-gray-600">Loading category...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="max-w-7xl mx-auto px-4 py-12">
+                <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                    <div className="flex">
+                        <div className="flex-shrink-0">
+                            <svg
+                                className="h-5 w-5 text-red-400"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                        </div>
+                        <div className="ml-3">
+                            <p className="text-sm text-red-700">
+                                {error.message}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="text-lg text-gray-600">Loading category...</div>
-      </div>
+        <>
+            {activeCategory && (
+                <Meta config={getCategoryMetaTags(activeCategory.name)} />
+            )}
+            <div className="max-w-7xl mx-auto px-4 py-4">
+                {activeCategory && (
+                    <Breadcrumb
+                        paths={[
+                            {
+                                name: "Products",
+                                url: "/seregela-gebeya-v2/products",
+                            },
+                            {
+                                name: activeCategory.name,
+                                url: `/seregela-gebeya-v2/category/${activeCategory.id}`,
+                            },
+                        ]}
+                    />
+                )}
+                <div className="flex gap-[11px] mt-6">
+                    <Sidebar
+                        isOpen={isSidebarOpen}
+                        onClose={() => setIsSidebarOpen(!isSidebarOpen)}
+                        minPrice={minPrice}
+                        maxPrice={maxPrice}
+                        onPriceChange={handlePriceChange}
+                        sortBy={sortBy}
+                        onSortChange={handleSortChange}
+                    />
+
+                    <div className="flex-1">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[11px]">
+                            {isLoading
+                                ? Array.from({ length: 15 }).map((_, index) => (
+                                      <ProductCardLoading key={index} />
+                                  ))
+                                : filteredProducts.map((product) => (
+                                      <ProductCard
+                                          key={product.id}
+                                          id={product.id}
+                                          name={product.name}
+                                          price={product.price}
+                                          image={product.image || defaultImage}
+                                          originalPrice={product.originalPrice}
+                                          discount={
+                                              product.discount
+                                                  ? Number(product.discount)
+                                                  : undefined
+                                          }
+                                          left_in_stock={product.left_in_stock}
+                                      />
+                                  ))}
+                        </div>
+
+                        {isLoading && (
+                            <div className="flex justify-center mt-8">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                            </div>
+                        )}
+
+                        {!isLoading && hasMore && (
+                            <div className="flex justify-center mt-8">
+                                <button
+                                    onClick={loadMore}
+                                    className="px-6 py-2 bg-primary text-white rounded-md hover:bg-[#d49732] transition-colors"
+                                >
+                                    {t("loadMore")}
+                                </button>
+                            </div>
+                        )}
+
+                        {!isLoading &&
+                            !hasMore &&
+                            filteredProducts.length === 0 && (
+                                <div className="text-center mt-8 text-gray-500">
+                                    {t("no_items_via_this_filter")}
+                                </div>
+                            )}
+                    </div>
+                </div>
+            </div>
+        </>
     );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg
-                className="h-5 w-5 text-red-400"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{error.message}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {activeCategory && (
-        <Meta config={getCategoryMetaTags(activeCategory.name)} />
-      )}
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        {activeCategory && (
-          <Breadcrumb
-            paths={[
-              { name: "Products", url: "/seregela-gebeya-v2/products" },
-              {
-                name: activeCategory.name,
-                url: `/seregela-gebeya-v2/category/${activeCategory.id}`,
-              },
-            ]}
-          />
-        )}
-        <div className="flex gap-[11px] mt-6">
-          <Sidebar
-            isOpen={isSidebarOpen}
-            onClose={() => setIsSidebarOpen(!isSidebarOpen)}
-            minPrice={minPrice}
-            maxPrice={maxPrice}
-            onPriceChange={handlePriceChange}
-            sortBy={sortBy}
-            onSortChange={handleSortChange}
-          />
-
-          <div className="flex-1">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[11px]">
-              {isLoading
-                  ? Array.from({ length: 15 }).map((_, index) => (
-                      <ProductCardLoading key={index} />
-                  ))
-                  :filteredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  image={product.image || defaultImage}
-                  originalPrice={product.price}
-                  discount={
-                    product.discount ? Number(product.discount) : undefined
-                  }
-                  left_in_stock={product.left_in_stock}
-                />
-              ))}
-            </div>
-
-            {isLoading && (
-              <div className="flex justify-center mt-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-              </div>
-            )}
-
-            {!isLoading && hasMore && (
-              <div className="flex justify-center mt-8">
-                <button
-                  onClick={loadMore}
-                  className="px-6 py-2 bg-primary text-white rounded-md hover:bg-[#d49732] transition-colors"
-                >
-                  {t("loadMore")}
-                </button>
-              </div>
-            )}
-
-            {!isLoading && !hasMore && filteredProducts.length === 0 && (
-              <div className="text-center mt-8 text-gray-500">
-                {t("no_items_via_this_filter")}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </>
-  );
 };
 
 export default Category;

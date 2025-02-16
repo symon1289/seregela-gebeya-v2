@@ -5,8 +5,10 @@ import sidde from "../../assets/side.jpg";
 import { useSelector } from "react-redux";
 import { selectRecentProducts } from "../../store/features/productSlice";
 import { useProducts } from "../../hooks/useProducts";
+import { useTranslation } from "react-i18next";
 
 const ProductGrid: React.FC = () => {
+    const { t } = useTranslation();
     const {
         isLoadingPopularProducts,
         popularProductsError,
@@ -60,7 +62,7 @@ const ProductGrid: React.FC = () => {
                     </div>
                 ) : (
                     <ProductSection
-                        title="New Arrivals"
+                        title={t("new_arrivals")}
                         products={
                             newArrivals.map((product) => ({
                                 id: product.id,
@@ -81,7 +83,7 @@ const ProductGrid: React.FC = () => {
                     </div>
                 ) : (
                     <ProductSection
-                        title="Popular Products"
+                        title={t("popular_products")}
                         products={popularProductsForGrid || []}
                         intervalTime={7000}
                         loading={isLoadingPopularProducts}
@@ -90,7 +92,7 @@ const ProductGrid: React.FC = () => {
                 {/* Recently Viewed Products Section */}
                 {recentProducts.length > 1 && (
                     <ProductSection
-                        title="You Recently Viewed"
+                        title={t("recently_viewed")}
                         products={
                             recentProducts.map((product) => ({
                                 id: product.id,

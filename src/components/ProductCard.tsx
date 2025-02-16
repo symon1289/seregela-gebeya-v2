@@ -65,7 +65,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <span className="product-card-decimal-part">
                         .{decimalPart}
                     </span>
-                    <span className="product-card-birr-part">Birr</span>
+                    <span className="product-card-birr-part">{t("birr")}</span>
                 </div>
             </div>
         );
@@ -79,7 +79,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             onClick={handleCardClick}
             className="w-full max-w-[280px] mb-4 cursor-pointer flex-shrink-0"
         >
-            <div className="bg-white overflow-hidden shadow-sm rounded-[20px] border h-[280px] hover:shadow-lg transition-shadow duration-300">
+            <div className="bg-white overflow-hidden shadow-sm rounded-[16px] border h-[280px] hover:shadow-lg transition-shadow duration-300">
                 <div className="relative h-44">
                     <img
                         src={displayImage}
@@ -87,10 +87,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         className="w-full h-full transition-transform duration-1000 hover:scale-125 object-contain"
                         loading="lazy"
                     />
-                    <div className="absolute bottom-2 right-2">
+                    <div className="absolute bottom-1 right-2">
                         <button
                             aria-label="Add to Cart"
-                            className="bg-blue-500 p-2 rounded-full text-white hover:bg-blue-600 transition-colors"
+                            className="bg-blue-500 p-1.5 rounded-full text-white hover:bg-blue-600 transition-colors"
                             onClick={handleAddToCart}
                         >
                             <Plus
@@ -104,9 +104,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <div className="p-2">
                     <div className="flex items-baseline gap-2 mb-2 justify-between">
                         <PriceDisplay price={price} />
-                        {originalPrice !== price && (
+                        {/* {originalPrice !== price && (
                             <span className="product-card-birr-part text-gray-500 line-through">
-                                {parseFloat(originalPrice).toFixed(0)} Birr
+                                {parseFloat(originalPrice).toFixed(0)}{" "}
+                                {t("birr")}
+                            </span>
+                        )} */}
+                        {discount > 0 && (
+                            <span className="product-card-birr-part text-gray-500 line-through">
+                                {parseFloat(originalPrice).toFixed(0)}{" "}
+                                {t("birr")}
                             </span>
                         )}
                         {discount > 0 && (

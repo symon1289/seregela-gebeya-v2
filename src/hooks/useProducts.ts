@@ -84,7 +84,10 @@ export const useProducts = ({
                     discount: product.discount.toString(),
                     image: product.image_paths[0],
                     created_at: product.created_at,
-                    originalPrice: product.price,
+                    originalPrice: (
+                        parseFloat(product.price) *
+                        (1 + parseFloat(String(product.discount)) / 100)
+                    ).toFixed(2),
                     unit: product.measurement_type,
                     left_in_stock: product.left_in_stock,
                     description: product.description,

@@ -73,9 +73,9 @@ export default function TopBar() {
                             <option value="am">አማርኛ</option>
                         </select>
                     </div> */}
-                    <div className="flex items-center gap-2 text-[10px] sm:text-sm hover:text-amber-500 cursor-pointer">
+                    <div className="flex items-center gap-2 text-[10px] sm:text-sm hover:text-amber-500 cursor-pointer relative">
                         <select
-                            className="appearance-none bg-transparent border-none text-gray-600 cursor-pointer pr-8 focus:outline-none"
+                            className="appearance-none bg-transparent border-none text-gray-600 mr-5  focus:outline-none hover:text-amber-500 cursor-pointer"
                             onChange={handleLanguageChange}
                             value={i18n.language}
                             aria-label="Change Language"
@@ -83,7 +83,7 @@ export default function TopBar() {
                             <option value="en">🇬🇧 English</option>
                             <option value="am">🇪🇹 አማርኛ</option>
                         </select>
-                        <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                        <div className="absolute right-0 top-1/2 transform -translate-y-1/2 pointer-events-none hover:text-amber-500 cursor-pointer">
                             <svg
                                 className="w-4 h-4 text-gray-400"
                                 fill="none"

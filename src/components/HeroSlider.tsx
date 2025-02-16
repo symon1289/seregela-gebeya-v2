@@ -62,7 +62,7 @@ export default function HeroSlider() {
                         <img
                             src={slide.image_path}
                             alt={slide.title}
-                            className="w-full h-full object-contain sm:object-cover -z-10"
+                            className="w-full h-full object-cover sm:object-cover -z-10"
                         />
                     </div>
                 ))}

@@ -45,11 +45,11 @@ const Footer = () => {
                                 className="w-28 h-24 md:w-16 md:h-14"
                             />
                             <h2 className="text-2xl font-bold text-white">
-                                Seregela Gebeya
+                                {t("seregela_gebeya")}
                             </h2>
                         </div>
                         <p className="text-white download-our-app">
-                            Stay in Touch With Us
+                            {t("stay_intouch")}
                         </p>
                         <div className="flex space-x-4 justify-center md:justify-center lg:justify-start">
                             <Link
@@ -95,7 +95,7 @@ const Footer = () => {
                         </div>
                         <div className="space-y-2">
                             <h3 className="text-white download-our-app text-center lg:text-left">
-                                Download Our App
+                                {t("download_app")}
                             </h3>
                             <div className="flex gap-2 justify-center lg:justify-start">
                                 <Link
@@ -192,7 +192,7 @@ const Footer = () => {
                                     to="/seregela-gebeya-v2/faq"
                                     className="hover:text-white transition-colors"
                                 >
-                                    FAQs
+                                    {t("FAQs")}
                                 </Link>
                             </li>
                         </ul>
@@ -209,7 +209,7 @@ const Footer = () => {
                                     to="/seregela-gebeya-v2"
                                     className="hover:text-white transition-colors"
                                 >
-                                    Our Story
+                                    {t("our_story")}
                                 </Link>
                             </li>
                             <li className="li-footer-footer">
@@ -217,7 +217,7 @@ const Footer = () => {
                                     to="/seregela-gebeya-v2/privacy-policy"
                                     className="hover:text-white transition-colors"
                                 >
-                                    Privacy Policy
+                                    {t("Privacy_policy")}
                                 </Link>
                             </li>
                             <li className="li-footer-footer">
@@ -225,7 +225,7 @@ const Footer = () => {
                                     to="/seregela-gebeya-v2/terms-of-service"
                                     className="hover:text-white transition-colors"
                                 >
-                                    Terms of Service
+                                    {t("terms_of_service")}
                                 </Link>
                             </li>
                         </ul>
@@ -234,8 +234,8 @@ const Footer = () => {
 
                 <div className="mt-4 pt-4 border-t border-amber-400/30">
                     <p className="text-center text-white">
-                        {new Date().getFullYear()} Seregela Gebeya. All rights
-                        reserved.
+                        {new Date().getFullYear()} {t("seregela_gebeya")}.{" "}
+                        {t("all_rights_reserved")}
                     </p>
                 </div>
             </div>

@@ -4,13 +4,13 @@ import { addPackageToCart } from "../store/features/cartSlice";
 import { toggleWishlistItem } from "../store/features/wishlistSlice";
 import { ShoppingCart, Heart } from "lucide-react";
 import { RootState } from "../store/store";
-import Loader from "../components/Loader";
 import defaultImage from "../assets/no-image-available-02.jpg";
 import "./ProductDetail.css";
 import { useTranslation } from "react-i18next";
 import { usePackages } from "../hooks/usePackages";
 import { Link } from "react-router-dom";
 import PriceFormatter from "./PriceFormatter";
+import DetailCard from "./loading skeletons/package/DetailCard";
 
 interface ProductDetailCardProps {
     id?: string;
@@ -110,7 +110,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
     };
 
     if (isLoadingPackageItem) {
-        return <Loader />;
+        return <DetailCard />;
     }
 
     if (packageItemError) {
@@ -209,7 +209,9 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                         >
                                             <img
                                                 src={image}
-                                                alt={`${packageItem.name} - Thumbnail ${index + 1}`}
+                                                alt={`${
+                                                    packageItem.name
+                                                } - Thumbnail ${index + 1}`}
                                                 className="w-full h-full object-contain rounded-lg"
                                             />
                                         </button>

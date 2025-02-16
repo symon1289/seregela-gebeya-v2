@@ -26,9 +26,12 @@ const FreshSavers = () => {
     });
 
     useEffect(() => {
-        if (freshSavers.length > previousCountRef.current) {
+        if (
+            freshSavers.length > previousCountRef.current &&
+            previousCountRef.current !== 0
+        ) {
             const previousCount = previousCountRef.current;
-            previousCountRef.current = freshSavers.length; // Update ref before scrolling
+            previousCountRef.current = freshSavers.length;
 
             requestAnimationFrame(() => {
                 const container = scrollContainerRef.current;
@@ -45,6 +48,8 @@ const FreshSavers = () => {
                     }
                 }
             });
+        } else {
+            previousCountRef.current = freshSavers.length; // Set count without scrolling on first load
         }
     }, [freshSavers]);
 
@@ -136,7 +141,7 @@ const FreshSavers = () => {
                                   name={product.name}
                                   price={product.price}
                                   image={product.image || defaultImage}
-                                  originalPrice={product.price}
+                                  originalPrice={product.originalPrice}
                                   discount={
                                       product.discount
                                           ? Number(product.discount)

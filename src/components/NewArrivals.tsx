@@ -15,7 +15,7 @@ const NewArrivals = () => {
         initialItemsToLoad: 14,
     });
     return (
-        <section className="mb-0 my-10 sm:my-16">
+        <section className="mb-0 my-10 ">
             <div className="flex justify-between items-center my-6">
                 <h2 className="text-2xl sm:text-3xl leading-[19px] font-semibold">
                     {" "}
@@ -42,7 +42,7 @@ const NewArrivals = () => {
                               key={product.id}
                               name={product.name}
                               image={product.image}
-                              originalPrice={product.price}
+                              originalPrice={product.originalPrice}
                               price={product.price}
                               discount={
                                   product.discount

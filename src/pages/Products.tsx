@@ -102,7 +102,7 @@ const Products: React.FC = () => {
                                           name={product.name}
                                           price={product.price}
                                           image={product.image || defaultImage}
-                                          originalPrice={product.price}
+                                          originalPrice={product.originalPrice}
                                           discount={
                                               product.discount
                                                   ? Number(product.discount)

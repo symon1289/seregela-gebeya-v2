@@ -373,5 +373,16 @@
     "invalid_code": "The code you entered is incorrect. Please double-check the code and try again",
     "search_by_id": "Search by Order ID",
     "search_by_product_name": "Search by Product Name",
-    "search_by_package_name": "Search by Package Name"
+    "search_by_package_name": "Search by Package Name",
+    "more_from_this_Category": "More from this Category",
+    "popular_products": "Popular Products",
+    "stay_intouch": "Stay in Touch With Us",
+    "seregela_gebeya": "Navigate  Seregela Gebeya",
+    "download_app": " Download Our App",
+    "FAQs": "FAQs",
+    "our_story": "Our Story",
+    "Privacy_policy": "Privacy Policy",
+    "terms_of_service": "Terms of Service",
+    "all_rights_reserved": "All rights reserved.",
+    "hello": "Hello"
 }

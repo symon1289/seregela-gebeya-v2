@@ -378,5 +378,18 @@
     "invalid_code": "የገባው ኮድ ትክክል አይደለም። እባክዎ ኮዱን በድጋሚ አረጋግጠው ይሞክሩ",
     "search_by_id": "በትዕዛዝ ቁጥር ይፈልጉ",
     "search_by_product_name": "በእቃ ስም ይፈልጉ",
-    "search_by_package_name": "በጥቅል ስም ይፈልጉ"
+    "search_by_package_name": "በጥቅል ስም ይፈልጉ",
+    "more_from_this_Category": "ከተመሳሳይ ምድብ ተጨማሪ እቃዎች",
+
+    "popular_products": "ተወዳጅ እቃዎች",
+
+    "stay_intouch": "ከእኛ ጋር እንደተገናኙ ይቆዩ",
+    "seregela_gebeya": "ሠረገላ ገበያ",
+    "download_app": "መተግበሪያችንን ያውርዱ",
+    "FAQs": "ተደጋጋሚ ጥያቄዎች",
+    "our_story": "የእኛ ታሪክ",
+    "Privacy_policy": "የግላዊነት መመሪያ",
+    "terms_of_service": "የአገልግሎት ውል",
+    "all_rights_reserved": "መብቱ በህግ የተጠበቀ ነው።",
+    "hello": "ሰላም"
 }
