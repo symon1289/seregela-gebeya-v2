@@ -78,7 +78,7 @@ const Navbar = () => {
             originalPrice: product.originalPrice.toString(),
         })
     );
-    const { first_name, last_name } = userData?.auth ?? {};
+    const { first_name, last_name } = userData ?? {};
     const cartItems = useSelector((state: RootState) => state.cart.items);
     const itemCount =
         cartItems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
