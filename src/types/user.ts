@@ -2,30 +2,6 @@ export type UserApiResponse = {
     data: UserData;
 };
 
-export type UserData = {
-    id: number;
-    user_name: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    email_verified_at: string | null;
-    is_pin_updated: boolean;
-    is_active: number;
-    wallet_balance: number;
-    corporate_id: number;
-    bypass_product_quantity_restriction: number;
-    bank: Bank;
-    loan_balance: number;
-    loan_granted: number;
-    loan_used: number;
-    created_at: string;
-    deleted_at: string | null;
-    profile_image_path: string | null;
-    profile_thumbnail_path: string | null;
-    address: Address;
-};
-
 export type Bank = {
     id: number;
     name: string;
@@ -58,4 +34,28 @@ export type Address = {
     house_number: string;
     longitude: string | null;
     latitude: string | null;
+};
+
+export type UserData = {
+    id: number;
+    user_name: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone_number: string;
+    email_verified_at: string | null;
+    is_pin_updated: boolean;
+    is_active: number;
+    wallet_balance: number;
+    corporate_id: number;
+    bypass_product_quantity_restriction: number;
+    bank: Bank;
+    loan_balance: number;
+    loan_granted: number;
+    loan_used: number;
+    created_at: string;
+    deleted_at: string | null;
+    profile_image_path: string | null;
+    profile_thumbnail_path: string | null;
+    address: Address;
 };

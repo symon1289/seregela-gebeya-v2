@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { UserData } from "../../types/user";
 import {
     signInWithPhoneNumber,
     // ConfirmationResult,
@@ -9,7 +10,7 @@ import { auth } from "../../firebase/firebase";
 import UserAPI from "../../utils/UserAPI";
 // import firebase from 'firebase/app';
 interface AuthState {
-    user: Record<string, any> | null;
+    user: UserData | null;
     isLoggedIn: boolean;
     phoneNumber: string;
     count: number;
@@ -33,76 +34,6 @@ const initialState: AuthState = {
     status: false,
     returnRoute: "",
 };
-
-// declare global {
-//     interface Window {
-//         confirmationResult?: ConfirmationResult;
-//     }
-// }
-
-// // ✅ Send OTP via Firebase Auth
-// export const sendOTP = createAsyncThunk<
-//     { "sms-sent": boolean },
-//     { verify: ApplicationVerifier; phone: string }
-// >("auth/sendOTP", async ({ verify, phone }, { dispatch, rejectWithValue }) => {
-//     try {
-//         const confirmationResult = await signInWithPhoneNumber(
-//             auth,
-//             phone,
-//             verify
-//         );
-//         window.confirmationResult = confirmationResult;
-//         dispatch(setPayload({ phone }));
-//         return { "sms-sent": true };
-//     } catch (error) {
-//         console.error("Error sending OTP:", error);
-//         return rejectWithValue("Failed to send OTP. Please try again.");
-//     }
-// });
-
-// // ✅ Verify OTP & Authenticate User
-// export const verifyOtp = createAsyncThunk<
-//     { tokenPass: boolean; otp: boolean },
-//     string
-// >("auth/verifyOtp", async (otp, { dispatch, rejectWithValue }) => {
-//     try {
-//         if (!window.confirmationResult) {
-//             return rejectWithValue("OTP confirmation not found. Please retry.");
-//         }
-
-//         const result = await window.confirmationResult.confirm(otp);
-//         const idToken = await result.user.getIdToken();
-
-//         if (!idToken) throw new Error("Failed to retrieve token");
-
-//         dispatch(verifyAccessToken(idToken));
-//         dispatch(setToken(idToken));
-//         return { tokenPass: true, otp: true };
-//     } catch (error) {
-//         console.error("OTP Verification Failed:", error);
-//         return rejectWithValue("Invalid OTP. Please try again.");
-//     }
-// });
-
-// // ✅ Verify Access Token with Backend
-// export const verifyAccessToken = createAsyncThunk<any, string>(
-//     "auth/verifyAccessToken",
-//     async (idToken, { dispatch, getState, rejectWithValue }) => {
-//         try {
-//             const state = getState() as RootState;
-//             const phoneNumber = state.auth.payload?.phone || "";
-
-//             const response = await UserAPI.userLogin(phoneNumber, idToken);
-//             dispatch(setAuth(response));
-//             dispatch(setUser(response));
-
-//             return response;
-//         } catch (error) {
-//             console.error("Token Verification Error:", error);
-//             return rejectWithValue("Failed to verify access token.");
-//         }
-//     }
-// );
 
 export const sendOTP = createAsyncThunk(
     "auth/sendOTP",

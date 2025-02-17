@@ -172,13 +172,12 @@ const Payment: React.FC = () => {
             createOrderMutation.mutate(preparedOrderDetail, {
                 onSuccess: (response) => {
                     setOrderReturn(response);
-                    setTimeout(() => {
-                        setShowApprove(1);
-                        toast.success(t("success.order_placed"));
-                    }, 700);
+                    toast.success(t("success.order_placed"));
+
                     setTimeout(() => {
                         dispatch(setReceipt(response));
                     }, 2000);
+                    setShowApprove(1);
                 },
                 onError: (error: any) => {
                     toast.error(
@@ -399,7 +398,8 @@ const Payment: React.FC = () => {
 
                                         {/* Conditionally render No Bank option */}
                                         {userData?.bank?.id !== 22 &&
-                                            userData?.loan_balance > 0 && (
+                                            (userData?.loan_balance ?? 0) >
+                                                0 && (
                                                 <div
                                                     className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
                                                     key={noBank.id}
@@ -651,7 +651,7 @@ const Payment: React.FC = () => {
                                 {userData?.first_name} {userData?.last_name}
                             </h2>
                             <div className="text-gray-700 mb-2">
-                                {userData?.name}
+                                {userData?.user_name}
                             </div>
                             <div className="text-gray-700 mb-2">
                                 {userData?.phone_number}
@@ -665,19 +665,19 @@ const Payment: React.FC = () => {
                                 {userData?.email}
                             </div>
                         </div>
-                        <table className="w-full text-left mb-8">
+                        <table className="w-full  mb-8 ">
                             <thead>
                                 <tr>
-                                    <th className="text-gray-700 font-bold uppercase py-2">
+                                    <th className="text-gray-700 text-left font-bold uppercase py-2">
                                         {t("products")}
                                     </th>
-                                    <th className="text-gray-700 font-bold uppercase py-2">
+                                    <th className="text-gray-700 text-center font-bold uppercase py-2">
                                         {t("quantity")}
                                     </th>
-                                    <th className="text-gray-700 font-bold uppercase py-2">
+                                    <th className="text-gray-700 text-center font-bold uppercase py-2">
                                         {t("unit_price")}
                                     </th>
-                                    <th className="text-gray-700 font-bold uppercase py-2">
+                                    <th className="text-gray-700 text-end font-bold uppercase py-2">
                                         {t("total_price")}
                                     </th>
                                 </tr>
@@ -687,18 +687,18 @@ const Payment: React.FC = () => {
                                     orderReturn.products?.map(
                                         (product: any) => (
                                             <tr key={product.id}>
-                                                <td className="py-4 text-gray-700 line-clamp-1">
+                                                <td className="py-4 text-left text-gray-700 line-clamp-1">
                                                     {product.name}
                                                 </td>
-                                                <td className="py-4 text-gray-700">
+                                                <td className="py-4 text-center text-gray-700">
                                                     {product.pivot.quantity}
                                                 </td>
-                                                <td className="py-4 text-gray-700">
+                                                <td className="py-4 text-center text-gray-700">
                                                     <PriceFormatter
                                                         price={product.price.toString()}
                                                     />{" "}
                                                 </td>
-                                                <td className="py-4 text-gray-700">
+                                                <td className="py-4 text-end text-gray-700">
                                                     <PriceFormatter
                                                         price={(
                                                             product.price *
@@ -715,18 +715,18 @@ const Payment: React.FC = () => {
                                     orderReturn.packages?.map(
                                         (product: any) => (
                                             <tr key={product.id}>
-                                                <td className="py-4 text-gray-700 line-clamp-1">
+                                                <td className="py-4 text-left text-gray-700 line-clamp-1">
                                                     {product.name}
                                                 </td>
-                                                <td className="py-4 text-gray-700">
+                                                <td className="py-4 text-center text-gray-700">
                                                     {product.pivot.quantity}
                                                 </td>
-                                                <td className="py-4 text-gray-700">
+                                                <td className="py-4 text-center text-gray-700">
                                                     <PriceFormatter
                                                         price={product.price.toString()}
                                                     />{" "}
                                                 </td>
-                                                <td className="py-4 text-gray-700">
+                                                <td className="py-4 text-end text-gray-700">
                                                     <PriceFormatter
                                                         price={(
                                                             product.price *
@@ -750,7 +750,7 @@ const Payment: React.FC = () => {
                                 />
                             </div>
                         </div>
-                        <div className="text-right mb-8">
+                        <div className="flex justify-end mb-8">
                             <div className="text-gray-700 mr-2">
                                 {t("delivery")}:
                             </div>
