@@ -384,5 +384,21 @@
     "Privacy_policy": "Privacy Policy",
     "terms_of_service": "Terms of Service",
     "all_rights_reserved": "All rights reserved.",
-    "hello": "Hello"
+    "hello": "Hello",
+    "bunna_step_two": "Navigate  Seregela Gebeya",
+    "bunna_step_two_description": "After gaining access navigate towards the \"Utilities\" menu. Then select Seregela Gebeya",
+    "bunna_step_three": "Order ID",
+    "bunna_step_three_description": "Enter the order ID displayed below",
+    "bunna_step_four": "Go home",
+    "bunna_step_four_description": "After completing the payment press the button below (\"finish\") to go home",
+    "steps_to_follow_bunna": "Steps to follow inside the Bunna Bank mobile banking App",
+    "steps_tofollow_bunna": "Please open Bunna Bank mobile banking app and enter your 4 digit pin of apollo digital banking",
+    "abay_step_two": "Navigate  Seregela Gebeya",
+    "abay_step_two_description": "After gaining access navigate towards the \"Utilities\" menu. Then select Seregela Gebeya",
+    "abay_step_three": "Order ID",
+    "abay_step_three_description": "Enter the order ID displayed below",
+    "abay_step_four": "Go home",
+    "abay_step_four_description": "After completing the payment press the button below (\"finish\") to go home",
+    "steps_to_follow_abaya": "Steps to follow inside the Abay Bank mobile banking App",
+    "steps_tofollow_abay": "Please open Abay Bank mobile banking app and enter your 4 digit pin of apollo digital banking"
 }

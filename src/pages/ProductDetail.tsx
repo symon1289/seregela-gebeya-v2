@@ -268,6 +268,8 @@ const ProductDetail: React.FC = () => {
                             unit: result.data.unit,
                             originalPrice: result.data.originalPrice,
                             image: result.data.image_paths?.[0] || defaultImage,
+                            max_quantity_per_order:
+                                result.data.max_quantity_per_order,
                         })
                     );
                     // Fetch related products if subcategory exists
@@ -699,7 +701,11 @@ const ProductDetail: React.FC = () => {
                                         <div className="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-48 overflow-y-auto">
                                             {Array.from(
                                                 {
-                                                    length: product.left_in_stock,
+                                                    length:
+                                                        product.max_quantity_per_order !==
+                                                        null
+                                                            ? product.max_quantity_per_order
+                                                            : product.left_in_stock,
                                                 },
                                                 (_, i) => i + 1
                                             ).map((num) => (
@@ -798,7 +804,10 @@ const ProductDetail: React.FC = () => {
                                                 relatedProduct.price
                                             )}
                                             left_in_stock={
-                                                relatedProduct.left_in_stock
+                                                relatedProduct.max_quantity_per_order !==
+                                                null
+                                                    ? relatedProduct.max_quantity_per_order
+                                                    : relatedProduct.left_in_stock
                                             }
                                         />
                                     ))}

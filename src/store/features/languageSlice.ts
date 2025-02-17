@@ -4,9 +4,18 @@ interface LanguageState {
     language: string;
 }
 
-const initialState: LanguageState = {
-    language: "en",
+// Function to load the language from localStorage
+const loadLanguage = (): LanguageState => {
+    try {
+        const storedLanguage = localStorage.getItem("language");
+        return { language: storedLanguage || "en" };
+    } catch (error) {
+        console.error("Error loading language:", error);
+        return { language: "en" };
+    }
 };
+
+const initialState: LanguageState = loadLanguage();
 
 const languageSlice = createSlice({
     name: "language",
@@ -14,6 +23,7 @@ const languageSlice = createSlice({
     reducers: {
         setLanguage: (state, action: PayloadAction<string>) => {
             state.language = action.payload;
+            localStorage.setItem("language", action.payload); // Persist language change
         },
     },
 });

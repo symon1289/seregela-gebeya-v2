@@ -28,12 +28,12 @@ const Payment: React.FC = () => {
         sendingName: "loan",
     };
 
-    // const bunnaBank = {
-    //     id: 11,
-    //     name: "Bunna Bank",
-    //     image: Bunna_Bank,
-    //     sendingName: "bunna",
-    // };
+    const bunnaBank = {
+        id: 11,
+        name: "Bunna Bank",
+        image: Bunna_Bank,
+        sendingName: "loan",
+    };
 
     const { fetchUser } = useUser();
 
@@ -95,26 +95,7 @@ const Payment: React.FC = () => {
                     } as OrderDetail)
             );
             dispatch(savePaymentMethod(selectedOption.sendingName));
-        }
-        //  else if (id === noBank.id) {
-        //     setOrderDetail(
-        //         (prev) =>
-        //             ({
-        //                 ...prev,
-        //                 payment_method: noBank.sendingName,
-        //             } as OrderDetail)
-        //     );
-        //     dispatch(savePaymentMethod(noBank.sendingName));
-        // }
-        else {
-            // setOrderDetail(
-            //     (prev) =>
-            //         ({
-            //             ...prev,
-            //             payment_method: bunnaBank.sendingName,
-            //         } as OrderDetail)
-            // );
-            // dispatch(savePaymentMethod(bunnaBank.sendingName));
+        } else if (id === noBank.id) {
             setOrderDetail(
                 (prev) =>
                     ({
@@ -123,6 +104,15 @@ const Payment: React.FC = () => {
                     } as OrderDetail)
             );
             dispatch(savePaymentMethod(noBank.sendingName));
+        } else {
+            setOrderDetail(
+                (prev) =>
+                    ({
+                        ...prev,
+                        payment_method: bunnaBank.sendingName,
+                    } as OrderDetail)
+            );
+            dispatch(savePaymentMethod(bunnaBank.sendingName));
         }
     };
 
@@ -202,17 +192,28 @@ const Payment: React.FC = () => {
 
     const handleOrderApprove = useCallback(() => {
         if (
-            ["loan", "awash-birr", "cbe", "apollo"].includes(
+            ["bunna", "awash-birr", "cbe", "apollo", "abay"].includes(
                 orderReturn.payment_method
             )
         ) {
-            navigate(
-                orderReturn.payment_method === "cbe"
-                    ? "/seregela-gebeya-v2/checkout/payment/cbebanking"
-                    : orderReturn.payment_method === "apollo"
-                    ? "/seregela-gebeya-v2/checkout/payment/apollo"
-                    : "/seregela-gebeya-v2/checkout/payment/awashOTP"
-            );
+            let path;
+            switch (orderReturn.payment_method) {
+                case "cbe":
+                    path = "/seregela-gebeya-v2/checkout/payment/cbebanking";
+                    break;
+                case "apollo":
+                    path = "/seregela-gebeya-v2/checkout/payment/apollo";
+                    break;
+                case "abay":
+                    path = "/seregela-gebeya-v2/checkout/payment/abay";
+                    break;
+                case "bunna":
+                    path = "/seregela-gebeya-v2/checkout/payment/bunna";
+                    break;
+                default:
+                    path = "/seregela-gebeya-v2/checkout/payment/awashOTP";
+            }
+            navigate(path);
             setShowApprove(0);
         } else {
             makePaymentMutation.mutate(orderReturn.id, {
@@ -230,7 +231,9 @@ const Payment: React.FC = () => {
                         openCbeWidget(checkoutID, orderID);
                         setShowApprove(2);
                     } else if (response.data.payment_method === "cbe-birr") {
-                        navigate("/cbebirr");
+                        navigate(
+                            "/seregela-gebeya-v2/checkout/payment/cbebirr"
+                        );
                     } else {
                         setShowApprove(0);
                         navigate("/");
@@ -302,7 +305,7 @@ const Payment: React.FC = () => {
                                 ) : (
                                     <>
                                         {/* Conditionally render Bunna Bank option */}
-                                        {/* {userData?.bank?.id === 22 &&
+                                        {userData?.bank?.id === 22 &&
                                             userData?.loan_balance > 0 && (
                                                 <div
                                                     className="relative hover:cursor-pointer hover:bg-gray-50 hover:text-primary"
@@ -353,7 +356,7 @@ const Payment: React.FC = () => {
                                                         </div>
                                                     </label>
                                                 </div>
-                                            )} */}
+                                            )}
                                         {paymentOptions.map((item) => (
                                             <div
                                                 className={`relative hover:cursor-pointer hover:border-primary hover:border-2 border-gray-200 border-2 hover:text-primary ${item.backroundColor} rounded-lg`}

@@ -391,5 +391,21 @@
     "Privacy_policy": "የግላዊነት መመሪያ",
     "terms_of_service": "የአገልግሎት ውል",
     "all_rights_reserved": "መብቱ በህግ የተጠበቀ ነው።",
-    "hello": "ሰላም"
+    "hello": "ሰላም",
+    "bunna_step_two": "ሰረገላ ገበያ የሚለውን ምርጫ የምረጡ።",
+    "bunna_step_two_description": "ከገቡ ቡሀላ ወደ \"ክፍያዎች\" ያቅኑ። ከዚያ ሰረገላ ገበያ የሚለውን ምርጫ የምረጡ።",
+    "bunna_step_three": "የትዕዛዝ ቁጥር",
+    "bunna_step_three_description": "ከታች የሚታየውን የትዕዛዝ ቁጥር ያስገቡ",
+    "bunna_step_four": "ዋና ገጽ መመለስ",
+    "bunna_step_four_description": "ክፍያውን ከጨረሱ በኋላ ወደ ዋና ገጽ ለመመለስ። ከታች ያለውን \"ጨርስ\" ሚለውን ይጫኑ ",
+    "steps_to_follow_bunna": "የቡና ባንክ የሞባይል ባንክ መተግበሪያ ውስጥ ሲሆኑ መከተል ያለባቸው ቅደምተከተል",
+    "steps_tofollow_bunna": "የቡና ባንክ የስልክ መተግበሪያ መመሪያዎች",
+    "abay_step_two": "ሰረገላ ገበያ የሚለውን ምርጫ የምረጡ።",
+    "abay_step_two_description": "ከገቡ ቡሀላ ወደ \"ክፍያዎች\" ያቅኑ። ከዚያ ሰረገላ ገበያ የሚለውን ምርጫ የምረጡ።",
+    "abay_step_three": "የትዕዛዝ ቁጥር",
+    "abay_step_three_description": "ከታች የሚታየውን የትዕዛዝ ቁጥር ያስገቡ",
+    "abay_step_four": "ዋና ገጽ መመለስ",
+    "abay_step_four_description": "ክፍያውን ከጨረሱ በኋላ ወደ ዋና ገጽ ለመመለስ። ከታች ያለውን \"ጨርስ\" ሚለውን ይጫኑ ",
+    "steps_to_follow_abay": "የአባይ ባንክ የሞባይል ባንክ መተግበሪያ ውስጥ ሲሆኑ መከተል ያለባቸው ቅደምተከተል",
+    "steps_tofollow_abay": "የአባይ ባንክ መተግበሪያ መመሪያዎች"
 }

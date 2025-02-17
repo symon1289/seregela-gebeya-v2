@@ -106,6 +106,7 @@ export const useProducts = ({
                     is_active: product.is_active,
                     image_paths: product.image_paths,
                     updated_at: product.updated_at,
+                    max_quantity_per_order: product.max_quantity_per_order,
                 })
             );
 

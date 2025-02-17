@@ -169,6 +169,7 @@ export interface Product {
     is_active: number;
     unit: string;
     originalPrice: string;
+    max_quantity_per_order: number | null;
 }
 
 export interface ProductState {

@@ -30,7 +30,7 @@ const loadState = (): ReceiptState => {
 const initialState: ReceiptState = loadState();
 
 const orderSlice = createSlice({
-    name: "cart",
+    name: "order",
     initialState,
     reducers: {
         setReceipt: (state, action: PayloadAction<APIOrderResponse>) => {

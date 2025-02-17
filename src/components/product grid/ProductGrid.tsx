@@ -70,7 +70,10 @@ const ProductGrid: React.FC = () => {
                                 name_am: product.name_am ?? "",
                                 newPrice: product.price,
                                 image: [product.image_paths[0]],
-                                left_in_stock: product.left_in_stock,
+                                left_in_stock:
+                                    product.max_quantity_per_order !== null
+                                        ? product.max_quantity_per_order
+                                        : product.left_in_stock,
                             })) || []
                         }
                         intervalTime={5000}
@@ -100,7 +103,10 @@ const ProductGrid: React.FC = () => {
                                 name_am: product.name_am ?? "",
                                 newPrice: product.price,
                                 image: [product.image_paths[0]],
-                                left_in_stock: product.left_in_stock,
+                                left_in_stock:
+                                    product.max_quantity_per_order !== null
+                                        ? product.max_quantity_per_order
+                                        : product.left_in_stock,
                             })) || []
                         }
                         intervalTime={6000}

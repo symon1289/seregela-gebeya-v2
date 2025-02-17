@@ -108,7 +108,12 @@ const Products: React.FC = () => {
                                                   ? Number(product.discount)
                                                   : undefined
                                           }
-                                          left_in_stock={product.left_in_stock}
+                                          left_in_stock={
+                                              product.max_quantity_per_order !==
+                                              null
+                                                  ? product.max_quantity_per_order
+                                                  : product.left_in_stock
+                                          }
                                       />
                                   ))}
                         </div>

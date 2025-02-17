@@ -1,13 +1,6 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { UserData } from "../../types/user";
-import {
-    signInWithPhoneNumber,
-    // ConfirmationResult,
-    // ApplicationVerifier,
-} from "firebase/auth";
-import { auth } from "../../firebase/firebase";
-import UserAPI from "../../utils/UserAPI";
 // import firebase from 'firebase/app';
 interface AuthState {
     user: UserData | null;
@@ -22,43 +15,39 @@ interface AuthState {
     returnRoute: string;
 }
 
-const initialState: AuthState = {
-    user: null,
-    isLoggedIn: false,
-    phoneNumber: "",
-    count: 0,
-    payload: {},
-    firebaseToken: "",
-    token: "",
-    isAuthenticated: false,
-    status: false,
-    returnRoute: "",
+const loadState = (): AuthState => {
+    try {
+        return {
+            user: JSON.parse(localStorage.getItem("user") || "null"),
+            isLoggedIn: !!localStorage.getItem("token"),
+            phoneNumber: "",
+            count: 0,
+            payload: {},
+            firebaseToken: localStorage.getItem("firebaseToken") || "",
+            token: localStorage.getItem("token") || "",
+            isAuthenticated: !!localStorage.getItem("token"),
+            status: !!localStorage.getItem("token"),
+            returnRoute: "",
+        };
+    } catch (error) {
+        console.error("Error loading state:", error);
+        return {
+            user: null,
+            isLoggedIn: false,
+            phoneNumber: "",
+            count: 0,
+            payload: {},
+            firebaseToken: "",
+            token: "",
+            isAuthenticated: false,
+            status: false,
+            returnRoute: "",
+        };
+    }
 };
 
-export const sendOTP = createAsyncThunk(
-    "auth/sendOTP",
-    async ({ phone, verify }: { phone: string; verify: any }) => {
-        return await signInWithPhoneNumber(auth, phone, verify);
-    }
-);
+const initialState: AuthState = loadState();
 
-export const verifyOtp = createAsyncThunk(
-    "auth/verifyOtp",
-    async (otp: string, { getState }) => {
-        const state = getState() as { auth: AuthState };
-        const confirmationResult = (window as any).confirmationResult;
-        if (confirmationResult) {
-            const result = await confirmationResult.confirm(otp);
-            const idToken = await result.user.getIdToken(true);
-            await UserAPI.userLogin(
-                state.auth.payload.phone.substring(1),
-                idToken
-            );
-            return idToken;
-        }
-        throw new Error("Invalid OTP");
-    }
-);
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -106,16 +95,6 @@ const authSlice = createSlice({
             localStorage.removeItem("firebaseToken");
             localStorage.removeItem("user");
         },
-    },
-    extraReducers: (builder) => {
-        builder.addCase(sendOTP.fulfilled, (state, action) => {
-            (window as any).confirmationResult = action.payload;
-            state.status = true;
-        });
-        builder.addCase(verifyOtp.fulfilled, (state, action) => {
-            state.firebaseToken = action.payload;
-            state.isAuthenticated = true;
-        });
     },
 });
 

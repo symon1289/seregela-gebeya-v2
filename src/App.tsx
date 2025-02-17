@@ -19,8 +19,7 @@ import Delivery from "./pages/Delivery";
 import Payment from "./pages/Payment";
 import PrivateRoute from "./routes/PrivateRoute";
 import ProfileUi from "./pages/ProfileUi";
-import TestLogin from "./pages/TestLogin";
-// import { RootState } from "./store/store";
+import { RootState } from "./store/store";
 import { Navigate } from "react-router-dom";
 import CBEmobile from "./components/payments/CBEmobile";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -29,11 +28,13 @@ import FAQ from "./pages/FAQ";
 import DeliveryReturnPolicy from "./pages/DeliveryReturnPolicy";
 import ContactUs from "./pages/ContactUs";
 import Apollo from "./components/payments/Apollo";
-// import { useSelector } from "react-redux";
+import Abay from "./components/payments/Abay";
+import Bunna from "./components/payments/Bunna";
+import CBEbirr from "./components/payments/CBEbirr";
+import Awash from "./components/payments/Awash";
+import { useSelector } from "react-redux";
 function App() {
-    // const { user } = useSelector((state: RootState) => state.auth);
-    // @ts-expect-error user is not null
-    const userData = JSON.parse(localStorage.getItem("user"));
+    const { user } = useSelector((state: RootState) => state.auth);
     return (
         <>
             <Router>
@@ -91,7 +92,7 @@ function App() {
                         <Route
                             path="/seregela-gebeya-v2/login"
                             element={
-                                userData ? (
+                                user ? (
                                     <Navigate
                                         to="/seregela-gebeya-v2"
                                         replace
@@ -123,11 +124,28 @@ function App() {
                                 path="/seregela-gebeya-v2/checkout/payment/apollo"
                                 element={<Apollo />}
                             />
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/payment/abay"
+                                element={<Abay />}
+                            />
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/payment/bunna"
+                                element={<Bunna />}
+                            />
+
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/payment/cbebirr"
+                                element={<CBEbirr />}
+                            />
+                            <Route
+                                path="/seregela-gebeya-v2/checkout/payment/awash-birr"
+                                element={<Awash />}
+                            />
                         </Route>
-                        <Route
+                        {/* <Route
                             path="/seregela-gebeya-v2/test"
                             element={<TestLogin />}
-                        />
+                        /> */}
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />

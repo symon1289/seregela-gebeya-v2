@@ -76,6 +76,7 @@ const Navbar = () => {
             is_active: 1,
             unit: product.unit,
             originalPrice: product.originalPrice.toString(),
+            max_quantity_per_order: product.max_quantity_per_order,
         })
     );
     const { first_name, last_name } = userData ?? {};

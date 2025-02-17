@@ -162,7 +162,7 @@ const Myprofile: React.FC = () => {
                     user?.last_name || "Kebede"
                 )}
             />
-            <div className="mb-6 col-span-1 bg-white min-h-screen">
+            <div className="mb-6 col-span-1 bg-white  max-h-svh mx-auto py-8 px-4 sm:px-6 lg:px-8 ">
                 <div className="flex items-center justify-end mb-6">
                     <button
                         onClick={handleEditToggle}
