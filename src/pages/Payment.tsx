@@ -161,12 +161,12 @@ const Payment: React.FC = () => {
         } else {
             createOrderMutation.mutate(preparedOrderDetail, {
                 onSuccess: (response) => {
-                    setOrderReturn(response);
-                    toast.success(t("success.order_placed"));
-
                     setTimeout(() => {
                         dispatch(setReceipt(response));
                     }, 2000);
+                    setOrderReturn(response);
+                    toast.success(t("success.order_placed"));
+
                     setShowApprove(1);
                 },
                 onError: (error: any) => {
@@ -645,7 +645,7 @@ const Payment: React.FC = () => {
                                     {t("date")}: {createdAt?.slice(0, 10)}{" "}
                                 </div>
                                 <div className="text-sm">
-                                    Order ID: {orderId}
+                                    {t("order_id")}: {orderId}
                                 </div>
                             </div>
                         </div>
@@ -686,8 +686,8 @@ const Payment: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {orderReturn.products &&
-                                    orderReturn.products?.map(
+                                {orderReturn?.products &&
+                                    orderReturn?.products?.map(
                                         (product: any) => (
                                             <tr key={product.id}>
                                                 <td className="py-4 text-left text-gray-700 line-clamp-1">
@@ -714,8 +714,8 @@ const Payment: React.FC = () => {
                                         )
                                     )}
 
-                                {orderReturn.packages &&
-                                    orderReturn.packages?.map(
+                                {orderReturn?.packages &&
+                                    orderReturn?.packages?.map(
                                         (product: any) => (
                                             <tr key={product.id}>
                                                 <td className="py-4 text-left text-gray-700 line-clamp-1">
@@ -749,7 +749,7 @@ const Payment: React.FC = () => {
                             </div>
                             <div className="text-gray-700">
                                 <PriceFormatter
-                                    price={orderReturn.order_cost.toString()}
+                                    price={orderReturn?.order_cost.toString()}
                                 />
                             </div>
                         </div>
@@ -758,13 +758,13 @@ const Payment: React.FC = () => {
                                 {t("delivery")}:
                             </div>
                             <div className="text-gray-700">
-                                {orderReturn.delivery_cost === 0 ? (
+                                {orderReturn?.delivery_cost === 0 ? (
                                     <span className="font-semibold text-green-600">
                                         {t("free")}
                                     </span>
                                 ) : (
                                     <PriceFormatter
-                                        price={orderReturn.delivery_cost.toString()}
+                                        price={orderReturn?.delivery_cost.toString()}
                                     />
                                 )}
                             </div>
@@ -775,7 +775,7 @@ const Payment: React.FC = () => {
                             </div>
                             <div className="text-gray-700 font-bold text-xl">
                                 <PriceFormatter
-                                    price={orderReturn.total_cost.toString()}
+                                    price={orderReturn?.total_cost.toString()}
                                 />
                             </div>
                         </div>
