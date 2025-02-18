@@ -161,12 +161,12 @@ const Payment: React.FC = () => {
         } else {
             createOrderMutation.mutate(preparedOrderDetail, {
                 onSuccess: (response) => {
+                    setOrderReturn(response);
                     setTimeout(() => {
                         dispatch(setReceipt(response));
                     }, 2000);
-                    setOrderReturn(response);
+                    dispatch(clearCart());
                     toast.success(t("success.order_placed"));
-
                     setShowApprove(1);
                 },
                 onError: (error: any) => {
@@ -660,9 +660,9 @@ const Payment: React.FC = () => {
                                 {userData?.phone_number}
                             </div>
                             <div className="text-gray-700 mb-2">
-                                {userData?.address.city},{" "}
-                                {userData?.address.sub_city},{" "}
-                                {userData?.address.woreda}
+                                {userData?.address?.city || ""},{" "}
+                                {userData?.address?.sub_city || ""},{" "}
+                                {userData?.address?.woreda || ""}
                             </div>
                             <div className="text-gray-700">
                                 {userData?.email}

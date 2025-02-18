@@ -1,16 +1,21 @@
-export interface ProductForGrid {
-    id: number;
-    name: string;
-    name_am: string;
-    oldPrice?: string;
-    newPrice: string;
-    image: string[];
-    left_in_stock?: number;
-}
+import { Product } from "./product";
 
 export interface SectionProps {
     title: string;
-    products: ProductForGrid[];
+    products:
+        | Pick<
+              Product,
+              | "id"
+              | "name"
+              | "price"
+              | "image_paths"
+              | "left_in_stock"
+              | "originalPrice"
+              | "image"
+              | "discount"
+              | "max_quantity_per_order"
+          >[]
+        | Product[];
     intervalTime: number;
     loading: boolean;
 }

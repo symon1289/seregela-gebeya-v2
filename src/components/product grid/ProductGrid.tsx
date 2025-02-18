@@ -56,42 +56,37 @@ const ProductGrid: React.FC = () => {
             {/* ProductSection Components */}
             <div className="w-full lg:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 {/* New Arrivals Section */}
-                {newArrivalsLoading ? (
-                    <div className="flex justify-center ">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                    </div>
-                ) : (
-                    <ProductSection
-                        title={t("new_arrivals")}
-                        products={
-                            newArrivals.map((product) => ({
-                                id: product.id,
-                                name: product.name,
-                                name_am: product.name_am ?? "",
-                                newPrice: product.price,
-                                image: [product.image_paths[0]],
-                                left_in_stock:
-                                    product.max_quantity_per_order !== null
-                                        ? product.max_quantity_per_order
-                                        : product.left_in_stock,
-                            })) || []
-                        }
-                        intervalTime={5000}
-                        loading={newArrivalsLoading}
-                    />
-                )}
-                {isLoadingPopularProducts ? (
-                    <div className="flex justify-center ">
-                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                    </div>
-                ) : (
-                    <ProductSection
-                        title={t("popular_products")}
-                        products={popularProductsForGrid || []}
-                        intervalTime={7000}
-                        loading={isLoadingPopularProducts}
-                    />
-                )}
+
+                <ProductSection
+                    title={t("new_arrivals")}
+                    products={
+                        newArrivals.map((product) => ({
+                            id: product.id,
+                            name: product.name,
+                            price: product.price,
+                            originalPrice: product.originalPrice,
+                            image: product.image_paths[0],
+                            image_paths: product.image_paths,
+                            discount: product.discount,
+                            max_quantity_per_order:
+                                product.max_quantity_per_order,
+                            left_in_stock:
+                                product.max_quantity_per_order !== null
+                                    ? product.max_quantity_per_order
+                                    : product.left_in_stock,
+                        })) || []
+                    }
+                    intervalTime={5000}
+                    loading={newArrivalsLoading}
+                />
+
+                <ProductSection
+                    title={t("popular_products")}
+                    products={popularProductsForGrid || []}
+                    intervalTime={7000}
+                    loading={isLoadingPopularProducts}
+                />
+
                 {/* Recently Viewed Products Section */}
                 {recentProducts.length > 1 && (
                     <ProductSection
@@ -100,13 +95,17 @@ const ProductGrid: React.FC = () => {
                             recentProducts.map((product) => ({
                                 id: product.id,
                                 name: product.name,
-                                name_am: product.name_am ?? "",
-                                newPrice: product.price,
-                                image: [product.image_paths[0]],
+                                price: product.price,
+                                originalPrice: product.originalPrice,
+                                image: product.image_paths[0], // add this property
+                                image_paths: product.image_paths, // add this property
                                 left_in_stock:
                                     product.max_quantity_per_order !== null
                                         ? product.max_quantity_per_order
                                         : product.left_in_stock,
+                                discount: product.discount,
+                                max_quantity_per_order:
+                                    product.max_quantity_per_order,
                             })) || []
                         }
                         intervalTime={6000}

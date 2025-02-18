@@ -118,11 +118,10 @@ const Products: React.FC = () => {
                                   ))}
                         </div>
 
-                        {isLoading && (
-                            <div className="flex justify-center mt-8">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                            </div>
-                        )}
+                        {isLoading &&
+                            Array.from({ length: 15 }).map((_, index) => (
+                                <ProductCardLoading key={index} />
+                            ))}
 
                         {!isLoading && hasMore && (
                             <div className="flex justify-center mt-8">

@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "../utils/axios";
 import { Product, Package } from "../types/product";
-import { ProductForGrid } from "../types/extras";
 import { useTranslation } from "react-i18next";
 import { useEffect, useMemo, useState } from "react";
 import { PackageProduct } from "../types/product";
@@ -37,7 +36,7 @@ interface UsePackagesReturn {
     packagesError: Error | null;
     productError: Error | null;
     popularProducts: Product[];
-    popularProductsForGrid: ProductForGrid[];
+    popularProductsForGrid: Product[];
     product?: Product;
     packages: Package[];
     package?: Package;
@@ -78,41 +77,54 @@ export const usePackages = (): UsePackagesReturn => {
         enabled: false,
     });
 
-    const popularProductsForGridQuery = useQuery<
-        ApiResponse<ProductForGrid[]>,
-        Error
-    >({
-        queryKey: createQueryKey(
-            "popularProductsForGrid",
-            popularProductsParams.paginate,
-            popularProductsParams.page
-        ), // Use the state variable
-        queryFn: async ({ queryKey }) => {
-            const [, paginate, page] = queryKey;
-            console.log("Fetching popular products with:", { paginate, page }); // Debugging
-            const response = await api.get(
-                `popular-products?page=${page}&paginate=${paginate}`
-            );
-            const transformedData = response.data.data.map((product: any) => ({
-                id: product.id ?? "unknown",
-                name:
-                    getTranslatedField(product, "name", i18n.language) ??
-                    "Unnamed Product",
-                oldPrice:
-                    product.discount && product.discount !== "0.00"
-                        ? (
-                              parseFloat(product.price || 0) +
-                              parseFloat(product.discount || 0)
-                          ).toFixed(2)
-                        : null,
-                newPrice: parseFloat(product.price || 0).toFixed(2),
-                image: product.image_paths ?? [],
-                left_in_stock: product.left_in_stock ?? 0,
-            }));
-            return { ...response, data: transformedData };
-        },
-        enabled: false,
-    });
+    const popularProductsForGridQuery = useQuery<ApiResponse<Product[]>, Error>(
+        {
+            queryKey: createQueryKey(
+                "popularProductsForGrid",
+                popularProductsParams.paginate,
+                popularProductsParams.page
+            ), // Use the state variable
+            queryFn: async ({ queryKey }) => {
+                const [, paginate, page] = queryKey;
+                console.log("Fetching popular products with:", {
+                    paginate,
+                    page,
+                }); // Debugging
+                const response = await api.get(
+                    `popular-products?page=${page}&paginate=${paginate}`
+                );
+                const transformedData = response.data.data.map(
+                    (product: any) => ({
+                        id: product.id ?? "unknown",
+                        name:
+                            getTranslatedField(
+                                product,
+                                "name",
+                                i18n.language
+                            ) ?? "Unnamed Product",
+                        originalPrice:
+                            product.discount && product.discount !== "0.00"
+                                ? (
+                                      parseFloat(product.price) *
+                                      (1 +
+                                          parseFloat(String(product.discount)) /
+                                              100)
+                                  ).toFixed(2)
+                                : product.price,
+
+                        price: parseFloat(product.price || 0).toFixed(2),
+                        image: product.image_paths ?? [],
+                        left_in_stock:
+                            product.max_quantity_per_order !== null
+                                ? product.max_quantity_per_order
+                                : product.left_in_stock,
+                    })
+                );
+                return { ...response, data: transformedData };
+            },
+            enabled: false,
+        }
+    );
 
     const productQuery = useQuery<ApiResponse<Product>, Error>({
         queryKey: createQueryKey("product", ""),
