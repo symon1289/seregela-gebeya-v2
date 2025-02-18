@@ -15,14 +15,11 @@ const MiniCart: React.FC = () => {
 
     const handleContinueToCart = () => {
         setShow(false);
-        navigate("/seregela-gebeya-v2/cart");
+        navigate("/cart");
     };
 
     useEffect(() => {
-        if (
-            location.pathname === "/seregela-gebeya-v2" &&
-            cartItems.length > 0
-        ) {
+        if (location.pathname === "/" && cartItems.length > 0) {
             setShow(true);
         } else {
             setShow(false);

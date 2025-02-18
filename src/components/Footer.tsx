@@ -26,7 +26,7 @@ const Footer = () => {
                 >
                     <FaAnglesUp
                         size={25}
-                        className="animate-bounce hover:animate-ping"
+                        className="animate-bounce hover:animate-ping z-0"
                     />
                     <span className="font-bold back-t-top text-[30px]">
                         {t("back_to_top")}
@@ -146,7 +146,7 @@ const Footer = () => {
                                             key={category.id}
                                         >
                                             <Link
-                                                to={`/seregela-gebeya-v2/category/${category.id}`}
+                                                to={`/category/${category.id}`}
                                                 className="hover:text-white transition-colors"
                                             >
                                                 {t(category.name)}
@@ -165,7 +165,7 @@ const Footer = () => {
                         <ul className="space-y-2 text-amber-100">
                             <li className="li-footer-footer">
                                 <Link
-                                    to="/seregela-gebeya-v2/contact"
+                                    to="/contact"
                                     className="hover:text-white transition-colors"
                                 >
                                     {t("contact_us")}
@@ -173,7 +173,7 @@ const Footer = () => {
                             </li>
                             <li className="li-footer-footer">
                                 <Link
-                                    to="/seregela-gebeya-v2"
+                                    to="/"
                                     className="hover:text-white transition-colors"
                                 >
                                     {t("shipping_policy")}
@@ -181,7 +181,7 @@ const Footer = () => {
                             </li>
                             <li className="li-footer-footer">
                                 <Link
-                                    to="/seregela-gebeya-v2/return-policy"
+                                    to="/return-policy"
                                     className="hover:text-white transition-colors"
                                 >
                                     {t("return_policy")}
@@ -189,7 +189,7 @@ const Footer = () => {
                             </li>
                             <li className="li-footer-footer">
                                 <Link
-                                    to="/seregela-gebeya-v2/faq"
+                                    to="/faq"
                                     className="hover:text-white transition-colors"
                                 >
                                     {t("FAQs")}
@@ -206,7 +206,7 @@ const Footer = () => {
                         <ul className="space-y-2 text-amber-100">
                             <li className="li-footer-footer">
                                 <Link
-                                    to="/seregela-gebeya-v2"
+                                    to="/"
                                     className="hover:text-white transition-colors"
                                 >
                                     {t("our_story")}
@@ -214,7 +214,7 @@ const Footer = () => {
                             </li>
                             <li className="li-footer-footer">
                                 <Link
-                                    to="/seregela-gebeya-v2/privacy-policy"
+                                    to="/privacy-policy"
                                     className="hover:text-white transition-colors"
                                 >
                                     {t("Privacy_policy")}
@@ -222,7 +222,7 @@ const Footer = () => {
                             </li>
                             <li className="li-footer-footer">
                                 <Link
-                                    to="/seregela-gebeya-v2/terms-of-service"
+                                    to="/terms-of-service"
                                     className="hover:text-white transition-colors"
                                 >
                                     {t("terms_of_service")}

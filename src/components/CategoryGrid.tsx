@@ -76,7 +76,7 @@ const CategoryGrid: React.FC = () => {
                               .sort((a, b) => a.name.localeCompare(b.name))
                               .map((category) => (
                                   <Link
-                                      to={`/seregela-gebeya-v2/category/${category.id}`}
+                                      to={`/category/${category.id}`}
                                       key={category.id}
                                       className="flex flex-col items-center group cursor-pointer "
                                   >

@@ -78,11 +78,11 @@ const Category: React.FC = () => {
                         paths={[
                             {
                                 name: "Products",
-                                url: "/seregela-gebeya-v2/products",
+                                url: "/products",
                             },
                             {
                                 name: activeCategory.name,
-                                url: `/seregela-gebeya-v2/category/${activeCategory.id}`,
+                                url: `/category/${activeCategory.id}`,
                             },
                         ]}
                     />

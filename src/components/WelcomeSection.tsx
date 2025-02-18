@@ -25,16 +25,13 @@ export default function WelcomeSection() {
                 </h2>
                 <div className="flex gap-2 mb-4 lg:mb-1">
                     {userData ? (
-                        <Link
-                            to="/seregela-gebeya-v2/profile"
-                            className="w-full"
-                        >
+                        <Link to="/profile" className="w-full">
                             <button className="w-full bg-[#e7a334] text-white py-2 px-4 rounded hover:bg-white hover:text-[#e7a334] border border-[#e7a334] transition-colors duration-300 text-[12px] lg:text-base">
                                 {t("hello")} {first_name} {last_name}
                             </button>
                         </Link>
                     ) : (
-                        <Link to="/seregela-gebeya-v2/login" className="w-full">
+                        <Link to="/login" className="w-full">
                             <button className="w-full bg-[#e7a334] text-white py-2 px-4 rounded hover:bg-white  hover:text-[#e7a334] border border-[#e7a334] transition-colors duration-300 text-[12px] lg:text-base  ">
                                 {t("register_now")}
                             </button>

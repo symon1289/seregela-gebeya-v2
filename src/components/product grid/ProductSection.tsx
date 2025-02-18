@@ -103,7 +103,7 @@ const ProductSection: React.FC<SectionProps> = ({
                         className="justify-between items-center flex space-x-4 py-2 border-b hover:text-[#e7a334] transition-colors duration-200 hover:cursor-pointer hover:bg-gray-100"
                     >
                         <Link
-                            to={`/seregela-gebeya-v2/products/${product.id}`}
+                            to={`/products/${product.id}`}
                             className="flex items-center gap-4"
                         >
                             <img

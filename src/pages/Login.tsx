@@ -20,7 +20,7 @@ const Login = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
-    const redirect = searchParams.get("redirect") || "/seregela-gebeya-v2";
+    const redirect = searchParams.get("redirect") || "/";
 
     const [phoneNumber, setPhoneNumber] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -43,10 +43,14 @@ const Login = () => {
         window.recaptchaVerifier = null;
 
         const initializeRecaptcha = () => {
-            const verifier = new RecaptchaVerifier(auth, "recaptcha-container", {
-                size: "normal",
-                callback: () => console.log("reCAPTCHA solved"),
-            });
+            const verifier = new RecaptchaVerifier(
+                auth,
+                "recaptcha-container",
+                {
+                    size: "normal",
+                    callback: () => console.log("reCAPTCHA solved"),
+                }
+            );
             window.recaptchaVerifier = verifier;
         };
 
@@ -125,7 +129,9 @@ const Login = () => {
                                 </label>
                                 <div className="relative mt-1 rounded-md shadow-sm">
                                     <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                                        <span className="text-gray-500 sm:text-sm">+251</span>
+                                        <span className="text-gray-500 sm:text-sm">
+                                            +251
+                                        </span>
                                     </div>
                                     <input
                                         type="tel"
@@ -139,14 +145,18 @@ const Login = () => {
                                     />
                                 </div>
                                 {error && (
-                                    <p className="mt-2 text-sm text-red-600">{error}</p>
+                                    <p className="mt-2 text-sm text-red-600">
+                                        {error}
+                                    </p>
                                 )}
                             </div>
 
                             <div>
                                 <button
                                     type="submit"
-                                    disabled={isLoading || phoneNumber.length !== 9}
+                                    disabled={
+                                        isLoading || phoneNumber.length !== 9
+                                    }
                                     className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isLoading ? (
@@ -169,7 +179,10 @@ const Login = () => {
             </div>
 
             {/* reCAPTCHA container */}
-            <div id="recaptcha-container" className={showOTP ? "hidden" : "block my-2"}></div>
+            <div
+                id="recaptcha-container"
+                className={showOTP ? "hidden" : "block my-2"}
+            ></div>
         </div>
     );
 };

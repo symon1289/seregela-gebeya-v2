@@ -288,7 +288,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                     <div className="border-b  border-gray-200">
                                         {packageItem.products.map((item) => (
                                             <Link
-                                                to={`/seregela-gebeya-v2/products/${item.id}`}
+                                                to={`/products/${item.id}`}
                                                 key={item.id}
                                                 className="flex hover:text-primary hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row"
                                             >

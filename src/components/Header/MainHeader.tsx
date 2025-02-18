@@ -99,17 +99,13 @@ const Navbar = () => {
     const handleSearchSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         setIsSearchOpen(false);
-        navigate(
-            `/seregela-gebeya-v2/products?name=${encodeURIComponent(
-                searchQuery
-            )}`
-        );
+        navigate(`/products?name=${encodeURIComponent(searchQuery)}`);
     };
 
     const handleResultClick = (product: Product) => {
         setIsSearchOpen(false);
         setSearchQuery("");
-        navigate(`/seregela-gebeya-v2/products/${product.id}`);
+        navigate(`/products/${product.id}`);
     };
 
     useEffect(() => {
@@ -145,7 +141,7 @@ const Navbar = () => {
                             )}
                         </button>
                         <Link
-                            to="/seregela-gebeya-v2"
+                            to="/"
                             className="hidden sm:flex items-center justify-end h-[65px] w-[80px] md:w-[180px] lg:w-[220px]"
                             aria-label="SeregelaGebeya"
                         >
@@ -249,7 +245,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-2">
                         {userData ? (
                             <Link
-                                to="/seregela-gebeya-v2/profile"
+                                to="/profile"
                                 className="hidden xl:flex hover:text-gray-200 bg-[#e7a334] rounded-lg px-2 py-2 text-white items-center gap-2"
                                 aria-label="Profile"
                             >
@@ -257,7 +253,7 @@ const Navbar = () => {
                             </Link>
                         ) : (
                             <Link
-                                to="/seregela-gebeya-v2/login"
+                                to="/login"
                                 className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-2 py-2 text-quaternary items-center gap-2"
                                 aria-label="Login"
                             >
@@ -267,7 +263,7 @@ const Navbar = () => {
                         )}
                         {/* Cart */}
                         <Link
-                            to="/seregela-gebeya-v2/cart"
+                            to="/cart"
                             className="relative hover:text-gray-200 text-white rounded-lg px-1 py-2 "
                             aria-label="Cart"
                         >
@@ -325,7 +321,7 @@ const Navbar = () => {
                             <div className="flex-1 overflow-y-auto py-4">
                                 <div className="flex items-center justify-between p-4 border-b">
                                     <Link
-                                        to="/seregela-gebeya-v2"
+                                        to="/"
                                         className="flex items-center h-[61px] w-[80px] lg:w-[220px]"
                                     >
                                         <img
@@ -346,7 +342,7 @@ const Navbar = () => {
                                 {/* Account Link */}
                                 {userData ? (
                                     <Link
-                                        to="/seregela-gebeya-v2/profile"
+                                        to="/profile"
                                         className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-4 py-2 text-[#e7a334] items-center gap-2"
                                     >
                                         <User size={24} />
@@ -355,7 +351,7 @@ const Navbar = () => {
                                     </Link>
                                 ) : (
                                     <Link
-                                        to="/seregela-gebeya-v2/login"
+                                        to="/login"
                                         className="flex items-center  gap-3 py-3 text-gray-900 hover:bg-gray-50"
                                         onClick={() =>
                                             setIsMobileMenuOpen(false)

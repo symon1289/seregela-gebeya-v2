@@ -33,7 +33,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
             <ul className="flex flex-col">
                 <li className="py-2 w-full hover:text-[#e9a83a] hover:bg-gray-100">
                     <Link
-                        to="/seregela-gebeya-v2/products"
+                        to="/products"
                         className="flex items-center gap-2 hover:text-[#e9a83a] text-sm font-medium ml-4"
                     >
                         <Grid className="w-8 h-8" />
@@ -66,7 +66,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                                       }`}
                                   >
                                       <Link
-                                          to={`/seregela-gebeya-v2/category/${category.id}`}
+                                          to={`/category/${category.id}`}
                                           className="flex items-center gap-3 ml-4 text-[#1a1a1a] hover:text-[#e9a83a] text-[12px] lg:text-sm font-medium transition-colors duration-200"
                                       >
                                           <img
@@ -145,7 +145,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories, isLoading }) => {
                                                               className="hover:bg-gray-100 rounded-md transition-colors duration-150"
                                                           >
                                                               <Link
-                                                                  to={`/seregela-gebeya-v2/subcategory/${subcategory.id}`}
+                                                                  to={`/subcategory/${subcategory.id}`}
                                                                   className="block px-3 py-2 text-sm text-gray-700 hover:text-[#e9a83a]"
                                                               >
                                                                   <div className="flex items-center justify-between">

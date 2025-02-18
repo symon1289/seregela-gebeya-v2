@@ -77,7 +77,7 @@ const Cart = () => {
                             {t("no_items_in_cart_description")}
                         </p>
                         <Link
-                            to="/seregela-gebeya-v2/products"
+                            to="/products"
                             className="inline-block bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg transition-colors"
                         >
                             {t("continue_shopping")}
@@ -90,7 +90,7 @@ const Cart = () => {
 
     const handleCheckout = () => {
         if (subtotal > 299) {
-            navigate("/seregela-gebeya-v2/checkout/shipping");
+            navigate("/checkout/shipping");
         } else {
             toast.warn(t("minimum_delivery_amount"));
         }

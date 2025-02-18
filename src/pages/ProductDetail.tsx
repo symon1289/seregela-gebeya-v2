@@ -409,13 +409,13 @@ const ProductDetail: React.FC = () => {
                             paths={[
                                 {
                                     name: "Products",
-                                    url: "/seregela-gebeya-v2/products",
+                                    url: "/products",
                                 },
                                 ...(category
                                     ? [
                                           {
                                               name: category.name,
-                                              url: `/seregela-gebeya-v2/category/${category.id}`,
+                                              url: `/category/${category.id}`,
                                           },
                                       ]
                                     : []),
@@ -423,7 +423,7 @@ const ProductDetail: React.FC = () => {
                                     ? [
                                           {
                                               name: product.subcategory.name,
-                                              url: `/seregela-gebeya-v2/subcategory/${product.subcategory.id}`,
+                                              url: `/subcategory/${product.subcategory.id}`,
                                           },
                                       ]
                                     : []),

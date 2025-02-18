@@ -199,19 +199,19 @@ const Payment: React.FC = () => {
             let path;
             switch (orderReturn.payment_method) {
                 case "cbe":
-                    path = "/seregela-gebeya-v2/checkout/payment/cbebanking";
+                    path = "/checkout/payment/cbebanking";
                     break;
                 case "apollo":
-                    path = "/seregela-gebeya-v2/checkout/payment/apollo";
+                    path = "/checkout/payment/apollo";
                     break;
                 case "abay":
-                    path = "/seregela-gebeya-v2/checkout/payment/abay";
+                    path = "/checkout/payment/abay";
                     break;
                 case "bunna":
-                    path = "/seregela-gebeya-v2/checkout/payment/bunna";
+                    path = "/checkout/payment/bunna";
                     break;
                 default:
-                    path = "/seregela-gebeya-v2/checkout/payment/awashOTP";
+                    path = "/checkout/payment/awashOTP";
             }
             navigate(path);
             setShowApprove(0);
@@ -231,9 +231,7 @@ const Payment: React.FC = () => {
                         openCbeWidget(checkoutID, orderID);
                         setShowApprove(2);
                     } else if (response.data.payment_method === "cbe-birr") {
-                        navigate(
-                            "/seregela-gebeya-v2/checkout/payment/cbebirr"
-                        );
+                        navigate("/checkout/payment/cbebirr");
                     } else {
                         setShowApprove(0);
                         navigate("/");
@@ -471,7 +469,7 @@ const Payment: React.FC = () => {
                                 <div className="border-b border-gray-200">
                                     {cartItems.items.map((item) => (
                                         <Link
-                                            to={`/seregela-gebeya-v2/products/${item.id}`}
+                                            to={`/products/${item.id}`}
                                             key={item.id}
                                             className="flex hover:text-primary hover:cursor-pointer flex-row rounded-lg bg-white sm:flex-row"
                                         >
@@ -799,7 +797,7 @@ const Payment: React.FC = () => {
                 </div>
             )}
             {showApprove === 2 && (
-                <div className="max-w-screen-xl mx-auto  bg-white pb-6 pt-3 ">
+                <div className="mx-auto  bg-white pb-6 pt-3 ">
                     <CheckoutSteps step1 step2 step3 />
                     <div className="absolute top-0 h-screen w-full bg-black bg-opacity-60 flex flex-col justify-center items-center">
                         <div className="xl:w-1/2 lg:w-2/3 w-11/12 xl:h-1/2 lg:h-2/3 h-5/6 xl:px-3 lg:px-2 px-1 py-2 bg-transparent p-2 flex flex-col space-y-3 text-black">

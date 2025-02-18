@@ -26,7 +26,7 @@ const ProfilePage: React.FC = () => {
     const handleLogout = () => {
         setLoading(true);
         dispach(logout());
-        window.location.href = "/seregela-gebeya-v2";
+        window.location.href = "/";
     };
 
     const renderContent = () => {

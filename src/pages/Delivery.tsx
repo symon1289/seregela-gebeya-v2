@@ -98,7 +98,7 @@ const Delivery: React.FC = () => {
 
             dispatch(saveDeliveryType(selectedDeliveryType));
 
-            navigate("/seregela-gebeya-v2/checkout/payment");
+            navigate("/checkout/payment");
         } else {
             if (!location.latitude) {
                 if (!locationClicked) {
@@ -368,7 +368,7 @@ const Delivery: React.FC = () => {
                             <div className="border-b  border-gray-200">
                                 {cartItems.items.map((item) => (
                                     <Link
-                                        to={`/seregela-gebeya-v2/products/${item.id}`}
+                                        to={`/products/${item.id}`}
                                         key={item.id}
                                         className="flex hover:text-primary hover:cursor-pointer flex-row rounded-lg bg-white sm:flex-row"
                                     >

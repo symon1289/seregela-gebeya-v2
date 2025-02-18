@@ -118,7 +118,7 @@ const PinComponent: React.FC<PinComponentProps> = ({ order }) => {
             {
                 onSuccess: (response) => {
                     toast.success(t("success.order_placed"));
-                    navigate("/seregela-gebeya-v2/profile");
+                    navigate("/profile");
                     setTimeout(() => {
                         dispatch(setReceipt(response));
                     }, 2000);

@@ -42,7 +42,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
                         <li key={category.id} className="py-2">
                             <div className="flex items-center justify-between">
                                 <Link
-                                    to={`/seregela-gebeya-v2/category/${category.id}`}
+                                    to={`/category/${category.id}`}
                                     className="flex items-center gap-3 text-[#1a1a1a] hover:text-[#e9a83a] text-sm font-medium transition-colors duration-200"
                                 >
                                     <img
@@ -62,7 +62,7 @@ const CategoryNav: React.FC<CategoryNavProps> = ({ categories }) => {
                                         .map((subcategory) => (
                                             <Link
                                                 key={subcategory.id}
-                                                to={`/seregela-gebeya-v2/subcategory/${subcategory.id}`}
+                                                to={`/subcategory/${subcategory.id}`}
                                                 className="block py-1.5 text-sm text-gray-600 hover:text-[#e9a83a]"
                                             >
                                                 <div className="flex items-center justify-between">

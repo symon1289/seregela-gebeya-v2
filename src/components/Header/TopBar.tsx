@@ -25,7 +25,7 @@ export default function TopBar() {
             <div className="max-w-screen-xl container mx-auto px-2 sm:px-4 flex justify-between items-center">
                 <div className="flex items-center gap-2 font-medium sm:font-normal">
                     <Link
-                        to="/seregela-gebeya-v2/wishlist"
+                        to="/wishlist"
                         className="flex items-center gap-1 text-xs sm:text-sm text-gray-600 relative hover:text-[#e7a334]"
                     >
                         <FaRegHeart size={16} />
@@ -33,7 +33,7 @@ export default function TopBar() {
                         <span>{t("wishlist")}</span>
                     </Link>
                     <Link
-                        to="/seregela-gebeya-v2/profile"
+                        to="/profile"
                         className="flex items-center gap-1 text-[10px] sm:text-sm  text-gray-600 hover:text-[#e7a334]"
                     >
                         <FaTruckFast size={20} />

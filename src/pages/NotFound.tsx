@@ -19,7 +19,7 @@ const NotFound: React.FC = () => {
                         {t("page_not_found_desc")}
                     </p>
                     <Link
-                        to="/seregela-gebeya-v2"
+                        to="/"
                         className="px-6 py-3 text-white rounded-lg bg-primary hover:bg-secondary  transition-colors duration-300"
                     >
                         {t("go_to_home_page")}

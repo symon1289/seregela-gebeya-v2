@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     };
 
     const handleCardClick = () => {
-        navigate(`/seregela-gebeya-v2/products/${id}`);
+        navigate(`/products/${id}`);
     };
 
     function PriceDisplay({ price }: { price: string }) {

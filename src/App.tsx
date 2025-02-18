@@ -37,113 +37,85 @@ function App() {
     const { user } = useSelector((state: RootState) => state.auth);
     return (
         <>
-            <Router>
+            <Router basename="/seregela-gebeya-v2">
                 <ScrollToTop />
                 <HelmetProvider>
                     <TopBar />
                     <MainHeader />
 
                     <Routes>
-                        <Route path="/seregela-gebeya-v2" element={<Home />} />
+                        <Route path="/" element={<Home />} />
+                        <Route path="/products" element={<Products />} />
+                        <Route path="/cart" element={<Cart />} />
                         <Route
-                            path="/seregela-gebeya-v2/products"
-                            element={<Products />}
-                        />
-                        <Route
-                            path="/seregela-gebeya-v2/cart"
-                            element={<Cart />}
-                        />
-                        <Route
-                            path="/seregela-gebeya-v2/products/:id"
+                            path="/products/:id"
                             element={<ProductDetail />}
                         />
+                        <Route path="/category/:id" element={<Category />} />
                         <Route
-                            path="/seregela-gebeya-v2/category/:id"
-                            element={<Category />}
-                        />
-                        <Route
-                            path="/seregela-gebeya-v2/subcategory/:id"
+                            path="/subcategory/:id"
                             element={<Subcategory />}
                         />
+                        <Route path="/wishlist" element={<Wishlist />} />
                         <Route
-                            path="/seregela-gebeya-v2/wishlist"
-                            element={<Wishlist />}
-                        />
-                        <Route
-                            path="/seregela-gebeya-v2/privacy-policy"
+                            path="/privacy-policy"
                             element={<PrivacyPolicy />}
                         />
                         <Route
-                            path="/seregela-gebeya-v2/terms-of-service"
+                            path="/terms-of-service"
                             element={<TermsOfServices />}
                         />
+                        <Route path="/faq" element={<FAQ />} />
                         <Route
-                            path="/seregela-gebeya-v2/faq"
-                            element={<FAQ />}
-                        />
-                        <Route
-                            path="/seregela-gebeya-v2/return-policy"
+                            path="/return-policy"
                             element={<DeliveryReturnPolicy />}
                         />
+                        <Route path="/contact" element={<ContactUs />} />
                         <Route
-                            path="/seregela-gebeya-v2/contact"
-                            element={<ContactUs />}
-                        />
-                        <Route
-                            path="/seregela-gebeya-v2/login"
+                            path="/login"
                             element={
-                                user ? (
-                                    <Navigate
-                                        to="/seregela-gebeya-v2"
-                                        replace
-                                    />
-                                ) : (
-                                    <Login />
-                                )
+                                user ? <Navigate to="/" replace /> : <Login />
                             }
                         />
                         <Route path="" element={<PrivateRoute />}>
-                            <Route
-                                path="/seregela-gebeya-v2/profile"
-                                element={<ProfileUi />}
-                            />
+                            <Route path="/profile" element={<ProfileUi />} />
 
                             <Route
-                                path="/seregela-gebeya-v2/checkout/shipping"
+                                path="/checkout/shipping"
                                 element={<Delivery />}
                             />
                             <Route
-                                path="/seregela-gebeya-v2/checkout/payment"
+                                path="/checkout/payment"
                                 element={<Payment />}
                             />
                             <Route
-                                path="/seregela-gebeya-v2/checkout/payment/cbebanking"
+                                path="/checkout/payment/cbebanking"
                                 element={<CBEmobile />}
                             />
                             <Route
-                                path="/seregela-gebeya-v2/checkout/payment/apollo"
+                                path="/checkout/payment/apollo"
                                 element={<Apollo />}
                             />
                             <Route
-                                path="/seregela-gebeya-v2/checkout/payment/abay"
+                                path="/checkout/payment/abay"
                                 element={<Abay />}
                             />
                             <Route
-                                path="/seregela-gebeya-v2/checkout/payment/bunna"
+                                path="/checkout/payment/bunna"
                                 element={<Bunna />}
                             />
 
                             <Route
-                                path="/seregela-gebeya-v2/checkout/payment/cbebirr"
+                                path="/checkout/payment/cbebirr"
                                 element={<CBEbirr />}
                             />
                             <Route
-                                path="/seregela-gebeya-v2/checkout/payment/awash-birr"
+                                path="/checkout/payment/awash-birr"
                                 element={<Awash />}
                             />
                         </Route>
                         {/* <Route
-                            path="/seregela-gebeya-v2/test"
+                            path="/test"
                             element={<TestLogin />}
                         /> */}
                         <Route path="*" element={<NotFound />} />

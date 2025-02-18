@@ -74,7 +74,7 @@ const Products: React.FC = () => {
                     paths={[
                         {
                             name: "Products",
-                            url: "/seregela-gebeya-v2/products",
+                            url: "/products",
                         },
                     ]}
                 />

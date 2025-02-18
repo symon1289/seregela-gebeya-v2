@@ -84,7 +84,7 @@ const Subcategory: React.FC = () => {
                         paths={[
                             {
                                 name: "Products",
-                                url: "/seregela-gebeya-v2/products",
+                                url: "/products",
                             },
                             {
                                 name:
@@ -93,7 +93,7 @@ const Subcategory: React.FC = () => {
                                             (sub) => sub.id === Number(id)
                                         )
                                     )?.name || "",
-                                url: `/seregela-gebeya-v2/category/${
+                                url: `/category/${
                                     categories.find((cat) =>
                                         cat.subcategories.some(
                                             (sub) => sub.id === Number(id)
@@ -103,7 +103,7 @@ const Subcategory: React.FC = () => {
                             },
                             {
                                 name: activeSubcategory.name,
-                                url: `/seregela-gebeya-v2/subcategory/${activeSubcategory.id}`,
+                                url: `/subcategory/${activeSubcategory.id}`,
                             },
                         ]}
                     />
