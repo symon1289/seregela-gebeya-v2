@@ -95,14 +95,14 @@ const Favorite: React.FC = () => {
                             className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
                         >
                             <ShoppingBag size={20} />
-                            Buy All
+                            {t("buy_all")}
                         </button>
                         <button
                             onClick={handleClearWishlist}
                             className="text-red-500 hover:text-red-600 flex items-center gap-2"
                         >
                             <Trash2 size={20} />
-                            Clear Wishlist
+                            {t("clear_wishlist")}
                         </button>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ const Favorite: React.FC = () => {
                                             className="flex-1 bg-primary hover:bg-secondary text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
                                         >
                                             <ShoppingCart size={20} />
-                                            Add to Cart
+                                            {t("add_to_cart")}
                                         </button>
                                         <button
                                             onClick={() =>

@@ -10,10 +10,17 @@ import Breadcrumb from "../components/Breadcrumb";
 import { useTranslation } from "react-i18next";
 import ProductCardLoading from "../components/loading skeletons/product/Card.tsx";
 import defaultImage from "../assets/no-image-available-02.jpg";
+import { getLeftInStock } from "../utils/helper";
+import { RootState } from "../store/store";
+import { useSelector } from "react-redux";
+import { Grid3x3, List } from "lucide-react";
+import ProductCardList from "../components/ProductCardList.tsx";
+import ProductCardListSkeleton from "../components/loading skeletons/product/ProductCardListSkeleton.tsx";
 
 const Subcategory: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
+    const { user } = useSelector((state: RootState) => state.auth);
     const { categories } = useCategory();
     const {
         filteredProducts,
@@ -28,7 +35,7 @@ const Subcategory: React.FC = () => {
         handleSortChange,
     } = useProducts({ id: Number(id), endpoint: "subcategories" });
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+    const [layout, setLayout] = useState<"grid" | "list">("grid");
     const activeSubcategory = categories.reduce((found: any, category) => {
         if (found) return found;
         return category.subcategories.find((sub) => sub.id === Number(id));
@@ -120,33 +127,111 @@ const Subcategory: React.FC = () => {
                     />
 
                     <div className="flex-1">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[11px]">
-                            {isLoading
-                                ? Array.from({ length: 15 }).map((_, index) => (
-                                      <ProductCardLoading key={index} />
-                                  ))
-                                : filteredProducts.map((product) => (
-                                      <ProductCard
-                                          key={product.id}
-                                          id={product.id}
-                                          name={product.name}
-                                          price={product.price}
-                                          image={product.image || defaultImage}
-                                          originalPrice={product.originalPrice}
-                                          discount={
-                                              product.discount
-                                                  ? Number(product.discount)
-                                                  : undefined
-                                          }
-                                          left_in_stock={
-                                              product.max_quantity_per_order !==
-                                              null
-                                                  ? product.max_quantity_per_order
-                                                  : product.left_in_stock
-                                          }
-                                      />
-                                  ))}
+                        <div className="flex justify-end mb-4 gap-2">
+                            <button
+                                onClick={() => setLayout("grid")}
+                                className={`px-2 py-1 rounded-lg text-gray-700 ${
+                                    layout === "grid"
+                                        ? "bg-primary text-white"
+                                        : ""
+                                }`}
+                            >
+                                <Grid3x3 size={18} />
+                            </button>
+                            <button
+                                onClick={() => setLayout("list")}
+                                className={`px-2 py-1 rounded-lg text-gray-700 ${
+                                    layout === "list"
+                                        ? "bg-primary text-white"
+                                        : ""
+                                }`}
+                            >
+                                <List size={18} />
+                            </button>
                         </div>
+                        {isLoading ? (
+                            <div
+                                className={
+                                    layout === "grid"
+                                        ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[11px]"
+                                        : "space-y-4"
+                                }
+                            >
+                                {layout === "grid"
+                                    ? Array.from({ length: 15 }).map(
+                                          (_, index) => (
+                                              <ProductCardLoading key={index} />
+                                          )
+                                      )
+                                    : Array.from({ length: 15 }).map(
+                                          (_, index) => (
+                                              <ProductCardListSkeleton
+                                                  key={index}
+                                              />
+                                          )
+                                      )}
+                            </div>
+                        ) : (
+                            <div
+                                className={
+                                    layout === "grid"
+                                        ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[11px]"
+                                        : "space-y-4"
+                                }
+                            >
+                                {filteredProducts.map((product) =>
+                                    layout === "grid" ? (
+                                        <ProductCard
+                                            key={product.id}
+                                            id={product.id}
+                                            name={product.name}
+                                            price={product.price}
+                                            image={
+                                                product.image || defaultImage
+                                            }
+                                            originalPrice={
+                                                product.originalPrice
+                                            }
+                                            discount={
+                                                product.discount
+                                                    ? Number(product.discount)
+                                                    : undefined
+                                            }
+                                            left_in_stock={
+                                                getLeftInStock(user, product) ??
+                                                0
+                                            }
+                                        />
+                                    ) : (
+                                        <ProductCardList
+                                            key={product.id}
+                                            id={product.id}
+                                            name={product.name}
+                                            price={product.price}
+                                            image={
+                                                product.image || defaultImage
+                                            }
+                                            originalPrice={
+                                                product.originalPrice
+                                            }
+                                            discount={
+                                                product.discount
+                                                    ? Number(product.discount)
+                                                    : undefined
+                                            }
+                                            left_in_stock={
+                                                getLeftInStock(user, product) ??
+                                                0
+                                            }
+                                            max_quantity_per_order={
+                                                product?.max_quantity_per_order
+                                            }
+                                            description={product.description}
+                                        />
+                                    )
+                                )}
+                            </div>
+                        )}
 
                         {isLoading &&
                             Array.from({ length: 15 }).map((_, index) => (

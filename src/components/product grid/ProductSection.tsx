@@ -130,8 +130,11 @@ const ProductSection: React.FC<SectionProps> = ({
                             </div>
                         </Link>
                         <button
-                            className="bg-blue-500 p-1 rounded-full text-white hover:bg-blue-600 transition-colors"
+                            className="bg-blue-500 p-1 rounded-full text-white hover:bg-blue-600 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
                             onClick={handleAddToCart(product)}
+                            aria-label="Add to cart"
+                            title="Add to cart"
+                            disabled={product.left_in_stock === 0}
                         >
                             <Plus
                                 size={16}

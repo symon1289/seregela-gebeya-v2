@@ -407,5 +407,9 @@
     "abay_step_four": "ዋና ገጽ መመለስ",
     "abay_step_four_description": "ክፍያውን ከጨረሱ በኋላ ወደ ዋና ገጽ ለመመለስ። ከታች ያለውን \"ጨርስ\" ሚለውን ይጫኑ ",
     "steps_to_follow_abay": "የአባይ ባንክ የሞባይል ባንክ መተግበሪያ ውስጥ ሲሆኑ መከተል ያለባቸው ቅደምተከተል",
-    "steps_tofollow_abay": "የአባይ ባንክ መተግበሪያ መመሪያዎች"
+    "steps_tofollow_abay": "የአባይ ባንክ መተግበሪያ መመሪያዎች",
+    "max_quantity": "ትልቁ ማዘዝ ሚችሉት ብዛት",
+    "buy_all": "ሁሉንም ግዛ",
+    "clear_wishlist": "የምኞት ዝርዝር አጽዳ",
+    "error.no_payment_selected": "ምንም የክፍያ አማራጭ አልመረጡም!"
 }

@@ -111,15 +111,15 @@ const Navbar = () => {
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearchQuery(searchQuery);
-        }, 1000);
+        }, 500);
 
         return () => clearTimeout(handler);
     }, [searchQuery]);
 
     return (
         <nav
-            className={`bg-[#e7a334]  shadow-black/15 text-white pb-2 pt-3 sticky top-0 z-[100] transition-all duration-300 ${
-                isScrolled ? "shadow-xl pb-1.5 pt-2 " : ""
+            className={`bg-[#e7a334]  shadow-black/15 text-white pb-0.5 pt-2 sticky top-0 z-[100] transition-all duration-300 items-center ${
+                isScrolled ? "shadow-xl  pt-1 pb-0.5" : ""
             }`}
         >
             <div className="max-w-screen-xl mx-auto pr-4 pl-1 sm:pl-4">
@@ -142,13 +142,15 @@ const Navbar = () => {
                         </button>
                         <Link
                             to="/"
-                            className="hidden sm:flex items-center justify-end h-[65px] w-[80px] md:w-[180px] lg:w-[220px]"
+                            className={`hidden sm:flex items-center justify-end h-[65px] w-[80px] md:w-[180px] lg:w-[220px]`}
                             aria-label="SeregelaGebeya"
                         >
                             <img
                                 src={logomini}
                                 alt="Logo"
-                                className="w-[80px] h-[60px] aspect-[720/555] object-contain"
+                                className={`w-[80px] h-[60px] aspect-[720/555] object-contain  ${
+                                    isScrolled ? "lg:h-[50px] lg:w-[70px]" : ""
+                                }`}
                             />
                             <div className="hidden md:flex md:flex-col lg:flex lg:flex-col lg:h-[23px] md:h-[23px] text-black ">
                                 <p className="logo-english">SeregelaGebeya</p>
@@ -275,7 +277,7 @@ const Navbar = () => {
                             )}
                         </Link>
 
-                        {grandTotal > 100 && (
+                        {grandTotal > 300 && (
                             <div className="ml-4 hidden sm:flex flex-col font-bold">
                                 <span className="text-xs text-gray-100">
                                     {t("your_cart")}
@@ -283,7 +285,7 @@ const Navbar = () => {
                                 <PriceFormatter price={grandTotal.toString()} />
                             </div>
                         )}
-                        {grandTotal === 100 && (
+                        {grandTotal === 300 && (
                             <div className="ml-4 hidden sm:flex flex-col font-bold">
                                 <span className="text-xs text-gray-100">
                                     {t("your_cart")}

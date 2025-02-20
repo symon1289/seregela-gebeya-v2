@@ -13,7 +13,7 @@ const getAuthHeader = () => {
 };
 
 // Query functions
-const fetchDeliveryTypes = async (): Promise<DeliveryType[]> => {
+export const fetchDeliveryTypes = async (): Promise<DeliveryType[]> => {
     const { data } = await api.get("delivery-types", getAuthHeader());
     return data.data;
 };

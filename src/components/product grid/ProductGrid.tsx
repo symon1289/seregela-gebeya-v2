@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { selectRecentProducts } from "../../store/features/productSlice";
 import { useProducts } from "../../hooks/useProducts";
 import { useTranslation } from "react-i18next";
+import { RootState } from "../../store/store";
+import { getLeftInStock } from "../../utils/helper";
 
 const ProductGrid: React.FC = () => {
     const { t } = useTranslation();
@@ -25,7 +27,7 @@ const ProductGrid: React.FC = () => {
     useEffect(() => {
         getPopularProductsForProductGrid(18, 1);
     }, []);
-
+    const { user } = useSelector((state: RootState) => state.auth);
     if (popularProductsError) {
         return (
             <div className="flex flex-col items-center space-y-4 py-8">
@@ -70,10 +72,7 @@ const ProductGrid: React.FC = () => {
                             discount: product.discount,
                             max_quantity_per_order:
                                 product.max_quantity_per_order,
-                            left_in_stock:
-                                product.max_quantity_per_order !== null
-                                    ? product.max_quantity_per_order
-                                    : product.left_in_stock,
+                            left_in_stock: getLeftInStock(user, product) ?? 0,
                         })) || []
                     }
                     intervalTime={5000}
@@ -100,9 +99,7 @@ const ProductGrid: React.FC = () => {
                                 image: product.image_paths[0], // add this property
                                 image_paths: product.image_paths, // add this property
                                 left_in_stock:
-                                    product.max_quantity_per_order !== null
-                                        ? product.max_quantity_per_order
-                                        : product.left_in_stock,
+                                    getLeftInStock(user, product) ?? 0,
                                 discount: product.discount,
                                 max_quantity_per_order:
                                     product.max_quantity_per_order,

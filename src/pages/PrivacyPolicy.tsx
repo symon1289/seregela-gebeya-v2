@@ -6,7 +6,7 @@ const PrivacyPolicy: React.FC = () => {
     return (
         <>
             <Meta config={getPrivacyPolicyMetaTags()} />
-            <div className="max-w-4xl mx-auto py-10 px-5">
+            <div className="max-w-screen-xl mx-auto py-10 px-5">
                 <h1 className="text-4xl font-bold text-center text-gray-900 mb-6">
                     Privacy Policy
                 </h1>

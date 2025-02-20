@@ -1,8 +1,7 @@
 @import url("https://fonts.cdnfonts.com/css/gilam");
 :root {
-    /* Define variables at the root level for global access */
-    --text-body: #e7a334; /* Default dark gray */
-    --detail-medium-contrast: #eaeaea; /* Default light gray */
+    --text-body: #e7a334;
+    --detail-medium-contrast: #eaeaea;
     --font-body: "Gilam", sans-serif;
 }
 
@@ -240,4 +239,31 @@ body {
     z-index: 1000;
     max-height: 360px;
     overflow-y: auto;
+}
+
+/* radio button */
+.custom-radio {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid #a26a24;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+}
+
+.custom-radio:checked {
+    background-color: #a26a24;
+}
+
+.custom-radio:checked::before {
+    content: "";
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

@@ -39,7 +39,7 @@
     "brand": "Brand",
     "stock": "Stock",
     "only": "Only",
-    "left": " - Hurry and order yours!",
+    "left": " left - Hurry and order yours!",
     "error_fetch_related_products": "Sorry. We are unable to fetch related products",
     "no_related_products": "No related products",
     "page_not_found": "Page Not Found",
@@ -377,7 +377,7 @@
     "more_from_this_Category": "More from this Category",
     "popular_products": "Popular Products",
     "stay_intouch": "Stay in Touch With Us",
-    "seregela_gebeya": "Navigate  Seregela Gebeya",
+    "seregela_gebeya": "Seregela Gebeya",
     "download_app": " Download Our App",
     "FAQs": "FAQs",
     "our_story": "Our Story",
@@ -400,5 +400,9 @@
     "abay_step_four": "Go home",
     "abay_step_four_description": "After completing the payment press the button below (\"finish\") to go home",
     "steps_to_follow_abaya": "Steps to follow inside the Abay Bank mobile banking App",
-    "steps_tofollow_abay": "Please open Abay Bank mobile banking app and enter your 4 digit pin of apollo digital banking"
+    "steps_tofollow_abay": "Please open Abay Bank mobile banking app and enter your 4 digit pin of apollo digital banking",
+    "max_quantity": "Maximum quantity per order is",
+    "buy_all": "Buy All",
+    "clear_wishlist": "Clear Wishlist",
+    "error.no_payment_selected": "No payment method selected"
 }

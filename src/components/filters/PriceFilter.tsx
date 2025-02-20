@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface PriceFilterProps {
@@ -13,204 +13,127 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
     onPriceChange,
 }) => {
     const { t } = useTranslation();
-    const [localMin, setLocalMin] = useState(minPrice.toString());
-    const [localMax, setLocalMax] = useState(maxPrice.toString());
-    const minInputRef = useRef<HTMLInputElement>(null);
-    const maxInputRef = useRef<HTMLInputElement>(null);
-    const minRangeRef = useRef<HTMLInputElement>(null);
-    const maxRangeRef = useRef<HTMLInputElement>(null);
+    const [selectedRange, setSelectedRange] = useState<string>("");
+    const [customMin, setCustomMin] = useState(minPrice);
+    const [customMax, setCustomMax] = useState(maxPrice);
+    const formatNumber = (num: number) => num.toLocaleString();
+    const priceRanges = [
+        {
+            label: `${formatNumber(0)} - ${formatNumber(100)}`,
+            min: 0,
+            max: 100,
+        },
+        {
+            label: `${formatNumber(101)} - ${formatNumber(500)}`,
+            min: 101,
+            max: 500,
+        },
+        {
+            label: `${formatNumber(501)} - ${formatNumber(1_000)}`,
+            min: 501,
+            max: 1000,
+        },
+        {
+            label: `${formatNumber(1_001)} - ${formatNumber(10_000)}`,
+            min: 1001,
+            max: 10000,
+        },
+        {
+            label: `${formatNumber(10_001)} - ${formatNumber(25_000)}`,
+            min: 10001,
+            max: 25000,
+        },
+        {
+            label: `${formatNumber(25_001)} - ${formatNumber(50_000)}`,
+            min: 25001,
+            max: 50000,
+        },
+        {
+            label: `${formatNumber(50_001)} - ${formatNumber(100_000)}`,
+            min: 50001,
+            max: 100000,
+        },
+        {
+            label: `${formatNumber(100_001)} - ${formatNumber(1_000_000)}`,
+            min: 100001,
+            max: 1000000,
+        },
+    ];
 
-    const MIN_GAP = 1000; // Minimum gap between handles in Birr
-    const ABSOLUTE_MIN = 0;
-    const ABSOLUTE_MAX = 100000;
-
-    useEffect(() => {
-        setLocalMin(minPrice.toString());
-        setLocalMax(maxPrice.toString());
-
-        if (minRangeRef.current && maxRangeRef.current) {
-            minRangeRef.current.value = minPrice.toString();
-            maxRangeRef.current.value = maxPrice.toString();
-            updateSliderProgress();
-        }
-    }, [minPrice, maxPrice]);
-
-    const updateSliderProgress = () => {
-        if (minRangeRef.current && maxRangeRef.current) {
-            const minVal = parseInt(minRangeRef.current.value);
-            const maxVal = parseInt(maxRangeRef.current.value);
-            const percent1 =
-                ((minVal - ABSOLUTE_MIN) / (ABSOLUTE_MAX - ABSOLUTE_MIN)) * 100;
-            const percent2 =
-                ((maxVal - ABSOLUTE_MIN) / (ABSOLUTE_MAX - ABSOLUTE_MIN)) * 100;
-
-            minRangeRef.current.style.background = `linear-gradient(to right, #E5E7EB ${percent1}%, #3B82F6 ${percent1}%, #3B82F6 ${percent2}%, #E5E7EB ${percent2}%)`;
-        }
-    };
-
-    const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setLocalMin(value);
-
-        const numValue = value === "" ? 0 : Math.max(0, parseInt(value));
-        if (!isNaN(numValue) && numValue <= parseInt(localMax) - MIN_GAP) {
-            onPriceChange(numValue, parseInt(localMax));
-            if (minRangeRef.current) {
-                minRangeRef.current.value = numValue.toString();
-                updateSliderProgress();
-            }
-        }
-    };
-
-    const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setLocalMax(value);
-
-        const numValue =
-            value === ""
-                ? ABSOLUTE_MAX
-                : Math.min(ABSOLUTE_MAX, parseInt(value));
-        if (!isNaN(numValue) && numValue >= parseInt(localMin) + MIN_GAP) {
-            onPriceChange(parseInt(localMin), numValue);
-            if (maxRangeRef.current) {
-                maxRangeRef.current.value = numValue.toString();
-                updateSliderProgress();
-            }
+    const handleRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedLabel = e.target.value;
+        const selectedRange = priceRanges.find(
+            (range) => range.label === selectedLabel
+        );
+        if (selectedRange) {
+            setSelectedRange(selectedLabel);
+            setCustomMin(selectedRange.min);
+            setCustomMax(selectedRange.max);
+            onPriceChange(selectedRange.min, selectedRange.max);
         }
     };
 
-    const handleMinRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCustomMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value);
-        const maxValue = parseInt(localMax);
-
-        if (value + MIN_GAP <= maxValue) {
-            setLocalMin(value.toString());
-            onPriceChange(value, maxValue);
-            updateSliderProgress();
+        setCustomMin(value);
+        setSelectedRange(""); // Clear selected range
+        if (value && customMax) {
+            onPriceChange(value, customMax);
         }
     };
 
-    const handleMaxRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCustomMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value);
-        const minValue = parseInt(localMin);
-
-        if (value >= minValue + MIN_GAP) {
-            setLocalMax(value.toString());
-            onPriceChange(minValue, value);
-            updateSliderProgress();
+        setCustomMax(value);
+        setSelectedRange(""); // Clear selected range
+        if (value && customMin) {
+            onPriceChange(customMin, value);
         }
     };
 
-    const handleMinBlur = () => {
-        const numValue = localMin === "" ? 0 : Math.max(0, parseInt(localMin));
-        if (isNaN(numValue)) {
-            setLocalMin(minPrice.toString());
-        } else if (numValue > parseInt(localMax) - MIN_GAP) {
-            const newValue = parseInt(localMax) - MIN_GAP;
-            setLocalMin(newValue.toString());
-            onPriceChange(newValue, parseInt(localMax));
-        } else {
-            setLocalMin(numValue.toString());
-            onPriceChange(numValue, parseInt(localMax));
-        }
-        updateSliderProgress();
-    };
-
-    const handleMaxBlur = () => {
-        const numValue =
-            localMax === ""
-                ? ABSOLUTE_MAX
-                : Math.min(ABSOLUTE_MAX, parseInt(localMax));
-        if (isNaN(numValue)) {
-            setLocalMax(maxPrice.toString());
-        } else if (numValue < parseInt(localMin) + MIN_GAP) {
-            const newValue = parseInt(localMin) + MIN_GAP;
-            setLocalMax(newValue.toString());
-            onPriceChange(parseInt(localMin), newValue);
-        } else {
-            setLocalMax(numValue.toString());
-            onPriceChange(parseInt(localMin), numValue);
-        }
-        updateSliderProgress();
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            (e.target as HTMLInputElement).blur();
+    const handleCustomBlur = () => {
+        if (customMin && customMax) {
+            onPriceChange(customMin, customMax);
         }
     };
 
     return (
         <div className="space-y-6">
-            <style>
-                {`
-          input[type="range"] {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 4px;
-            background: #e9a83a;
-            border-radius: 2px;
-            position: absolute;
-            pointer-events: none;
-          }
-
-          input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            background-color: white;
-            border: 2px solid #e9a83a;
-            border-radius: 50%;
-            cursor: pointer;
-            pointer-events: auto;
-            margin-top: -6px;
-          }
-
-          input[type="range"]::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            background-color: white;
-            border: 2px solid #e9a83a;
-            border-radius: 50%;
-            cursor: pointer;
-            pointer-events: auto;
-          }
-        `}
-            </style>
-
-            <div className="relative h-1 w-full mt-8 mb-12">
-                <input
-                    ref={minRangeRef}
-                    type="range"
-                    min={ABSOLUTE_MIN}
-                    max={ABSOLUTE_MAX}
-                    value={localMin}
-                    onChange={handleMinRangeChange}
-                    className="absolute w-full"
-                />
-                <input
-                    ref={maxRangeRef}
-                    type="range"
-                    min={ABSOLUTE_MIN}
-                    max={ABSOLUTE_MAX}
-                    value={localMax}
-                    onChange={handleMaxRangeChange}
-                    className="absolute w-full"
-                />
+            {/* Radio buttons for predefined ranges */}
+            <div className="space-y-2">
+                {priceRanges.map((range, index) => (
+                    <label
+                        key={index}
+                        className={`flex items-center space-x-2 hover:bg-primary hover:text-white py-0.5 px-2 rounded-md cursor-pointer  ${
+                            selectedRange === range.label
+                                ? "bg-primary text-white"
+                                : "text-gray-700"
+                        }`}
+                    >
+                        <input
+                            type="radio"
+                            name="priceRange"
+                            value={range.label}
+                            checked={selectedRange === range.label}
+                            onChange={handleRangeChange}
+                            className="custom-radio"
+                        />
+                        <span>
+                            {range.label} {t("birr")}
+                        </span>
+                    </label>
+                ))}
             </div>
 
+            {/* Custom price range inputs */}
             <div className="flex flex-col space-y-2">
                 <div className="relative">
                     <input
-                        ref={minInputRef}
                         type="text"
-                        value={localMin}
-                        onChange={handleMinChange}
-                        onBlur={handleMinBlur}
-                        onKeyDown={handleKeyDown}
-                        className="w-full pl-12 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        value={customMin}
+                        onChange={handleCustomMinChange}
+                        onBlur={handleCustomBlur}
+                        className="w-full pl-12 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                         placeholder="Min Price"
                         aria-label="Minimum price"
                     />
@@ -221,12 +144,10 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
 
                 <div className="relative">
                     <input
-                        ref={maxInputRef}
                         type="text"
-                        value={localMax}
-                        onChange={handleMaxChange}
-                        onBlur={handleMaxBlur}
-                        onKeyDown={handleKeyDown}
+                        value={customMax}
+                        onChange={handleCustomMaxChange}
+                        onBlur={handleCustomBlur}
                         className="w-full pl-12 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Max Price"
                         aria-label="Maximum price"

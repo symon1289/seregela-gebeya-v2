@@ -84,14 +84,15 @@ const ProductCard: React.FC<ProductCardProps> = ({
                     <img
                         src={displayImage}
                         alt={name}
-                        className="w-full h-full transition-transform duration-1000 hover:scale-125 object-contain"
+                        className="w-full h-full transition-transform duration-1000 hover:scale-110 object-contain"
                         loading="lazy"
                     />
                     <div className="absolute bottom-1 right-2">
                         <button
                             aria-label="Add to Cart"
-                            className="bg-blue-500 p-1.5 rounded-full text-white hover:bg-blue-600 transition-colors"
+                            className="bg-blue-500 p-1.5 rounded-full text-white hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             onClick={handleAddToCart}
+                            disabled={left_in_stock === 0}
                         >
                             <Plus
                                 size={20}
@@ -104,12 +105,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 <div className="p-2">
                     <div className="flex items-baseline gap-2 mb-2 justify-between">
                         <PriceDisplay price={price} />
-                        {/* {originalPrice !== price && (
-                            <span className="product-card-birr-part text-gray-500 line-through">
-                                {parseFloat(originalPrice).toFixed(0)}{" "}
-                                {t("birr")}
-                            </span>
-                        )} */}
                         {discount > 0 && (
                             <span className="product-card-birr-part text-gray-500 line-through">
                                 {parseFloat(originalPrice).toFixed(0)}{" "}

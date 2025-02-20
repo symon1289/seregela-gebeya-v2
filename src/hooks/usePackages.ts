@@ -4,6 +4,9 @@ import { Product, Package } from "../types/product";
 import { useTranslation } from "react-i18next";
 import { useEffect, useMemo, useState } from "react";
 import { PackageProduct } from "../types/product";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { getLeftInStock } from "../utils/helper";
 
 type ApiResponse<T> = {
     data: T;
@@ -54,6 +57,8 @@ const getTranslatedField = (
 ): string => (language === "am" ? obj[`${field}_am`] || "" : obj[field] || "");
 
 export const usePackages = (): UsePackagesReturn => {
+    const { user } = useSelector((state: RootState) => state.auth);
+
     const { i18n } = useTranslation();
     const queryClient = useQueryClient();
     const [packageId, setPackageId] = useState<string>("");
@@ -86,10 +91,6 @@ export const usePackages = (): UsePackagesReturn => {
             ), // Use the state variable
             queryFn: async ({ queryKey }) => {
                 const [, paginate, page] = queryKey;
-                console.log("Fetching popular products with:", {
-                    paginate,
-                    page,
-                }); // Debugging
                 const response = await api.get(
                     `popular-products?page=${page}&paginate=${paginate}`
                 );
@@ -114,10 +115,7 @@ export const usePackages = (): UsePackagesReturn => {
 
                         price: parseFloat(product.price || 0).toFixed(2),
                         image: product.image_paths ?? [],
-                        left_in_stock:
-                            product.max_quantity_per_order !== null
-                                ? product.max_quantity_per_order
-                                : product.left_in_stock,
+                        left_in_stock: getLeftInStock(user, product) ?? 0,
                     })
                 );
                 return { ...response, data: transformedData };
@@ -232,10 +230,6 @@ export const usePackages = (): UsePackagesReturn => {
         paginate: number,
         page: number
     ) => {
-        console.log("getPopularProductsForProductGrid called with:", {
-            paginate,
-            page,
-        }); // Debugging
         setPopularProductsParams({ paginate, page }); // Update the state with the new parameters
     };
 
@@ -244,10 +238,6 @@ export const usePackages = (): UsePackagesReturn => {
             popularProductsParams.paginate !== 0 ||
             popularProductsParams.page !== 0
         ) {
-            console.log(
-                "Refetching popular products with:",
-                popularProductsParams
-            ); // Debugging
             popularProductsForGridQuery.refetch();
         }
     }, [popularProductsParams]);

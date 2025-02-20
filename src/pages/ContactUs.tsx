@@ -6,7 +6,7 @@ const ContactUs: React.FC = () => {
     return (
         <>
             <Meta config={getContactMetaTags()} />
-            <section className="" id="contact">
+            <section className="max-w-screen-xl mx-auto" id="contact">
                 <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
                     <div className="mb-4">
                         <div className="mb-6 max-w-3xl text-center sm:text-center md:mx-auto md:mb-12">
@@ -49,7 +49,8 @@ const ContactUs: React.FC = () => {
                                                 Visit our office
                                             </h3>
                                             <p className="text-gray-900 ">
-                                                123 Main Street,
+                                                Merkeb Plaza | Olompia, Gabon
+                                                Street
                                             </p>
                                             <p className="text-gray-900 ">
                                                 Addis Ababa, Ethiopia
@@ -81,15 +82,15 @@ const ContactUs: React.FC = () => {
                                             </h3>
                                             <p className="text-gray-900 ">
                                                 <strong>Phone:</strong>{" "}
-                                                <a href="tel:+251200000000">
-                                                    +251 200 000 000
+                                                <a href="tel:+2517878">
+                                                    +251 7878
                                                 </a>
                                             </p>
                                             <p className="text-gray-900 "></p>
                                             <p className="text-gray-900 ">
                                                 <strong>Email:</strong>{" "}
-                                                <a href="mailto:support@example.com">
-                                                    support@example.com
+                                                <a href="mailto:hello@seregelamail.com">
+                                                    hello@seregelamail.com
                                                 </a>
                                             </p>
                                         </div>

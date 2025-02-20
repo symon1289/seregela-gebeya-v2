@@ -5,11 +5,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { usePopular } from "../hooks/usePopular";
 import ProductCardLoading from "./loading skeletons/product/Card";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { getLeftInStock } from "../utils/helper";
 
 const GrabOurBestDeals = () => {
     const { t } = useTranslation();
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const previousCountRef = useRef(0);
+    const { user } = useSelector((state: RootState) => state.auth);
 
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
@@ -148,9 +152,7 @@ const GrabOurBestDeals = () => {
                                           : undefined
                                   }
                                   left_in_stock={
-                                      product.max_quantity_per_order !== null
-                                          ? product.max_quantity_per_order
-                                          : product.left_in_stock
+                                      getLeftInStock(user, product) ?? 0
                                   }
                               />
                           ))}

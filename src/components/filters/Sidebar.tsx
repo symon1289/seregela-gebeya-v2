@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     };
 
     const hasActiveFilters =
-        minPrice > 0 || maxPrice < 100000 || sortBy !== "created_at";
+        minPrice > 0 || maxPrice < 1000000 || sortBy !== "created_at";
 
     return (
         <>

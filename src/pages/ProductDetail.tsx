@@ -17,9 +17,12 @@ import { useTranslation } from "react-i18next";
 import PriceFormatter from "../components/PriceFormatter";
 import ProductGrid from "../components/product grid/ProductGrid";
 import ProductDetailLoad from "../components/loading skeletons/product/Detail.tsx";
+import { getLeftInStock } from "../utils/helper";
 const ProductDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
+    const { user } = useSelector((state: RootState) => state.auth);
+
     const dispatch = useDispatch();
     const wishlistItems = useSelector(
         (state: RootState) => state.wishlist.items
@@ -178,10 +181,7 @@ const ProductDetail: React.FC = () => {
                     price: String(product.price),
                     quantity,
                     image_paths: product.image_paths || [],
-                    left_in_stock:
-                        product.max_quantity_per_order !== null
-                            ? product.max_quantity_per_order
-                            : product.left_in_stock,
+                    left_in_stock: getLeftInStock(user, product) ?? 0,
                 })
             );
         }
@@ -512,7 +512,9 @@ const ProductDetail: React.FC = () => {
                                             image_paths:
                                                 product.image_paths || [],
                                             left_in_stock:
-                                                product.left_in_stock,
+                                                getLeftInStock(user, product) ??
+                                                0,
+
                                             quantity: 1,
                                         })
                                     );
@@ -674,7 +676,10 @@ const ProductDetail: React.FC = () => {
                                                 )
                                             }
                                             min="1"
-                                            max={product.left_in_stock}
+                                            max={
+                                                getLeftInStock(user, product) ??
+                                                0
+                                            }
                                             className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <button
@@ -705,10 +710,10 @@ const ProductDetail: React.FC = () => {
                                             {Array.from(
                                                 {
                                                     length:
-                                                        product.max_quantity_per_order !==
-                                                        null
-                                                            ? product.max_quantity_per_order
-                                                            : product.left_in_stock,
+                                                        getLeftInStock(
+                                                            user,
+                                                            product
+                                                        ) ?? 0,
                                                 },
                                                 (_, i) => i + 1
                                             ).map((num) => (
@@ -807,10 +812,10 @@ const ProductDetail: React.FC = () => {
                                                 relatedProduct.price
                                             )}
                                             left_in_stock={
-                                                relatedProduct.max_quantity_per_order !==
-                                                null
-                                                    ? relatedProduct.max_quantity_per_order
-                                                    : relatedProduct.left_in_stock
+                                                getLeftInStock(
+                                                    user,
+                                                    relatedProduct
+                                                ) ?? 0
                                             }
                                         />
                                     ))}

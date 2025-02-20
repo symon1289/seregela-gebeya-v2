@@ -36,7 +36,7 @@ export const useProducts = ({
 }: UseProductsProps): UseProductsReturn => {
     const { i18n } = useTranslation();
     const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(100000);
+    const [maxPrice, setMaxPrice] = useState(1000000);
     const [sortBy, setSortBy] = useState<SortOption["value"]>("created_at");
 
     const getUrl = (page: number) => {

@@ -38,7 +38,6 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     useEffect(() => {
-        console.log("Selected Package ID:", id);
         if (id) {
             getPackageById(id);
         }
