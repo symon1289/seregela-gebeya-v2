@@ -57,9 +57,9 @@ const MiniCart: React.FC = () => {
                             </p>
                             <p className="flex items-center text-sm text-gray-600 mt-1">
                                 <PriceFormatter price={item.price} />{" "}
-                                <p className="flex items-center text-sm text-gray-600 mt-1 ml-2">
+                                <span className="flex items-center text-sm text-gray-600 mt-1 ml-2">
                                     x {item.quantity}
-                                </p>
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -68,9 +68,9 @@ const MiniCart: React.FC = () => {
             <button
                 aria-label="Continue to Cart"
                 onClick={handleContinueToCart}
-                className="mt-3 bg-amber-500 hover:bg-amber-400 w-full text-white py-2 px-4 rounded-full text-sm transition-colors"
+                className="mt-3 bg-[#e7a334] text-white py-2 px-4 w-full hover:bg-white hover:text-[#e7a334] border border-[#e7a334] duration-300 rounded-full text-sm transition-colors"
             >
-                Continue to Cart
+                {t("continue_to_cart")}
             </button>
         </div>
     );

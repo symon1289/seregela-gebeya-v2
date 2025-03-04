@@ -76,7 +76,6 @@ export const calculateShipping = (
     }
 
     const { minimum_order_cost, delivery_cost_ranges } = selectedDeliveryType;
-
     // Check if the subtotal meets the minimum order cost for the selected delivery type
     if (subtotal < minimum_order_cost) {
         return subtotal > 2999.99 ? 0 : 300; // Fallback to default shipping logic

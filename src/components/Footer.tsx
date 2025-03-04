@@ -232,10 +232,10 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="mt-4 pt-4 border-t border-amber-400/30">
-                    <p className="text-center text-white">
-                        {new Date().getFullYear()} {t("seregela_gebeya")}.{" "}
-                        {t("all_rights_reserved")}
+                <div className="mt-4 pt-4 border-t border-secondary">
+                    <p className="text-center text-quaternary">
+                        &copy; {new Date().getFullYear()} {t("seregela_gebeya")}
+                        . {t("all_rights_reserved")}
                     </p>
                 </div>
             </div>

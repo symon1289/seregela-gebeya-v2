@@ -404,5 +404,9 @@
     "max_quantity": "Maximum quantity per order is",
     "buy_all": "Buy All",
     "clear_wishlist": "Clear Wishlist",
-    "error.no_payment_selected": "No payment method selected"
+    "error.no_payment_selected": "No payment method selected",
+    "search_button": "Search",
+    "View All Results": "View All Results",
+    "No products found for this search": "No products found for this search",
+    "continue_to_cart": "Contnue to cart"
 }

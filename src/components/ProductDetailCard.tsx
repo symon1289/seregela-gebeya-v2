@@ -154,8 +154,8 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
 
     return (
         <>
-            <div className="z-40 mx-auto px-4 py-2">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div className="z-40 mx-auto px-4 ">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                     {/* Product Image Gallery */}
                     <div className="bg-white rounded-lg py-4 shadow-sm  space-y-4">
                         <div className="relative aspect-square">
@@ -319,7 +319,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
 
                         {/* Quantity Selector */}
                         {packageItem && (
-                            <div className="flex items-center gap-4 mb-6">
+                            <div className="flex items-center gap-4 mb-2">
                                 <span className="text-gray-600">
                                     {t("quantity")}:
                                 </span>

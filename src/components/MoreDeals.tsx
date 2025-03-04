@@ -118,7 +118,7 @@ const Modal: React.FC<{
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl max-h-[500px] overflow-y-auto relative">
+            <div className="bg-white rounded-lg shadow-lg p-4 w-full max-w-4xl max-h-[600px] overflow-y-auto relative">
                 <button
                     onClick={onClose}
                     className="absolute top-3 right-3 text-gray-700 hover:text-gray-900"
@@ -158,7 +158,7 @@ const MoreDeals: React.FC = () => {
     };
 
     return (
-        <section className="py-12">
+        <section className="py-6">
             <div className="container mx-auto space-y-8">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

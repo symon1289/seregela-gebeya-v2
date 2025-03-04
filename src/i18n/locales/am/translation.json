@@ -411,5 +411,10 @@
     "max_quantity": "ትልቁ ማዘዝ ሚችሉት ብዛት",
     "buy_all": "ሁሉንም ግዛ",
     "clear_wishlist": "የምኞት ዝርዝር አጽዳ",
-    "error.no_payment_selected": "ምንም የክፍያ አማራጭ አልመረጡም!"
+    "error.no_payment_selected": "ምንም የክፍያ አማራጭ አልመረጡም!",
+
+    "search_button": "ፈልግ",
+    "View All Results": "ሁሉንም ውጤት ይመልከቱ",
+    "No products found for this search": "ይህን ፍለጋ እቃ የለውም።",
+    "continue_to_cart": "ዘንቢልዎን ይመልከቱ"
 }

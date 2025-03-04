@@ -29,7 +29,7 @@ export const paymentOptions: PaymentOption[] = [
     },
     { id: 1, name: "Telebirr", image: Tele_Birr, sendingName: "telebirr" },
     {
-        id: 11,
+        id: 14,
         name: "Bunna Bank",
         image: Bunna_Bank,
         sendingName: "bunna",

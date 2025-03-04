@@ -33,6 +33,7 @@ import Bunna from "./components/payments/Bunna";
 import CBEbirr from "./components/payments/CBEbirr";
 import Awash from "./components/payments/Awash";
 import { useSelector } from "react-redux";
+import MiniCart from "./components/MiniCart";
 function App() {
     const { user } = useSelector((state: RootState) => state.auth);
     return (
@@ -42,6 +43,7 @@ function App() {
                 <HelmetProvider>
                     <TopBar />
                     <MainHeader />
+                    <MiniCart />
 
                     <Routes>
                         <Route path="/" element={<Home />} />

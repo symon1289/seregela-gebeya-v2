@@ -53,6 +53,7 @@ const Home: React.FC = () => {
                     </h2>
                     <CategoryGrid />
                 </section>
+                <MoreDeals />
 
                 {/* Fresh Savers */}
                 <Suspense
@@ -90,7 +91,6 @@ const Home: React.FC = () => {
                 {/* New Arrivals */}
                 <NewArrivals />
                 {/* More Deals */}
-                <MoreDeals />
             </div>
         </>
     );

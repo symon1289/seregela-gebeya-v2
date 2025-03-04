@@ -13,14 +13,14 @@ export default function WelcomeSection() {
         ? JSON.parse(userData)
         : { first_name: "", last_name: "" };
     return (
-        <div className="bg-white shadow-lg w-full h-[400px] flex flex-col p-4 sm:p-6">
+        <div className="bg-white shadow-lg w-full h-[400px] flex flex-col p-4 sm:p-5">
             <div className="text-center mb-1">
                 <img
                     src={logo}
                     alt="seregela gebeya logo"
                     className="w-20 h-10 sm:w-12 sm:h-12 mx-auto text-[#e7a334] mb-2 aspect-[720/555] object-contain"
                 />
-                <h2 className="text-[14px] lg:text-lg font-semibold mb-1">
+                <h2 className="text-[14px] sm:text-base md:text-lg font-semibold mb-1">
                     {t("welcome")}
                 </h2>
                 <div className="flex gap-2 mb-4 lg:mb-1">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Search, User, X, Menu } from "lucide-react";
+import { User, X, Menu } from "lucide-react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import CategoryNav from "../CategoryNav";
@@ -90,7 +90,10 @@ const Navbar = () => {
         packagesitems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
     const { categories, isLoading: loading_categories } = useCategory();
     const { t } = useTranslation();
-    const { grandTotal } = calculateCartTotals(cartItems, packagesitems);
+    const { subtotal, grandTotal } = calculateCartTotals(
+        cartItems,
+        packagesitems
+    );
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
         setIsSearchOpen(true);
@@ -118,11 +121,11 @@ const Navbar = () => {
 
     return (
         <nav
-            className={`bg-[#e7a334]  shadow-black/15 text-white pb-0.5 pt-2 sticky top-0 z-[100] transition-all duration-300 items-center ${
+            className={`bg-[#e7a334]  shadow-black/15 text-white pb-0.5 pt-2 xs:pb-[7px] sticky top-0 z-[100] transition-all duration-300 items-center ${
                 isScrolled ? "shadow-xl  pt-1 pb-0.5" : ""
             }`}
         >
-            <div className="max-w-screen-xl mx-auto pr-4 pl-1 sm:pl-4">
+            <div className="max-w-screen-xl mx-auto pr-4 pl-1 ">
                 {/* Top Bar */}
                 <div className="flex items-center justify-between gap-4 h-16">
                     {/* Logo and Menu Button */}
@@ -160,24 +163,63 @@ const Navbar = () => {
                     </div>
 
                     {/* Search Bar */}
-                    <div className="flex-1 max-w-xl relative">
+                    <div
+                        className={`flex-1 max-w-[665px]  relative gap-3 ${
+                            userData ? "pr-10 pl-2" : "pr-4 pl-9"
+                        } `}
+                    >
                         <form onSubmit={handleSearchSubmit}>
-                            <div className="relative">
-                                <Search
-                                    className="absolute left-3 top-2.5 text-gray-400"
-                                    size={20}
-                                />
-                                <input
+                            <div className="relative mx-auto flex w-full max-w-2xl items-center justify-between rounded-md">
+                                <svg
+                                    className="absolute left-2 block h-5 w-5 text-gray-400 z-50"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width={24}
+                                    height={24}
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
+                                    <circle cx={11} cy={11} r={8} />
+                                    <line
+                                        x1={21}
+                                        y1={21}
+                                        x2="16.65"
+                                        y2="16.65"
+                                    />
+                                </svg>
+                                <div className="absolute inset-y-0 left-0 flex items-center w-full">
+                                    <input
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={handleSearchChange}
+                                        name="search"
+                                        className="h-10 w-full rounded-md py-4 pr-0 pl-12 outline-none focus:ring-2  text-gray-900 focus:border-primary focus:ring-primary"
+                                        placeholder={t("search")}
+                                    />
+                                    <button
+                                        type="submit"
+                                        aria-label="Search"
+                                        onClick={handleSearchSubmit}
+                                        className="absolute right-0 mr-1 inline-flex h-8 items-center justify-center rounded-lg bg-primary px-4 font-medium text-white hover:bg-white  hover:text-primary border border-primary transition-colors duration-300"
+                                    >
+                                        {t("search_button")}
+                                    </button>
+                                </div>
+
+                                {/* <input
                                     type="text"
                                     value={searchQuery}
                                     onChange={handleSearchChange}
                                     placeholder={t("search")}
                                     className="w-full px-10 py-2 rounded-full text-gray-900 focus:outline-none border border-transparent focus:border-[#e7a334]"
-                                />
+                                /> */}
 
                                 {/* Loading Indicator */}
                                 {isLoading && (
-                                    <div className="absolute right-3 top-2">
+                                    <div className="absolute right-3 top-0">
                                         <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-[#e9a83a]"></div>
                                     </div>
                                 )}
@@ -186,7 +228,7 @@ const Navbar = () => {
                                 {isSearchOpen &&
                                     searchResults.length > 0 &&
                                     !isLoading && (
-                                        <div className="absolute top-full left-0 right-0 mt-0 bg-white rounded-lg shadow-lg z-[100] max-h-96 overflow-y-auto">
+                                        <div className="absolute top-full left-0 right-0 mt-6 bg-white rounded-lg shadow-2xl z-[100] max-h-96 overflow-y-auto">
                                             <ul className="py-2 divide-y divide-gray-100">
                                                 {searchResults.map(
                                                     (product) => (
@@ -224,6 +266,19 @@ const Navbar = () => {
                                                     )
                                                 )}
                                             </ul>
+                                            <div className="px-4 py-2 border-t border-gray-100">
+                                                <Link
+                                                    to={`/products?name=${encodeURIComponent(
+                                                        searchQuery
+                                                    )}`}
+                                                    className="text-[#e7a334] hover:underline"
+                                                    onClick={() =>
+                                                        setIsSearchOpen(false)
+                                                    }
+                                                >
+                                                    {t("View All Results")}
+                                                </Link>
+                                            </div>
                                         </div>
                                     )}
 
@@ -232,10 +287,12 @@ const Navbar = () => {
                                     searchQuery &&
                                     searchResults.length === 0 &&
                                     !isLoading && (
-                                        <div className="absolute top-full left-0 right-0 mt-0 bg-white rounded-lg shadow-lg z-[100]">
+                                        <div className="absolute top-full left-0 right-0 mt-6 bg-white rounded-lg shadow-2xl z-[100] max-h-96 overflow-y-auto">
                                             <div className="px-4 py-3 text-gray-600 text-center">
-                                                No products found for "
-                                                {searchQuery}"
+                                                {t(
+                                                    "No products found for this search"
+                                                )}{" "}
+                                                "{searchQuery}"
                                             </div>
                                         </div>
                                     )}
@@ -244,7 +301,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Right Section */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 pl-5">
                         {userData ? (
                             <Link
                                 to="/profile"
@@ -256,7 +313,7 @@ const Navbar = () => {
                         ) : (
                             <Link
                                 to="/login"
-                                className="hidden xl:flex hover:text-gray-200 bg-white rounded-lg px-2 py-2 text-quaternary items-center gap-2"
+                                className="hidden xl:flex hover:text-white hover:bg-primary bg-white rounded-lg px-2 py-1.5 text-quaternary items-center gap-2 transition-colors duration-300 border border-white"
                                 aria-label="Login"
                             >
                                 <User size={24} />
@@ -277,16 +334,15 @@ const Navbar = () => {
                             )}
                         </Link>
 
-                        {grandTotal > 300 && (
-                            <div className="ml-4 hidden sm:flex flex-col font-bold">
+                        {subtotal > 0 ? (
+                            <div className="ml-1 hidden sm:flex flex-col font-bold">
                                 <span className="text-xs text-gray-100">
                                     {t("your_cart")}
                                 </span>
                                 <PriceFormatter price={grandTotal.toString()} />
                             </div>
-                        )}
-                        {grandTotal === 300 && (
-                            <div className="ml-4 hidden sm:flex flex-col font-bold">
+                        ) : (
+                            <div className="ml-1 hidden sm:flex flex-col font-bold">
                                 <span className="text-xs text-gray-100">
                                     {t("your_cart")}
                                 </span>
@@ -395,7 +451,7 @@ const Navbar = () => {
                 </div>
 
                 {/* Desktop Categories */}
-                <div className="hidden xl:block mt-4 justify-between">
+                <div className="hidden xl:block  justify-between">
                     <CategoryNav categories={categories} />
                 </div>
             </div>

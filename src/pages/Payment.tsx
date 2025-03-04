@@ -220,10 +220,27 @@ const Payment: React.FC = () => {
                 onSuccess: (response) => {
                     setShowApprove(0);
                     if (response.toPayUrl) {
-                        setShowApprove(0);
-                        setTimeout(() => {
-                            window.open(response.toPayUrl, "_self");
-                        }, 500);
+                        // setShowApprove(0);
+                        // setTimeout(() => {
+                        //     window.open(response.toPayUrl, "_blank",);
+                        // }, 200);
+                        const currentDomain = "https://seregelagebeya.com";
+                        const toPayUrl = new URL(response.toPayUrl);
+
+                        if (toPayUrl.origin === currentDomain) {
+                            setTimeout(() => {
+                                const newWindow = window.open(
+                                    toPayUrl,
+                                    "_self"
+                                );
+                                if (newWindow) newWindow.opener = null;
+                            }, 200);
+                        } else {
+                            setShowApprove(0);
+                            setTimeout(() => {
+                                window.open(response.toPayUrl, "_blank");
+                            }, 200);
+                        }
                     } else if (response.data.invoice.cbe_pay_checkout_id) {
                         const checkoutID =
                             response.data.invoice.cbe_pay_checkout_id;
