@@ -18,7 +18,7 @@ export default function WelcomeSection() {
                 <img
                     src={logo}
                     alt="seregela gebeya logo"
-                    className="w-20 h-10 sm:w-12 sm:h-12 mx-auto text-[#e7a334] mb-2 aspect-[720/555] object-contain"
+                    className="w-20 h-10 sm:w-12 sm:h-12 mx-auto text-septenary mb-2 aspect-[720/555] object-contain"
                 />
                 <h2 className="text-[14px] sm:text-base md:text-lg font-semibold mb-1">
                     {t("welcome")}
@@ -26,13 +26,13 @@ export default function WelcomeSection() {
                 <div className="flex gap-2 mb-4 lg:mb-1">
                     {userData ? (
                         <Link to="/profile" className="w-full">
-                            <button className="w-full bg-[#e7a334] text-white py-2 px-4 rounded hover:bg-white hover:text-[#e7a334] border border-[#e7a334] transition-colors duration-300 text-[12px] lg:text-base">
+                            <button className="w-full bg-septenary text-white py-2 px-4 rounded hover:bg-white hover:text-septenary border border-septenary transition-colors duration-300 text-[12px] lg:text-base">
                                 {t("hello")} {first_name} {last_name}
                             </button>
                         </Link>
                     ) : (
                         <Link to="/login" className="w-full">
-                            <button className="w-full bg-[#e7a334] text-white py-2 px-4 rounded hover:bg-white  hover:text-[#e7a334] border border-[#e7a334] transition-colors duration-300 text-[12px] lg:text-base  ">
+                            <button className="w-full bg-septenary text-white py-2 px-4 rounded hover:bg-white  hover:text-septenary border border-septenary transition-colors duration-300 text-[12px] lg:text-base  ">
                                 {t("register_now")}
                             </button>
                         </Link>

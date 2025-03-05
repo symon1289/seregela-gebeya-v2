@@ -15,7 +15,6 @@ import Category from "./pages/Category";
 import Subcategory from "./pages/Subcategory";
 import Login from "./pages/Login";
 import Wishlist from "./pages/Wishlist";
-import Delivery from "./pages/Delivery";
 import Payment from "./pages/Payment";
 import PrivateRoute from "./routes/PrivateRoute";
 import ProfileUi from "./pages/ProfileUi";
@@ -82,10 +81,6 @@ function App() {
                         <Route path="" element={<PrivateRoute />}>
                             <Route path="/profile" element={<ProfileUi />} />
 
-                            <Route
-                                path="/checkout/shipping"
-                                element={<Delivery />}
-                            />
                             <Route
                                 path="/checkout/payment"
                                 element={<Payment />}

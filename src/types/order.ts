@@ -22,22 +22,33 @@ export interface DiscountType {
     description_am: string;
     discount: number;
 }
-export interface DeliveryType {
+
+type DeliveryCostRange = {
     id: number;
-    slug: string;
+    delivery_type_id: number;
+    start: number;
+    end: number | null;
+    cost_percentage: number;
+    created_at: string;
+    updated_at: string;
+    deleted_at: string | null;
+};
+export type DeliveryType = {
+    id: number;
     name: string;
     name_am: string;
+    slug: string;
     description: string;
     description_am: string;
     minimum_order_cost: number;
-    delivery_cost_ranges: Array<any>;
+    delivery_cost_ranges: DeliveryCostRange[];
     number_of_days: number;
     created_at: string;
     updated_at: string;
     deleted_at: string | null;
     price: number;
     payment_percentage: number;
-}
+};
 
 export interface OrderDetail {
     delivery_type_id: number;

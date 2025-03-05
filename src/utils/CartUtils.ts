@@ -48,47 +48,28 @@ export const calculateSubtotal = (
  */
 export const calculateShipping = (
     subtotal: number,
-    deliveryTypes?: DeliveryType[],
-    selectedDeliveryTypeId?: number
+    selectedDeliveryType?: DeliveryType | null
 ): number => {
-    if (!deliveryTypes || deliveryTypes.length === 0) {
-        // Default to a fixed shipping cost if no delivery types are available
-        return subtotal > 2999.99 ? 0 : 300;
-    }
-
-    if (selectedDeliveryTypeId === undefined) {
-        // If no delivery type ID is provided, default to the first available delivery type
-        const defaultDeliveryType = deliveryTypes[0];
-        if (!defaultDeliveryType) {
-            return subtotal > 2999.99 ? 0 : 300;
-        }
-        selectedDeliveryTypeId = defaultDeliveryType.id;
-    }
-
-    // Find the selected delivery type by ID
-    const selectedDeliveryType = deliveryTypes.find(
-        (type) => type.id === selectedDeliveryTypeId
-    );
-
     if (!selectedDeliveryType) {
-        // If the selected delivery type is not found, default to a fixed cost
-        return subtotal > 2999.99 ? 0 : 300;
+        // Default to a fixed shipping cost if no delivery types are available
+        return 0;
     }
 
     const { minimum_order_cost, delivery_cost_ranges } = selectedDeliveryType;
     // Check if the subtotal meets the minimum order cost for the selected delivery type
     if (subtotal < minimum_order_cost) {
-        return subtotal > 2999.99 ? 0 : 300; // Fallback to default shipping logic
+        return 0; // Fallback to default shipping logic
     }
 
-    // Find the matching range in the delivery cost ranges
+    // // Find the matching range in the delivery cost ranges
     const matchingRange = delivery_cost_ranges.find(
         ({ start, end }) =>
             subtotal >= start && (end === null || subtotal <= end)
     );
 
     if (!matchingRange) {
-        return subtotal > 2999.99 ? 0 : 300;
+        // Handle the case where no matching range is found
+        return 0; // or some other default value
     }
 
     const { cost_percentage } = matchingRange;
@@ -120,15 +101,10 @@ export const calculateDiscount = (subtotal: number): number => {
 export const calculateCartTotals = (
     items: CartItem[],
     packages: CartPackage[],
-    deliveryTypes?: DeliveryType[],
-    selectedDeliveryTypeId?: number
+    selectedDeliveryType?: DeliveryType | null
 ) => {
     const subtotal = calculateSubtotal(items, packages);
-    const shipping = calculateShipping(
-        subtotal,
-        deliveryTypes,
-        selectedDeliveryTypeId
-    );
+    const shipping = calculateShipping(subtotal, selectedDeliveryType);
     const discount = calculateDiscount(subtotal);
     const grandTotal = subtotal - discount + shipping;
     return {

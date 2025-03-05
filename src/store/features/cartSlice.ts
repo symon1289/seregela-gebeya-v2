@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Product, Package } from "../../types/product";
 import { PaymentDetails, ShippingDetails } from "../../types/order";
+import { DeliveryType } from "../../types/order";
 
 export interface CartItem extends Pick<Product, "name" | "left_in_stock"> {
     id: number;
@@ -23,6 +24,7 @@ interface CartState {
     paymentDetails: PaymentDetails | null;
     delivery_type_id: number | null;
     discount_type_id: number | null;
+    delivery_type: DeliveryType | null;
 }
 
 const loadState = (): CartState => {
@@ -36,6 +38,7 @@ const loadState = (): CartState => {
                 paymentDetails: null,
                 delivery_type_id: null,
                 discount_type_id: null,
+                delivery_type: null,
             };
         }
         const parsedState = JSON.parse(serializedState);
@@ -68,6 +71,7 @@ const loadState = (): CartState => {
             paymentDetails: parsedState.paymentDetails,
             delivery_type_id: parsedState.deliveryType,
             discount_type_id: parsedState.discountType,
+            delivery_type: parsedState.deliveryType,
         };
     } catch (err) {
         console.error(err);
@@ -78,6 +82,7 @@ const loadState = (): CartState => {
             paymentDetails: null,
             delivery_type_id: null,
             discount_type_id: null,
+            delivery_type: null,
         };
     }
 };
@@ -177,8 +182,16 @@ const cartSlice = createSlice({
 
             localStorage.setItem("cart", JSON.stringify(state));
         },
-        saveDeliveryType: (state, action: PayloadAction<number>) => {
+        saveDeliveryTypeID: (state, action: PayloadAction<number>) => {
             state.delivery_type_id = action.payload;
+
+            localStorage.setItem("cart", JSON.stringify(state));
+        },
+        saveDeliveryType: (
+            state,
+            action: PayloadAction<DeliveryType | null>
+        ) => {
+            state.delivery_type = action.payload;
 
             localStorage.setItem("cart", JSON.stringify(state));
         },
@@ -205,6 +218,7 @@ export const {
     updatePackageQuantity,
     saveShippingDetails,
     savePaymentMethod,
+    saveDeliveryTypeID,
     saveDeliveryType,
     saveDiscountType,
     clearCart,

@@ -60,6 +60,9 @@ const Payment: React.FC = () => {
         (state: RootState) => state.cart.shippingDetails
     );
     const deliveryType = useSelector(
+        (state: RootState) => state.cart.delivery_type
+    );
+    const deliveryTypeID = useSelector(
         (state: RootState) => state.cart.delivery_type_id
     );
     const orderId = useSelector((state: RootState) => state.order.receipt?.id);
@@ -76,8 +79,13 @@ const Payment: React.FC = () => {
     const [orderDetail, setOrderDetail] = useState<OrderDetail | null>(null);
 
     const { subtotal, shipping, grandTotal, freeShipping } = useMemo(
-        () => calculateCartTotals(cartItems.items, cartItems.packages),
-        [cartItems]
+        () =>
+            calculateCartTotals(
+                cartItems.items,
+                cartItems.packages,
+                deliveryType
+            ),
+        [cartItems, deliveryType]
     );
 
     // Handle payment option change
@@ -143,7 +151,7 @@ const Payment: React.FC = () => {
         const preparedOrderDetail: OrderDetail = {
             ...orderDetail,
             shipping_detail: shippingDetails,
-            delivery_type_id: deliveryType,
+            delivery_type_id: deliveryTypeID !== null ? deliveryTypeID : 0,
             discount_type_id: selectedDiscount?.id,
             products: cartItems.items.map((item) => ({
                 id: item.id,
@@ -185,6 +193,7 @@ const Payment: React.FC = () => {
         createOrderMutation,
         t,
         deliveryType,
+        deliveryTypeID,
         shippingDetails,
         selectedDiscount,
         dispatch,
@@ -500,6 +509,7 @@ const Payment: React.FC = () => {
                                                     {item.name}
                                                 </span>
                                                 <span className="float-right text-gray-400">
+                                                    {t("quantity")}{" "}
                                                     {item.quantity}
                                                 </span>
                                                 <p className="text-lg font-bold">
@@ -529,7 +539,7 @@ const Payment: React.FC = () => {
                                                 {item.name}
                                             </span>
                                             <span className="float-right text-gray-400">
-                                                {item.quantity}
+                                                {t("quantity")} {item.quantity}
                                             </span>
                                             <p className="text-lg font-bold">
                                                 <PriceFormatter
@@ -622,9 +632,12 @@ const Payment: React.FC = () => {
                                 </p>
                             </div>
                             <button
-                                className="mt-4 mb-8 w-full rounded-md bg-primary hover:bg-secondary px-6 py-3 font-medium text-white"
+                                className="mt-4 mb-8 w-full rounded-lg bg-septenary text-white hover:bg-white hover:text-septenary border border-septenary transition-colors duration-300 px-6 py-3 font-medium  disabled:cursor-not-allowed disabled:opacity-50 "
                                 onClick={handleOrderSubmit}
-                                disabled={createOrderMutation.isPending}
+                                disabled={
+                                    createOrderMutation.isPending ||
+                                    paymentOptionId === null
+                                }
                             >
                                 {createOrderMutation.isPending
                                     ? t("processing")
