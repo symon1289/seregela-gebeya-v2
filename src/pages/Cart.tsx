@@ -16,6 +16,7 @@ import { getCartMetaTags } from "../config/meta";
 import PriceFormatter from "../components/PriceFormatter";
 import CheckoutSteps from "../components/CheckoutSteps";
 import DeliveryAddressForm from "../components/DeliveryAddressForm";
+import ProductGrid from "../components/product grid/ProductGrid";
 
 const defaultImage = "../assets/no-image-available-02.jpg";
 
@@ -84,6 +85,9 @@ const Cart = () => {
                             {t("continue_shopping")}
                         </Link>
                     </div>
+                    <section className="mb-12 mt-6">
+                        <ProductGrid />
+                    </section>
                 </div>
             </>
         );

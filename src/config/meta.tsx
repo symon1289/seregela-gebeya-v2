@@ -1,4 +1,4 @@
-import { Product } from "../types/product";
+import { Package, Product } from "../types/product";
 
 export const DEFAULT_TITLE =
     "Seregela Gebeya - Ethiopian Online Shopping Marketplace";
@@ -326,4 +326,31 @@ export const getSearchMetaTags = (query: string): MetaConfig => ({
     twitterCard: "summary",
     twitterTitle: `${query} - Seregela Gebeya`,
     twitterDescription: "Search for products at Seregela Gebeya.",
+});
+
+export const getPackagesMetaTags = (): MetaConfig => ({
+    title: "Packages - Seregela Gebeya",
+    description: "Packages - View and manage your packages at Seregela Gebeya.",
+    keywords: "packages, online shopping, Ethiopia, Seregela Gebeya",
+    ogTitle: "Packages - Seregela Gebeya",
+    ogDescription:
+        "Packages - View and manage your packages at Seregela Gebeya.",
+    ogType: "website",
+    twitterCard: "summary",
+    twitterTitle: "Packages - Seregela Gebeya",
+    twitterDescription:
+        "Packages - View and manage your packages at Seregela Gebeya.",
+});
+export const getPackageMetaTags = (packageProduct: Package): MetaConfig => ({
+    title: `${packageProduct.name} - Seregela Gebeya`,
+    description: `Buy ${packageProduct.name} at Seregela Gebeya. Best prices in Ethiopia.`,
+    keywords: `${packageProduct.name}, online shopping, Ethiopia, Seregela Gebeya`,
+    ogTitle: `${packageProduct.name} - Seregela Gebeya`,
+    ogDescription: `Buy ${packageProduct.name} at Seregela Gebeya. Best prices in Ethiopia.`,
+    ogType: "packageProduct",
+    ogImage: packageProduct.image_paths?.[0],
+    twitterCard: "summary_large_image",
+    twitterTitle: `${packageProduct.name} - Seregela Gebeya`,
+    twitterDescription: `Buy ${packageProduct.name} at Seregela Gebeya. Best prices in Ethiopia.`,
+    twitterImage: packageProduct.image_paths?.[0],
 });

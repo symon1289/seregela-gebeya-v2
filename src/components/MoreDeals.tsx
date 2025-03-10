@@ -6,6 +6,9 @@ import { usePackages } from "../hooks/usePackages";
 import { Package } from "../types/product";
 import ProductDetailCard from "./ProductDetailCard";
 import PackageLoading from "./loading skeletons/package/Card.tsx";
+import deualtImage from "../assets/no-image-available-02.jpg";
+import PriceFormatter from "./PriceFormatter.tsx";
+import { useNavigate } from "react-router-dom";
 interface FeaturedDeal {
     id: number;
     title: string;
@@ -37,14 +40,16 @@ const RegularDealCard: React.FC<Package & { onViewDetails: () => void }> = ({
     <div className="group relative overflow-hidden rounded-xl shadow-md h-[388px]">
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 z-10" />
         <img
-            src={image_path || "https://via.placeholder.com/300"} // Fallback image
+            src={image_path || deualtImage}
             alt={name}
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
         <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
             <div className="flex items-center gap-2 mb-2">
                 <Tag className="w-4 h-4 text-amber-400" />
-                <span className="text-amber-400 font-semibold">{price}</span>
+                <span className="text-amber-400 font-semibold">
+                    <PriceFormatter price={price} />
+                </span>
             </div>
             <h3 className="text-white text-lg font-bold line-clamp-2">
                 {name}
@@ -133,6 +138,7 @@ const Modal: React.FC<{
 };
 
 const MoreDeals: React.FC = () => {
+    const navigate = useNavigate();
     const { isLoadingPackages, packagesError, packages, getPackages } =
         usePackages();
     const [selectedPackage, setSelectedPackage] = useState<Package | null>(
@@ -165,18 +171,21 @@ const MoreDeals: React.FC = () => {
                     <h2 className="explore-more-deals font-semibold text-black">
                         Explore More Deals!
                     </h2>
-                    <div className="flex items-center gap-2 text-primary">
+                    <button
+                        className="flex items-center gap-2 text-primary"
+                        onClick={() => navigate("/packages")}
+                    >
                         <Clock className="w-5 h-5" />
                         <span className="font-semibold">
                             Limited Time Offers
                         </span>
-                    </div>
+                    </button>
                 </div>
 
                 {/* Regular Deals Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                     {isLoadingPackages ? (
-                        Array.from({ length: 3 }).map((_, index) => (
+                        Array.from({ length: 5 }).map((_, index) => (
                             <PackageLoading key={index} />
                         ))
                     ) : packagesError ? (

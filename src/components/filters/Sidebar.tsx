@@ -46,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     };
 
     const handleClearFilters = () => {
-        onPriceChange(0, 100000);
+        onPriceChange(0, 1000000);
         onSortChange("created_at");
     };
 

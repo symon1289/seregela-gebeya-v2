@@ -267,3 +267,15 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+/* end of radio button */
+.transition {
+    transition: all 0.2s ease-out;
+}
+
+.h-60 {
+    height: 14rem;
+}
+
+.w-128 {
+    width: 32rem;
+}

@@ -11,6 +11,7 @@ import { usePackages } from "../hooks/usePackages";
 import { Link } from "react-router-dom";
 import PriceFormatter from "./PriceFormatter";
 import DetailCard from "./loading skeletons/package/DetailCard";
+import { getLeftInStock } from "../utils/helper";
 
 interface ProductDetailCardProps {
     id?: string;
@@ -22,6 +23,8 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
         package: packageItem,
         getPackageById,
     } = usePackages();
+    const { user } = useSelector((state: RootState) => state.auth);
+
     const { t } = useTranslation();
     const dispatch = useDispatch();
     const wishlistItems = useSelector(
@@ -102,7 +105,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                     price: String(packageItem.price),
                     quantity,
                     image_path: packageItem.image_path || "",
-                    left_in_stock: packageItem.left_in_stock,
+                    left_in_stock: getLeftInStock(user, packageItem) ?? 0,
                 })
             );
         }
@@ -240,7 +243,10 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                                     packageItem.image_paths ||
                                                     [],
                                                 left_in_stock:
-                                                    packageItem.left_in_stock,
+                                                    getLeftInStock(
+                                                        user,
+                                                        packageItem
+                                                    ) ?? 0,
                                                 quantity: 1,
                                             })
                                         );
@@ -334,7 +340,12 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                                 )
                                             }
                                             min="1"
-                                            max={packageItem.left_in_stock}
+                                            max={
+                                                getLeftInStock(
+                                                    user,
+                                                    packageItem
+                                                ) ?? 0
+                                            }
                                             className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                         <button
@@ -364,7 +375,11 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                         <div className="absolute z-10 w-full mt-1 bg-white border rounded-lg shadow-lg max-h-48 overflow-y-auto">
                                             {Array.from(
                                                 {
-                                                    length: packageItem.left_in_stock,
+                                                    length:
+                                                        getLeftInStock(
+                                                            user,
+                                                            packageItem
+                                                        ) ?? 0,
                                                 },
                                                 (_, i) => i + 1
                                             ).map((num) => (

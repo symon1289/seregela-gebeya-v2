@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, X, Menu } from "lucide-react";
 import { useSelector } from "react-redux";
@@ -26,7 +26,7 @@ const Navbar = () => {
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-
+    const searchRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const handleScroll = () => {
             const scrollPosition = window.scrollY;
@@ -86,13 +86,17 @@ const Navbar = () => {
     const packagesitems = useSelector(
         (state: RootState) => state.cart.packages
     );
+    const selectedDeliveryType = useSelector(
+        (state: RootState) => state.cart.delivery_type
+    );
     const packagecount =
         packagesitems?.reduce((total, item) => total + item.quantity, 0) ?? 0;
     const { categories, isLoading: loading_categories } = useCategory();
     const { t } = useTranslation();
     const { subtotal, grandTotal } = calculateCartTotals(
         cartItems,
-        packagesitems
+        packagesitems,
+        selectedDeliveryType
     );
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
@@ -118,7 +122,22 @@ const Navbar = () => {
 
         return () => clearTimeout(handler);
     }, [searchQuery]);
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                searchRef.current &&
+                !searchRef.current.contains(event.target as Node)
+            ) {
+                setIsSearchOpen(false);
+            }
+        };
 
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
     return (
         <nav
             className={`bg-[#e7a334]  shadow-black/15 text-white pb-0.5 pt-2 xs:pb-[7px] sticky top-0 z-[100] transition-all duration-300 items-center ${
@@ -164,8 +183,9 @@ const Navbar = () => {
 
                     {/* Search Bar */}
                     <div
+                        ref={searchRef}
                         className={`flex-1 max-w-[665px]  relative gap-3 ${
-                            userData ? "pr-10 pl-2" : "pr-4 pl-9"
+                            userData ? "md:pr-10 pl-2" : "pr-4 pl-9"
                         } `}
                     >
                         <form onSubmit={handleSearchSubmit}>
@@ -203,7 +223,7 @@ const Navbar = () => {
                                         type="submit"
                                         aria-label="Search"
                                         onClick={handleSearchSubmit}
-                                        className="absolute right-0 mr-1 inline-flex h-8 items-center justify-center rounded-lg bg-primary px-4 font-medium text-white hover:bg-white  hover:text-primary border border-primary transition-colors duration-300"
+                                        className="absolute right-0 mr-1 inline-flex h-8 items-center justify-center rounded-lg bg-primary px-2 sm:px-4 font-medium text-xs sm:text-base text-white hover:bg-white  hover:text-primary border border-primary transition-colors duration-300"
                                     >
                                         {t("search_button")}
                                     </button>
@@ -301,7 +321,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Right Section */}
-                    <div className="flex items-center gap-2 pl-5">
+                    <div className="flex items-center gap-2 pl-0 md:pl-5">
                         {userData ? (
                             <Link
                                 to="/profile"

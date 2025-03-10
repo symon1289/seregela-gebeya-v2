@@ -12,6 +12,7 @@ const MiniCart: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const cartItems = useSelector((state: RootState) => state.cart.items);
+    const packageItems = useSelector((state: RootState) => state.cart.packages);
 
     const handleContinueToCart = () => {
         setShow(false);
@@ -19,12 +20,15 @@ const MiniCart: React.FC = () => {
     };
 
     useEffect(() => {
-        if (location.pathname === "/" && cartItems.length > 0) {
+        if (
+            location.pathname === "/" &&
+            (cartItems.length > 0 || packageItems.length > 0)
+        ) {
             setShow(true);
         } else {
             setShow(false);
         }
-    }, [location.pathname, cartItems.length]);
+    }, [location.pathname, cartItems.length, packageItems.length]);
 
     if (!show) return null;
 
@@ -48,6 +52,29 @@ const MiniCart: React.FC = () => {
                     >
                         <img
                             src={item.image_paths?.[0] || defaultImage}
+                            alt={item.name}
+                            className="w-10 h-10 object-cover rounded-sm mr-3"
+                        />
+                        <div>
+                            <p className="text-sm text-gray-800 line-clamp-2">
+                                {item.name}
+                            </p>
+                            <p className="flex items-center text-sm text-gray-600 mt-1">
+                                <PriceFormatter price={item.price} />{" "}
+                                <span className="flex items-center text-sm text-gray-600 mt-1 ml-2">
+                                    x {item.quantity}
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                ))}
+                {packageItems.map((item) => (
+                    <div
+                        key={item.id}
+                        className="flex items-center py-2 border-b border-gray-200 last:border-b-0"
+                    >
+                        <img
+                            src={item.image_path || defaultImage}
                             alt={item.name}
                             className="w-10 h-10 object-cover rounded-sm mr-3"
                         />

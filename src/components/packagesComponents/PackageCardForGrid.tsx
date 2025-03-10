@@ -1,9 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addToCart } from "../store/features/cartSlice";
-import { Plus } from "lucide-react";
-import defaultImage from "../assets/no-image-available-02.jpg";
+import { addToCart } from "../../store/features/cartSlice";
+import defaultImage from "../../assets/no-image-available-02.jpg";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 
@@ -47,7 +46,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     };
 
     const handleCardClick = () => {
-        navigate(`/products/${id}`);
+        navigate(`/packages/${id}`);
     };
 
     function PriceDisplay({ price }: { price: string }) {
@@ -76,35 +75,37 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <div
+            className="w-[400px] bg-white shadow-md rounded-xl mx-auto border  mt-2    hover:scale-105  border-gray-300 transition-shadow duration-500  hover:shadow-xl"
             onClick={handleCardClick}
-            className="w-full max-w-[280px] mb-4 cursor-pointer flex-shrink-0"
         >
-            <div className="bg-white overflow-hidden shadow-sm rounded-[16px] border h-[280px] hover:shadow-lg transition-shadow duration-300">
-                <div className="relative h-44">
-                    <img
-                        src={displayImage}
-                        alt={name}
-                        className="w-full h-full transition-transform duration-1000 hover:scale-110 object-contain"
-                        loading="lazy"
-                    />
-                    <div className="absolute bottom-1 right-2">
-                        <button
-                            aria-label="Add to Cart"
-                            className="bg-blue-500 p-1.5 rounded-full text-white hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={handleAddToCart}
-                            disabled={left_in_stock === 0}
-                        >
-                            <Plus
-                                size={20}
-                                className="rotate-0 hover:rotate-180 transition-transform duration-300"
-                            />
-                        </button>
+            <img
+                src={displayImage}
+                alt={name}
+                className="h-[400px] w-[400px] object-cover rounded-t-xl"
+                loading="lazy"
+            />
+            <div className="px-4 py-3 w-[400px]">
+                <span className="text-gray-400 mr-3 uppercase text-xs">
+                    <div className="text-gray-600 font-bold text-xs ml-1">
+                        {left_in_stock > 0 && left_in_stock <= 10 && (
+                            <div className="text-red-500 text-xs animate-pulse line-clamp-2 sm:line-clamp-none">
+                                {t("only")} {left_in_stock} {t("left")}
+                            </div>
+                        )}
+                        {left_in_stock > 10 && <div>{t("in_stock")}</div>}
+                        {left_in_stock === 0 && (
+                            <div>{t("not_available_in_stock")}</div>
+                        )}
                     </div>
-                </div>
-
-                <div className="p-2">
+                </span>
+                <p className="text-lg font-bold text-black truncate block capitalize">
+                    {name}
+                </p>
+                <div className="flex items-center">
                     <div className="flex items-baseline gap-2 mb-2 justify-between">
-                        <PriceDisplay price={price} />
+                        <p className="text-xl font-black text-gray-800">
+                            <PriceDisplay price={price} />
+                        </p>
                         {discount > 0 && (
                             <span className="product-card-birr-part text-gray-500 line-through">
                                 {parseFloat(originalPrice).toFixed(0)}{" "}
@@ -117,11 +118,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </span>
                         )}
                     </div>
-
-                    <div className="w-full">
-                        <p className="text-black line-clamp-2 lowercase product-card-name">
-                            {name}
-                        </p>
+                    <div className="ml-auto">
+                        {" "}
+                        <div className="flex flex-col md:flex-row justify-between items-center text-gray-900">
+                            <button
+                                className="px-6 py-2 transition ease-in duration-200 uppercase rounded-full hover:bg-primary hover:text-white border-2 border-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
+                                onClick={handleAddToCart}
+                                disabled={left_in_stock === 0}
+                            >
+                                {left_in_stock === 0
+                                    ? t("out_of_stock")
+                                    : t("add_to_cart")}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

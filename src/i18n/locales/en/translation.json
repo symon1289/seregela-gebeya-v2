@@ -408,5 +408,10 @@
     "search_button": "Search",
     "View All Results": "View All Results",
     "No products found for this search": "No products found for this search",
-    "continue_to_cart": "Contnue to cart"
+    "continue_to_cart": "Contnue to cart",
+    "OFF": "OFF",
+    "price_low_to_high": "Price: Low to High",
+    "price_high_to_low": "Price: High to Low",
+    "latest": "Latest",
+    "search_packages": "Search for Packages..."
 }

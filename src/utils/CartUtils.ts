@@ -64,7 +64,7 @@ export const calculateShipping = (
     // // Find the matching range in the delivery cost ranges
     const matchingRange = delivery_cost_ranges.find(
         ({ start, end }) =>
-            subtotal >= start && (end === null || subtotal <= end)
+            subtotal >= start && (end === null || subtotal < end)
     );
 
     if (!matchingRange) {

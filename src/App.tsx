@@ -33,6 +33,9 @@ import CBEbirr from "./components/payments/CBEbirr";
 import Awash from "./components/payments/Awash";
 import { useSelector } from "react-redux";
 import MiniCart from "./components/MiniCart";
+import Packages from "./pages/Packages";
+import Tags from "./pages/Tags";
+import PackageDetail from "./pages/PackageDetail";
 function App() {
     const { user } = useSelector((state: RootState) => state.auth);
     return (
@@ -47,10 +50,16 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/products" element={<Products />} />
+                        <Route path="/packages" element={<Packages />} />
+                        <Route path="/tags/:id/packages" element={<Tags />} />
                         <Route path="/cart" element={<Cart />} />
                         <Route
                             path="/products/:id"
                             element={<ProductDetail />}
+                        />
+                        <Route
+                            path="/packages/:id"
+                            element={<PackageDetail />}
                         />
                         <Route path="/category/:id" element={<Category />} />
                         <Route
@@ -80,7 +89,6 @@ function App() {
                         />
                         <Route path="" element={<PrivateRoute />}>
                             <Route path="/profile" element={<ProfileUi />} />
-
                             <Route
                                 path="/checkout/payment"
                                 element={<Payment />}
@@ -101,7 +109,6 @@ function App() {
                                 path="/checkout/payment/bunna"
                                 element={<Bunna />}
                             />
-
                             <Route
                                 path="/checkout/payment/cbebirr"
                                 element={<CBEbirr />}
@@ -111,10 +118,6 @@ function App() {
                                 element={<Awash />}
                             />
                         </Route>
-                        {/* <Route
-                            path="/test"
-                            element={<TestLogin />}
-                        /> */}
                         <Route path="*" element={<NotFound />} />
                     </Routes>
                     <Footer />

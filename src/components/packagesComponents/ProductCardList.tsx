@@ -1,37 +1,37 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { addToCart } from "../store/features/cartSlice";
-import defaultImage from "../assets/no-image-available-02.jpg";
+import { Link, useNavigate } from "react-router-dom";
+import { addToCart } from "../../store/features/cartSlice";
+import defaultImage from "../../assets/no-image-available-02.jpg";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import PriceFormatter from "../PriceFormatter";
+import { PackageProduct } from "../../types/product";
 
 interface ProductCardListProps {
     id: number;
     name: string;
     price: string;
-    image?: string;
+    image_path?: string;
     image_paths?: string[];
     originalPrice: string;
     discount?: number;
     left_in_stock?: number;
     max_quantity_per_order?: number | null;
-    unit?: string;
-    brand?: string;
-    description?: string | null;
+    tag_id?: number;
+    products?: PackageProduct[];
 }
 
 const ProductCardList: React.FC<ProductCardListProps> = ({
     id,
     name,
     price,
-    image,
+    image_path,
     image_paths,
-    originalPrice,
     discount = 0,
     left_in_stock = 0,
     max_quantity_per_order = null,
-    description,
+    products = [],
 }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -45,7 +45,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
                 name,
                 price,
                 quantity: 1,
-                image_paths: image_paths || (image ? [image] : []),
+                image_paths: image_paths || (image_path ? [image_path] : []),
                 left_in_stock,
             })
         );
@@ -53,10 +53,8 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
     };
 
     const handleCardClick = () => {
-        navigate(`/products/${id}`);
+        navigate(`/packages/${id}`);
     };
-
-    const displayImage = image_paths?.[0] || image || defaultImage;
 
     const PriceDisplay = ({ price }: { price: string }) => {
         const numericPrice = parseFloat(price).toFixed(2);
@@ -75,55 +73,56 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
         );
     };
 
-    const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
     return (
         <div
-            className="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl shadow-sm hover:shadow-lg cursor-pointer transition-shadow duration-300 p-3 max-w-xs md:max-w-full mx-auto my-auto border border-gray-100 bg-white"
+            className="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl  shadow-md hover:shadow-lg cursor-pointer transition-shadow duration-300 p-3 md:max-w-full mx-auto border border-gray-300 bg-white"
             onClick={handleCardClick}
         >
             <div className="w-full md:w-1/3 bg-white grid place-items-center">
                 <img
-                    src={displayImage}
+                    src={image_path || defaultImage}
                     alt={name}
-                    className="rounded-xl hover:scale-110 transition-transform duration-500"
+                    className="rounded-xl hover:scale-105 transition-transform duration-500"
                 />
             </div>
-            <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 p-3 justify-between">
-                <h3 className="font-black text-gray-900 md:text-3xl text-xl">
+            <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 py-3 justify-between">
+                <h3 className="font-black text-gray-900 text-center md:text-left md:text-3xl text-xl">
                     {name}
                 </h3>
-                {description && (
-                    <>
-                        <p
-                            className={`text-gray-600 whitespace-pre-line break-normal ${
-                                !isDescriptionExpanded &&
-                                "max-h-24 overflow-hidden"
-                            }`}
-                            style={{
-                                maskImage: !isDescriptionExpanded
-                                    ? "linear-gradient(to bottom, black 50%, transparent 100%)"
-                                    : "none",
-                                WebkitMaskImage: !isDescriptionExpanded
-                                    ? "linear-gradient(to bottom, black 50%, transparent 100%)"
-                                    : "none",
-                            }}
-                        >
-                            {description}
-                        </p>
-
-                        {description.length > 100 && (
-                            <button
-                                onClick={() =>
-                                    setIsDescriptionExpanded(
-                                        !isDescriptionExpanded
-                                    )
-                                }
-                                className="mt-2 text-primary hover:text-[#c88d31] font-medium"
-                            >
-                                {isDescriptionExpanded ? "" : ""}
-                            </button>
-                        )}
-                    </>
+                {products.length > 0 && (
+                    <div className="mb-2">
+                        <div className="mt-2 space-y-3 rounded-lg overflow-y-auto border max-h-72  bg-white px-2 py-4 sm:px-6">
+                            <div className="border-b  border-gray-200">
+                                {products.map((item) => (
+                                    <Link
+                                        to={`/products/${item.id}`}
+                                        key={item.id}
+                                        className="flex hover:text-primary hover:cursor-pointer flex-col rounded-lg bg-white sm:flex-row"
+                                    >
+                                        <img
+                                            className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                                            src={item.image_paths[0]}
+                                            alt={item.name}
+                                        />
+                                        <div className="flex w-full flex-col px-4 py-4">
+                                            <span className="font-semibold line-clamp-2">
+                                                {item.name}
+                                            </span>
+                                            <span className="float-right text-gray-400">
+                                                {t("quantity")}:{" "}
+                                                {item.pivot.quantity}
+                                            </span>
+                                            <p className="text-lg font-bold">
+                                                <PriceFormatter
+                                                    price={item.price}
+                                                />
+                                            </p>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 )}
                 <div className="flex justify-between item-center">
                     <div className="flex items-center">
@@ -139,17 +138,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
                             )}
                         </p>
                     </div>
-                    {discount > 0 && (
-                        <div className="flex items-center justify-between gap-4">
-                            <span className="text-gray-500 line-through text-sm">
-                                {parseFloat(originalPrice).toFixed(0)}{" "}
-                                {t("birr")}
-                            </span>
-                            <span className="text-[#ea5254] text-sm">
-                                {discount}% {t("OFF")}
-                            </span>
-                        </div>
-                    )}
+
                     {max_quantity_per_order !== null && (
                         <div className="bg-gray-200 px-3 py-1 rounded-full text-xs font-medium text-gray-800 hidden md:block">
                             <p className="text-base font-medium text-gray-600 lowercase line-clamp-2 sm:line-clamp-none">
@@ -158,10 +147,24 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
                         </div>
                     )}
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-4 flex-col flex md:flex-row justify-between items-center">
                     <p className="text-xl font-black text-gray-800">
                         <PriceDisplay price={price} />
                     </p>
+                    {discount > 0 && (
+                        <div className="flex items-center justify-between gap-4">
+                            <span className="text-gray-500 line-through text-sm">
+                                {(
+                                    parseFloat(price) *
+                                    (1 + parseFloat(String(discount)) / 100)
+                                ).toFixed(2)}{" "}
+                                {t("birr")}
+                            </span>
+                            <span className="text-[#ea5254] text-sm">
+                                {discount}% {t("OFF")}
+                            </span>
+                        </div>
+                    )}
                     <div className="flex flex-col md:flex-row justify-between items-center text-gray-900">
                         <button
                             className="px-6 py-2 transition ease-in duration-200 uppercase rounded-full hover:bg-primary hover:text-white border-2 border-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
