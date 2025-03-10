@@ -121,7 +121,7 @@ const Packages: React.FC = () => {
                             <div
                                 className={
                                     layout === "grid"
-                                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-[11px] 2xl:grid-cols-4 items-start"
+                                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[11px] 2xl:grid-cols-4 items-start"
                                         : "space-y-4"
                                 }
                             >
@@ -145,7 +145,7 @@ const Packages: React.FC = () => {
                             <div
                                 className={
                                     layout === "grid"
-                                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-[11px] 2xl:grid-cols-4 items-start"
+                                        ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[11px] 2xl:grid-cols-4 items-start"
                                         : "space-y-4"
                                 }
                             >

@@ -75,7 +75,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
 
     return (
         <div
-            className="relative flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl  shadow-md hover:shadow-lg cursor-pointer transition-shadow duration-300 p-3 md:max-w-full mx-auto border border-gray-300 bg-white"
+            className="relative  flex flex-col md:flex-row md:space-x-5 space-y-3 md:space-y-0 rounded-xl  shadow-md hover:shadow-lg cursor-pointer transition-shadow duration-300 p-3 md:max-w-full mx-auto border border-gray-300 bg-white"
             onClick={handleCardClick}
         >
             <div className="w-full md:w-1/3 bg-white grid place-items-center">
@@ -86,7 +86,7 @@ const ProductCardList: React.FC<ProductCardListProps> = ({
                 />
             </div>
             <div className="w-full md:w-2/3 bg-white flex flex-col space-y-2 py-3 justify-between">
-                <h3 className="font-black text-gray-900 text-center md:text-left md:text-3xl text-xl">
+                <h3 className="font-black text-gray-900 text-center md:text-left md:text-3xl text-xl hover:text-primary">
                     {name}
                 </h3>
                 {products.length > 0 && (

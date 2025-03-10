@@ -75,16 +75,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <div
-            className="w-[400px] bg-white shadow-md rounded-xl mx-auto border  mt-2    hover:scale-105  border-gray-300 transition-shadow duration-500  hover:shadow-xl"
+            className="flex-shrink bg-white  shadow-md rounded-xl mx-auto border mt-2 hover:scale-105 border-gray-300 transition-shadow duration-500 hover:shadow-xl w-full max-w-[400px]"
             onClick={handleCardClick}
         >
             <img
                 src={displayImage}
                 alt={name}
-                className="h-[400px] w-[400px] object-cover rounded-t-xl"
+                className=" w-full object-cover rounded-t-xl"
                 loading="lazy"
             />
-            <div className="px-4 py-3 w-[400px]">
+            <div className="px-4 py-3 w-full">
                 <span className="text-gray-400 mr-3 uppercase text-xs">
                     <div className="text-gray-600 font-bold text-xs ml-1">
                         {left_in_stock > 0 && left_in_stock <= 10 && (
@@ -98,7 +98,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                         )}
                     </div>
                 </span>
-                <p className="text-lg font-bold text-black truncate block capitalize">
+                <p className="text-lg font-bold text-black truncate block capitalize hover:text-primary">
                     {name}
                 </p>
                 <div className="flex items-center">
@@ -113,13 +113,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
                             </span>
                         )}
                         {discount > 0 && (
-                            <span className="product-card-birr-part text-[#f36466] ">
+                            <span className="product-card-birr-part text-[#f36466]">
                                 {discount}% {t("OFF")}
                             </span>
                         )}
                     </div>
                     <div className="ml-auto">
-                        {" "}
                         <div className="flex flex-col md:flex-row justify-between items-center text-gray-900">
                             <button
                                 className="px-6 py-2 transition ease-in duration-200 uppercase rounded-full hover:bg-primary hover:text-white border-2 border-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:cursor-not-allowed disabled:opacity-50"
