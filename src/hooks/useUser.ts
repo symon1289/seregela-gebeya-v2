@@ -18,6 +18,7 @@ interface UseUserReturnType {
     registerUser: (userInfo: any, phoneNumber: string) => Promise<any>;
     updateUser: (userInfo: any, phoneNumber: string) => Promise<any>;
     getNotifications: () => Promise<any>;
+    getAdverts: () => Promise<any>;
     handleLogout: () => Promise<void>;
     recoverSession: () => void;
 }
@@ -139,6 +140,25 @@ const useUser = (): UseUserReturnType => {
             throw err;
         }
     };
+    // Get adverts for the user
+    const getAdverts = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get("/adverts", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            setLoading(false);
+            return res.data.data;
+        } catch (err: any) {
+            setLoading(false);
+            setError(
+                err.response?.data?.message || "Failed to fetch notifications"
+            );
+            throw err;
+        }
+    };
 
     // Logout user
     const handleLogout = async () => {
@@ -167,6 +187,7 @@ const useUser = (): UseUserReturnType => {
         registerUser,
         updateUser,
         getNotifications,
+        getAdverts,
         handleLogout,
         recoverSession,
     };
