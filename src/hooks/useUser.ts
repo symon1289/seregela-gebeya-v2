@@ -8,7 +8,7 @@ import {
     logout,
     recoverTokenFromStorage,
 } from "../store/features/authSlice";
-
+import { UserData } from "../types/user";
 interface UseUserReturnType {
     authState: any;
     loading: boolean;
@@ -91,7 +91,7 @@ const useUser = (): UseUserReturnType => {
     };
 
     // Register a new user
-    const updateUser = async (userInfo: any, phoneNumber: string) => {
+    const updateUser = async (userInfo: UserData, phoneNumber: string) => {
         try {
             setLoading(true);
             const res = await api.put(
@@ -102,8 +102,7 @@ const useUser = (): UseUserReturnType => {
                     last_name: userInfo.last_name,
                     email: userInfo.email,
                     phone_number: phoneNumber,
-                    password: userInfo.password,
-                    password_confirmation: userInfo.password_confirmation,
+                    address: userInfo.address,
                 },
                 {
                     headers: {

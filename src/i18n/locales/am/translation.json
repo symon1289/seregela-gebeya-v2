@@ -307,9 +307,9 @@
     "first_name_empty": "የመጀመሪያ ስም መሙላት አለብዎ",
     "last_name_hint": "የአባት ስም",
     "last_name_empty": "የአባት ስም መሙላት አለብዎ",
-    "phone_no_hint": "ስልክ ቁጥች",
+    "phone_no_hint": "ስልክ ቁጥር (2519/7********)",
     "phone_no_empty": "የስልክ ቁጥር መሙላት አለብዎ",
-    "phone_no_error": "ትክክለኛ ስልክ ቁጥር አልሞሉም(2519********)",
+    "phone_no_error": "ትክክለኛ ስልክ ቁጥር አልሞሉም (2519/7********)",
     "password_length_error": "ስምንት(ከስምንት በላይ) አሃዝ ይስገቡ",
     "city_hint": "ከተማ",
     "city_empty": "ከተማ መሙላት አለብዎ",
@@ -422,5 +422,7 @@
     "price_high_to_low": "ዋጋ: ከትልቅ ወደ ትንሽ",
     "latest": "አዲስ የገቡ",
 
-    "search_packages": "ጥቅሎች ይፈልጉ..."
+    "search_packages": "ጥቅሎች ይፈልጉ...",
+    "submit": "መዝግብ",
+    "register_profile": "የእርስዎን መገለጫ ይመዝግቡ"
 }

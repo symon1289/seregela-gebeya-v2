@@ -306,9 +306,9 @@
     "first_name_empty": "Fill your first name",
     "last_name_hint": "Last Name",
     "last_name_empty": "Fill your last name",
-    "phone_no_hint": "Phone Number",
+    "phone_no_hint": "Phone Number (2519/7********)",
     "phone_no_empty": "Fill your phone number",
-    "phone_no_error": "Phone format not correct(2519********)",
+    "phone_no_error": "Phone format not correct(2519/7********)",
     "password_length_error": "8 or more characters",
     "city_hint": "City",
     "city_empty": "Fill your city",
@@ -413,5 +413,7 @@
     "price_low_to_high": "Price: Low to High",
     "price_high_to_low": "Price: High to Low",
     "latest": "Latest",
-    "search_packages": "Search for Packages..."
+    "search_packages": "Search for Packages...",
+    "submit": "Submit",
+    "register_profile": "Register your profile"
 }

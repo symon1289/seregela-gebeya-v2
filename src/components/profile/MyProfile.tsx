@@ -15,7 +15,10 @@ import useUser from "../../hooks/useUser";
 import PriceFormatter from "../../components/PriceFormatter";
 import { getProfilePageMetaTags } from "../../config/meta";
 import Meta from "../Meta";
-// Reusable Profile Field Component
+import { RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser as setUserAction } from "../../store/features/authSlice";
+
 const ProfileField = ({
     icon,
     value,
@@ -89,6 +92,22 @@ const AddressFields = ({
                     className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
                     placeholder="Woreda"
                 />
+                <input
+                    type="text"
+                    name="address.neighborhood"
+                    value={user?.address?.neighborhood || ""}
+                    onChange={onChange}
+                    className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
+                    placeholder="Neighborhood"
+                />
+                <input
+                    type="text"
+                    name="address.house_number"
+                    value={user?.address?.house_number || ""}
+                    onChange={onChange}
+                    className="border rounded px-2 py-1 focus:border-primary focus:ring-primary"
+                    placeholder="House Number"
+                />
             </div>
         ) : (
             <p>
@@ -101,14 +120,16 @@ const AddressFields = ({
 );
 
 const Myprofile: React.FC = () => {
+    const userData = useSelector((state: RootState) => state.auth.user);
+    const dispatch = useDispatch();
     const { t } = useTranslation();
-    const { updateUser } = useUser();
+    const { updateUser, fetchUser } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [user, setUser] = useState<UserData | null>(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        setUser(storedUser ? JSON.parse(storedUser) : null);
+        fetchUser();
+        setUser(userData ? userData : null);
     }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,7 +165,7 @@ const Myprofile: React.FC = () => {
             }
             try {
                 updateUser(user, user.phone_number);
-                localStorage.setItem("user", JSON.stringify(user));
+                dispatch(setUserAction(user));
                 toast.success("Profile updated successfully!");
             } catch (error) {
                 console.error("Error saving user data:", error);

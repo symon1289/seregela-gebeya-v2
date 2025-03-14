@@ -1,8 +1,9 @@
-import { useState, useRef, KeyboardEvent,FC } from "react";
+import { useState, useRef, KeyboardEvent, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { ConfirmationResult } from "firebase/auth";
 import useUser from "../hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 interface OtpFormProps {
     confirmationResult: ConfirmationResult | null;
@@ -12,11 +13,12 @@ interface OtpFormProps {
 }
 
 const OtpForm: FC<OtpFormProps> = ({
-                                             confirmationResult,
-                                             phoneNumber,
-                                             onBack,
-                                             onSuccess,
-                                         }) => {
+    confirmationResult,
+    phoneNumber,
+    onBack,
+    onSuccess,
+}) => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const { loginUser } = useUser();
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -43,7 +45,10 @@ const OtpForm: FC<OtpFormProps> = ({
         }
     };
 
-    const handleKeyDown = (index: number, e: KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyDown = (
+        index: number,
+        e: KeyboardEvent<HTMLInputElement>
+    ) => {
         if (e.key === "Backspace" && otp[index] === "" && index > 0) {
             inputRefs[index - 1].current?.focus();
         }
@@ -60,8 +65,16 @@ const OtpForm: FC<OtpFormProps> = ({
             const result = await confirmationResult.confirm(otp.join(""));
             const firebaseToken = await result.user.getIdToken();
             const formattedPhoneNumber = `251${phoneNumber}`;
-            await loginUser(formattedPhoneNumber, firebaseToken);
+            //changes the user to logged in
+            const user = await loginUser(formattedPhoneNumber, firebaseToken);
             toast.success(t("login_successful"));
+            if (
+                user.first_name === null &&
+                user.last_name === null &&
+                user.user_name === null
+            ) {
+                navigate("/register");
+            }
             onSuccess();
         } catch (error: any) {
             let errorMessage: string = "";
@@ -99,16 +112,16 @@ const OtpForm: FC<OtpFormProps> = ({
                             type="text"
                             maxLength={1}
                             value={digit}
-                            onChange={(e) => handleOtpChange(index, e.target.value)}
+                            onChange={(e) =>
+                                handleOtpChange(index, e.target.value)
+                            }
                             onKeyDown={(e) => handleKeyDown(index, e)}
                             className="w-12 h-12 text-lg text-center border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary"
                             required
                         />
                     ))}
                 </div>
-                {error && (
-                    <p className="mt-2 text-sm text-red-600">{error}</p>
-                )}
+                {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
                 <button
                     type="button"
                     onClick={onBack}

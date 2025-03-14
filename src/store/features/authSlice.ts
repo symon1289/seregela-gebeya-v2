@@ -17,8 +17,9 @@ interface AuthState {
 
 const loadState = (): AuthState => {
     try {
+        const user = localStorage.getItem("user");
         return {
-            user: JSON.parse(localStorage.getItem("user") || "null"),
+            user: user ? JSON.parse(user) : null,
             isLoggedIn: !!localStorage.getItem("token"),
             phoneNumber: "",
             count: 0,

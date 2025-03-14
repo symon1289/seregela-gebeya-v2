@@ -36,6 +36,7 @@ import MiniCart from "./components/MiniCart";
 import Packages from "./pages/Packages";
 import Tags from "./pages/Tags";
 import PackageDetail from "./pages/PackageDetail";
+import Register from "./pages/Register";
 function App() {
     const { user } = useSelector((state: RootState) => state.auth);
     return (
@@ -89,6 +90,7 @@ function App() {
                         />
                         <Route path="" element={<PrivateRoute />}>
                             <Route path="/profile" element={<ProfileUi />} />
+                            <Route path="/register" element={<Register />} />
                             <Route
                                 path="/checkout/payment"
                                 element={<Payment />}
