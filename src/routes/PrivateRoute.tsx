@@ -13,7 +13,11 @@ const PrivateRoute: React.FC = () => {
     // console.log('user from Redux:', user);
 
     return userData ? (
-        <Outlet />
+        userData.first_name === null && userData.last_name === null ? (
+            <Navigate to={`/register`} replace />
+        ) : (
+            <Outlet />
+        )
     ) : (
         <Navigate
             to={`/login?redirect=${encodeURIComponent(location.pathname)}`}

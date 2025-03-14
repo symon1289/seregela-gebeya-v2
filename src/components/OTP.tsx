@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { ConfirmationResult } from "firebase/auth";
 import useUser from "../hooks/useUser";
-import { useNavigate } from "react-router-dom";
 
 interface OtpFormProps {
     confirmationResult: ConfirmationResult | null;
@@ -18,7 +17,6 @@ const OtpForm: FC<OtpFormProps> = ({
     onBack,
     onSuccess,
 }) => {
-    const navigate = useNavigate();
     const { t } = useTranslation();
     const { loginUser } = useUser();
     const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -65,16 +63,8 @@ const OtpForm: FC<OtpFormProps> = ({
             const result = await confirmationResult.confirm(otp.join(""));
             const firebaseToken = await result.user.getIdToken();
             const formattedPhoneNumber = `251${phoneNumber}`;
-            //changes the user to logged in
-            const user = await loginUser(formattedPhoneNumber, firebaseToken);
+            await loginUser(formattedPhoneNumber, firebaseToken);
             toast.success(t("login_successful"));
-            if (
-                user.first_name === null &&
-                user.last_name === null &&
-                user.user_name === null
-            ) {
-                navigate("/register");
-            }
             onSuccess();
         } catch (error: any) {
             let errorMessage: string = "";

@@ -16,8 +16,7 @@ import PriceFormatter from "../../components/PriceFormatter";
 import { getProfilePageMetaTags } from "../../config/meta";
 import Meta from "../Meta";
 import { RootState } from "../../store/store";
-import { useDispatch, useSelector } from "react-redux";
-import { setUser as setUserAction } from "../../store/features/authSlice";
+import { useSelector } from "react-redux";
 
 const ProfileField = ({
     icon,
@@ -121,7 +120,7 @@ const AddressFields = ({
 
 const Myprofile: React.FC = () => {
     const userData = useSelector((state: RootState) => state.auth.user);
-    const dispatch = useDispatch();
+
     const { t } = useTranslation();
     const { updateUser, fetchUser } = useUser();
     const [isEditing, setIsEditing] = useState(false);
@@ -165,7 +164,7 @@ const Myprofile: React.FC = () => {
             }
             try {
                 updateUser(user, user.phone_number);
-                dispatch(setUserAction(user));
+                localStorage.setItem("user", JSON.stringify(user));
                 toast.success("Profile updated successfully!");
             } catch (error) {
                 console.error("Error saving user data:", error);
