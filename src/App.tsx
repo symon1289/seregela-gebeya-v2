@@ -88,9 +88,9 @@ function App() {
                                 user ? <Navigate to="/" replace /> : <Login />
                             }
                         />
+                        <Route path="/register" element={<Register />} />
                         <Route path="" element={<PrivateRoute />}>
                             <Route path="/profile" element={<ProfileUi />} />
-                            <Route path="/register" element={<Register />} />
                             <Route
                                 path="/checkout/payment"
                                 element={<Payment />}
