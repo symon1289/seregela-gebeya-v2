@@ -9,6 +9,7 @@ import {
     ConfirmationResult,
 } from "firebase/auth";
 import OtpForm from "../components/OTP";
+import { store } from "../store/store";
 
 declare global {
     interface Window {
@@ -105,6 +106,21 @@ const Login = () => {
         }
         setIsLoading(false);
     };
+    const handleLoginSuccess = () => {
+        // Assuming the user state gets updated after successful login
+        const updatedUser = store.getState().auth.user; // Fetch the latest user state
+
+        if (
+            updatedUser &&
+            updatedUser.first_name === null &&
+            updatedUser.last_name === null &&
+            updatedUser.address === null
+        ) {
+            navigate(`/register?redirect=${encodeURIComponent(redirect)}`);
+        } else {
+            navigate(redirect);
+        }
+    };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen py-4 bg-gray-50 sm:px-6 lg:px-8">
@@ -172,7 +188,8 @@ const Login = () => {
                             confirmationResult={confirmationResult}
                             phoneNumber={phoneNumber}
                             onBack={() => setShowOTP(false)}
-                            onSuccess={() => navigate(redirect)}
+                            onSuccess={handleLoginSuccess}
+                            // onSuccess={() => navigate(redirect)}
                         />
                     )}
                 </div>

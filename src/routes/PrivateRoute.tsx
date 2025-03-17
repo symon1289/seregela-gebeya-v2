@@ -15,8 +15,15 @@ const PrivateRoute: React.FC = () => {
     return user !== null &&
         user !== undefined &&
         Object.keys(user).length > 0 ? (
-        user.first_name === null && user.last_name === null ? (
-            <Navigate to={`/register`} replace />
+        user.first_name === null &&
+        user.last_name === null &&
+        user.address === null ? (
+            <Navigate
+                to={`/register?redirect=${encodeURIComponent(
+                    location.pathname
+                )}`}
+                replace
+            />
         ) : (
             <Outlet />
         )
