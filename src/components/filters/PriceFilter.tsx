@@ -76,7 +76,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
     const handleCustomMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value);
         setCustomMin(value);
-        setSelectedRange(""); // Clear selected range
+        setSelectedRange("");
         if (value && customMax) {
             onPriceChange(value, customMax);
         }
@@ -85,7 +85,7 @@ const PriceFilter: React.FC<PriceFilterProps> = ({
     const handleCustomMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = parseInt(e.target.value);
         setCustomMax(value);
-        setSelectedRange(""); // Clear selected range
+        setSelectedRange("");
         if (value && customMin) {
             onPriceChange(customMin, value);
         }

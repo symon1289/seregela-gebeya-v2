@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { useCategory } from "../../hooks/useCategory"; // Import the useCategory hook
+import { useCategory } from "../../hooks/useCategory";
 import { useTranslation } from "react-i18next";
 
 interface SubcategoryListProps {
@@ -109,7 +109,7 @@ const SubcategoryList: React.FC<SubcategoryListProps> = () => {
                                 <button
                                     className="px-3 py-2 text-gray-500"
                                     onClick={(e) => {
-                                        e.preventDefault(); // Prevent link navigation
+                                        e.preventDefault();
                                         toggleCategory(category.id);
                                     }}
                                 >

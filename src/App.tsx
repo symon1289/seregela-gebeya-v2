@@ -88,6 +88,17 @@ function App() {
                                 user ? <Navigate to="/" replace /> : <Login />
                             }
                         />
+                        {/* <Route
+                            path="/register"
+                            element={
+                                user?.first_name !== null &&
+                                user?.last_name !== null ? (
+                                    <Navigate to="/" replace />
+                                ) : (
+                                    <Login />
+                                )
+                            }
+                        /> */}
                         <Route path="/register" element={<Register />} />
                         <Route path="" element={<PrivateRoute />}>
                             <Route path="/profile" element={<ProfileUi />} />

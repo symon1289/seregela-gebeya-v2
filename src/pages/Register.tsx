@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import useUser from "../hooks/useUser";
-import { setUser } from "../store/features/authSlice";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const ProfileField = ({
     value,
@@ -59,20 +59,24 @@ const ProfileField = ({
 const Register: React.FC = () => {
     const userData = useSelector((state: RootState) => state.auth.user);
     const { updateUser, fetchUser } = useUser();
-    const dispatch = useDispatch();
     const { t } = useTranslation();
 
+    const [searchParams] = useSearchParams();
+    const redirect = searchParams.get("redirect") || "/";
+    const navigate = useNavigate();
     const [form, setForm] = useState({
         first_name: "",
         last_name: "",
         email: "",
         phone_number: "",
         user_name: "",
-        city: "",
-        sub_city: "",
-        woreda: "",
-        neighborhood: "",
-        house_number: "",
+        address: {
+            city: "",
+            sub_city: "",
+            woreda: "",
+            neighborhood: "",
+            house_number: "",
+        },
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     useEffect(() => {
@@ -132,7 +136,15 @@ const Register: React.FC = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setForm((prevForm) => ({ ...prevForm, [name]: value }));
+
+        if (name in form.address) {
+            setForm((prevForm) => ({
+                ...prevForm,
+                address: { ...prevForm.address, [name]: value },
+            }));
+        } else {
+            setForm((prevForm) => ({ ...prevForm, [name]: value }));
+        }
     };
 
     const handleBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,23 +152,43 @@ const Register: React.FC = () => {
         validateField(name, value);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         let hasError = false;
 
         Object.keys(form).forEach((key) => {
-            validateField(key, form[key as keyof typeof form]);
-            if (!form[key as keyof typeof form].trim()) hasError = true;
+            if (key === "address") {
+                Object.keys(form.address).forEach((addrKey) => {
+                    validateField(
+                        addrKey,
+                        form.address[addrKey as keyof typeof form.address]
+                    );
+                    if (
+                        !form.address[
+                            addrKey as keyof typeof form.address
+                        ].trim()
+                    )
+                        hasError = true;
+                });
+            } else {
+                const value = form[key as keyof typeof form];
+                if (typeof value === "string") {
+                    validateField(key, value);
+                    if (!value.trim()) hasError = true;
+                }
+            }
         });
 
         if (!hasError) {
             try {
-                updateUser(form, form.phone_number);
-                dispatch(setUser(form));
+                await updateUser(form, form.phone_number);
                 toast.success("Profile updated successfully!");
-            } catch (error) {
+                navigate(redirect);
+            } catch (error: any) {
                 console.error("Error saving user data:", error);
-                toast.error("Failed to save profile.");
+                toast.error(
+                    error?.response?.data?.message || "Failed to save profile."
+                );
             }
         }
     };
@@ -248,12 +280,12 @@ const Register: React.FC = () => {
                     )}
                 </div>
 
-                <div className="grid md:grid-cols-3 md:gap-6">
+                <div className="grid md:grid-cols-2 md:gap-6">
                     <ProfileField
                         htmlFor="city"
                         id="city"
                         label={t("city_hint")}
-                        value={form.city}
+                        value={form.address.city}
                         name="city"
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -266,7 +298,7 @@ const Register: React.FC = () => {
                         htmlFor="sub_city"
                         id="sub_city"
                         label={t("sub_city_hint")}
-                        value={form.sub_city}
+                        value={form.address.sub_city}
                         name="sub_city"
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -274,12 +306,13 @@ const Register: React.FC = () => {
                         error={errors.sub_city}
                         placeholder=" "
                     />
-
+                </div>
+                <div className="grid md:grid-cols-3 md:gap-6">
                     <ProfileField
                         htmlFor="woreda"
                         id="woreda"
                         label={t("woreda_hint")}
-                        value={form.woreda}
+                        value={form.address.woreda}
                         name="woreda"
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -287,13 +320,11 @@ const Register: React.FC = () => {
                         error={errors.woreda}
                         placeholder=" "
                     />
-                </div>
-                <div className="grid md:grid-cols-2 md:gap-6">
                     <ProfileField
                         htmlFor="neighborhood"
                         id="neighborhood"
                         label={t("neighborhood_hint")}
-                        value={form.neighborhood}
+                        value={form.address.neighborhood}
                         name="neighborhood"
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -306,7 +337,7 @@ const Register: React.FC = () => {
                         htmlFor="house_number"
                         id="house_number"
                         label={t("house_no_hint")}
-                        value={form.house_number}
+                        value={form.address.house_number}
                         name="house_number"
                         onChange={handleChange}
                         onBlur={handleBlur}

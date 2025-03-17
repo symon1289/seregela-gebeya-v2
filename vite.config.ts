@@ -113,4 +113,7 @@ export default defineConfig({
         },
     },
     base: "/seregela-gebeya-v2",
+    build: {
+        chunkSizeWarningLimit: 1000,
+    },
 });

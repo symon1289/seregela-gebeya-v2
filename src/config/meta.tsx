@@ -115,6 +115,18 @@ export const getLoginMetaTags = (): MetaConfig => ({
     twitterDescription: "Log in to your account at Seregela Gebeya.",
 });
 
+export const getRegisterMetaTags = (): MetaConfig => ({
+    title: "Register - Seregela Gebeya",
+    description: "Register your account at Seregela Gebeya.",
+    keywords: "register, account, online shopping, Ethiopia, Seregela Gebeya",
+    ogTitle: "Register - Seregela Gebeya",
+    ogDescription: "Register your account at Seregela Gebeya.",
+    ogType: "website",
+    twitterCard: "summary",
+    twitterTitle: "Register - Seregela Gebeya",
+    twitterDescription: "Register your account at Seregela Gebeya.",
+});
+
 export const getAllProductsMetaTags = (): MetaConfig => ({
     title: "All Products - Seregela Gebeya",
     description:

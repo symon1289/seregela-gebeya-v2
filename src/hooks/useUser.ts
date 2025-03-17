@@ -94,6 +94,19 @@ const useUser = (): UseUserReturnType => {
     const updateUser = async (userInfo: UserData, phoneNumber: string) => {
         try {
             setLoading(true);
+
+            const formattedAddress = userInfo.address
+                ? {
+                      city: userInfo.address.city || null,
+                      sub_city: userInfo.address.sub_city || null,
+                      woreda: userInfo.address.woreda || null,
+                      neighborhood: userInfo.address.neighborhood || null,
+                      house_number: userInfo.address.house_number || null,
+                      longitude: userInfo.address.longitude || null,
+                      latitude: userInfo.address.latitude || null,
+                  }
+                : {};
+
             const res = await api.put(
                 "profile",
                 {
@@ -102,7 +115,7 @@ const useUser = (): UseUserReturnType => {
                     last_name: userInfo.last_name,
                     email: userInfo.email,
                     phone_number: phoneNumber,
-                    address: userInfo.address,
+                    address: formattedAddress,
                 },
                 {
                     headers: {
@@ -112,14 +125,16 @@ const useUser = (): UseUserReturnType => {
                     },
                 }
             );
+            dispatch(setUser(res.data));
             setLoading(false);
             return res.data;
         } catch (err: any) {
             setLoading(false);
-            setError(err.response?.data?.message || "Registration failed");
+            setError(err.response?.data?.message || "Profile update failed");
             throw err;
         }
     };
+
     // Get notifications for the user
     const getNotifications = async () => {
         try {
