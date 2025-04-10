@@ -392,8 +392,9 @@
     "terms_of_service": "የአገልግሎት ውል",
     "all_rights_reserved": "መብቱ በህግ የተጠበቀ ነው።",
     "hello": "ሰላም",
+    "bunna_enter_your_pin_description": "የቡና ባንክ ሞብይል መተግበሪያን ከከፈቱ በኋላ ባለ 6 አሃዝ ሚስጥር ቁጥሮን ያስገቡ",
     "bunna_step_two": "ሰረገላ ገበያ የሚለውን ምርጫ የምረጡ።",
-    "bunna_step_two_description": "ከገቡ ቡሀላ ወደ \"ክፍያዎች\" ያቅኑ። ከዚያ ሰረገላ ገበያ የሚለውን ምርጫ የምረጡ።",
+    "bunna_step_two_description": "ከገቡ ቡሀላ ወደ \"ክፍያዎች\" ያቅኑ። ከዚያ ሰረገላ ገበያ የሚለውን ምርጫ ከ\"E-commerce\" የምረጡ።",
     "bunna_step_three": "የትዕዛዝ ቁጥር",
     "bunna_step_three_description": "ከታች የሚታየውን የትዕዛዝ ቁጥር ያስገቡ",
     "bunna_step_four": "ዋና ገጽ መመለስ",
@@ -424,5 +425,13 @@
 
     "search_packages": "ጥቅሎች ይፈልጉ...",
     "submit": "መዝግብ",
-    "register_profile": "የእርስዎን መገለጫ ይመዝግቡ"
+    "register_profile": "የእርስዎን መገለጫ ይመዝግቡ",
+
+    "you_can": "ማዘዝ የሚችሉት ብዛት ",
+    "this_product": " ብቻ ነው ከዚህ እቃ።",
+    "redirecting": "ወደ ክፍያ መግቢያ መንገድ በማዞር ላይ።",
+    "this_order_id": "የትዕዛዝ መታወቂያዎ ",
+    "boa": "አቢሲኒያ ባንክ",
+    "view_all_packages": "ሁሉንም ጥቅሎች ይመልከቱ",
+    "explore_more_deals": "ጥቅሎች!"
 }

@@ -18,6 +18,7 @@ import PriceFormatter from "../components/PriceFormatter";
 import ProductGrid from "../components/product grid/ProductGrid";
 import ProductDetailLoad from "../components/loading skeletons/product/Detail.tsx";
 import { getLeftInStock } from "../utils/helper";
+import { toast } from "react-toastify";
 const ProductDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
@@ -35,7 +36,9 @@ const ProductDetail: React.FC = () => {
         id: number;
         name: string;
     } | null>(null);
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState<number>(1);
+    const [inputValue, setInputValue] = useState<string>("1");
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -136,17 +139,37 @@ const ProductDetail: React.FC = () => {
     };
 
     const handleQuantityChange = (value: string) => {
-        if (!product) return;
+        setInputValue(value); // Always update input field visually
 
+        if (!product) return;
         const numValue = parseInt(value);
+        const maxAllowed = getLeftInStock(user, product);
+
         if (!isNaN(numValue)) {
-            if (numValue > product.left_in_stock) {
-                setQuantity(product.left_in_stock);
-            } else if (numValue < 1) {
-                setQuantity(1);
-            } else {
-                setQuantity(numValue);
+            if (maxAllowed !== undefined && numValue > maxAllowed) {
+                toast.error(t("you_can") + maxAllowed + t("this_product"));
             }
+            let clamped = Math.max(1, numValue);
+            if (maxAllowed !== undefined) {
+                clamped = Math.min(clamped, maxAllowed);
+            }
+            setQuantity(clamped);
+        }
+    };
+    const handleBlur = () => {
+        const numValue = parseInt(inputValue);
+        if (!product) return;
+        if (isNaN(numValue)) {
+            setQuantity(1);
+            setInputValue("1");
+        } else {
+            const maxAllowed = getLeftInStock(user, product);
+            let clamped = Math.max(1, numValue);
+            if (maxAllowed !== undefined) {
+                clamped = Math.min(clamped, maxAllowed);
+            }
+            setQuantity(clamped);
+            setInputValue(String(clamped));
         }
     };
 
@@ -184,6 +207,7 @@ const ProductDetail: React.FC = () => {
                     left_in_stock: getLeftInStock(user, product) ?? 0,
                 })
             );
+            toast.success(product.name + " " + t("product_added_description"));
         }
     };
 
@@ -669,12 +693,13 @@ const ProductDetail: React.FC = () => {
                                     <div className="flex items-center">
                                         <input
                                             type="number"
-                                            value={quantity}
+                                            value={inputValue}
                                             onChange={(e) =>
                                                 handleQuantityChange(
                                                     e.target.value
                                                 )
                                             }
+                                            onBlur={handleBlur}
                                             min="1"
                                             max={
                                                 getLeftInStock(user, product) ??
@@ -682,6 +707,7 @@ const ProductDetail: React.FC = () => {
                                             }
                                             className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
+
                                         <button
                                             onClick={() =>
                                                 setIsDropdownOpen(
@@ -756,7 +782,11 @@ const ProductDetail: React.FC = () => {
                             </div>
                             <div className="hover-btn">
                                 <span className="mr-2">
-                                    <PriceFormatter price={product.price} />
+                                    <PriceFormatter
+                                        price={(
+                                            Number(product.price) * quantity
+                                        ).toFixed(2)}
+                                    />
                                 </span>
                             </div>
                         </button>

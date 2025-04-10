@@ -229,21 +229,19 @@ const Payment: React.FC = () => {
                 onSuccess: (response) => {
                     setShowApprove(0);
                     if (response.toPayUrl) {
-                        // setShowApprove(0);
-                        // setTimeout(() => {
-                        //     window.open(response.toPayUrl, "_blank",);
-                        // }, 200);
                         const currentDomain = "https://seregelagebeya.com";
                         const toPayUrl = new URL(response.toPayUrl);
 
                         if (toPayUrl.origin === currentDomain) {
-                            setTimeout(() => {
-                                const newWindow = window.open(
-                                    toPayUrl,
-                                    "_self"
-                                );
-                                if (newWindow) newWindow.opener = null;
-                            }, 200);
+                            // setTimeout(() => {
+                            //     const newWindow = window.open(
+                            //         toPayUrl,
+                            //         "_self"
+                            //     );
+                            //     if (newWindow) newWindow.opener = null;
+                            // }, 200);
+                            window.location.assign(response.toPayUrl);
+                            return;
                         } else {
                             setShowApprove(0);
                             setTimeout(() => {

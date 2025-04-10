@@ -37,6 +37,7 @@ import Packages from "./pages/Packages";
 import Tags from "./pages/Tags";
 import PackageDetail from "./pages/PackageDetail";
 import Register from "./pages/Register";
+import Boa from "./components/payments/Boa";
 function App() {
     const { user } = useSelector((state: RootState) => state.auth);
     return (
@@ -88,17 +89,6 @@ function App() {
                                 user ? <Navigate to="/" replace /> : <Login />
                             }
                         />
-                        {/* <Route
-                            path="/register"
-                            element={
-                                user?.first_name !== null &&
-                                user?.last_name !== null ? (
-                                    <Navigate to="/" replace />
-                                ) : (
-                                    <Login />
-                                )
-                            }
-                        /> */}
                         <Route path="/register" element={<Register />} />
                         <Route path="" element={<PrivateRoute />}>
                             <Route path="/profile" element={<ProfileUi />} />
@@ -129,6 +119,10 @@ function App() {
                             <Route
                                 path="/checkout/payment/awash-birr"
                                 element={<Awash />}
+                            />
+                            <Route
+                                path="/payments/orders/:id/boa"
+                                element={<Boa />}
                             />
                         </Route>
                         <Route path="*" element={<NotFound />} />

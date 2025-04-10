@@ -97,6 +97,18 @@ export default defineConfig({
                             },
                         },
                     },
+                    {
+                        urlPattern: ({ url }) =>
+                            url.pathname.startsWith("/payments/orders/"),
+                        handler: "NetworkOnly",
+                        options: {
+                            cacheName: "payment-bypass",
+                        },
+                    },
+                ],
+                navigateFallbackDenylist: [
+                    new RegExp("/payments/orders/"),
+                    new RegExp("/api/"),
                 ],
                 globPatterns: ["**/*.{js,css,html,svg,png,ico}"],
                 cleanupOutdatedCaches: true,

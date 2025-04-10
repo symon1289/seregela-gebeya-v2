@@ -9,6 +9,7 @@ import PackageLoading from "./loading skeletons/package/Card.tsx";
 import deualtImage from "../assets/no-image-available-02.jpg";
 import PriceFormatter from "./PriceFormatter.tsx";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 interface FeaturedDeal {
     id: number;
     title: string;
@@ -139,6 +140,8 @@ const Modal: React.FC<{
 
 const MoreDeals: React.FC = () => {
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
     const { isLoadingPackages, packagesError, packages, getPackages } =
         usePackages();
     const [selectedPackage, setSelectedPackage] = useState<Package | null>(
@@ -169,15 +172,15 @@ const MoreDeals: React.FC = () => {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <h2 className="explore-more-deals font-semibold text-black">
-                        Explore More Deals!
+                        {t("explore_more_deals")}
                     </h2>
                     <button
-                        className="flex items-center gap-2 text-primary"
+                        className="flex items-center gap-2 text-primary hover:bg-primary hover:text-white py-2 px-4 rounded-md"
                         onClick={() => navigate("/packages")}
                     >
                         <Clock className="w-5 h-5" />
                         <span className="font-semibold">
-                            Limited Time Offers
+                            {t("view_all_packages")}
                         </span>
                     </button>
                 </div>

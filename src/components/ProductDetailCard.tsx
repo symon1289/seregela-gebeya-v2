@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import PriceFormatter from "./PriceFormatter";
 import DetailCard from "./loading skeletons/package/DetailCard";
 import { getLeftInStock } from "../utils/helper";
-
+import { toast } from "react-toastify";
 interface ProductDetailCardProps {
     id?: string;
 }
@@ -33,7 +33,10 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
     const isInWishlist = wishlistItems.some(
         (item) => Number(item.id) === Number(id)
     );
-    const [quantity, setQuantity] = useState(1);
+
+    const [quantity, setQuantity] = useState<number>(1);
+    const [inputValue, setInputValue] = useState<string>("1");
+
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isHovering, setIsHovering] = useState(false);
@@ -60,17 +63,37 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
     }, []);
 
     const handleQuantityChange = (value: string) => {
-        if (!packageItem) return;
+        setInputValue(value); // Always update input field visually
 
+        if (!packageItem) return;
         const numValue = parseInt(value);
+        const maxAllowed = getLeftInStock(user, packageItem);
+
         if (!isNaN(numValue)) {
-            if (numValue > packageItem.left_in_stock) {
-                setQuantity(packageItem.left_in_stock);
-            } else if (numValue < 1) {
-                setQuantity(1);
-            } else {
-                setQuantity(numValue);
+            if (maxAllowed !== undefined && numValue > maxAllowed) {
+                toast.error(t("you_can") + maxAllowed + t("this_product"));
             }
+            let clamped = Math.max(1, numValue);
+            if (maxAllowed !== undefined) {
+                clamped = Math.min(clamped, maxAllowed);
+            }
+            setQuantity(clamped);
+        }
+    };
+    const handleBlur = () => {
+        const numValue = parseInt(inputValue);
+        if (!packageItem) return;
+        if (isNaN(numValue)) {
+            setQuantity(1);
+            setInputValue("1");
+        } else {
+            const maxAllowed = getLeftInStock(user, packageItem);
+            let clamped = Math.max(1, numValue);
+            if (maxAllowed !== undefined) {
+                clamped = Math.min(clamped, maxAllowed);
+            }
+            setQuantity(clamped);
+            setInputValue(String(clamped));
         }
     };
 
@@ -107,6 +130,9 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                     image_path: packageItem.image_path || "",
                     left_in_stock: getLeftInStock(user, packageItem) ?? 0,
                 })
+            );
+            toast.success(
+                packageItem.name + " " + t("product_added_description")
             );
         }
     };
@@ -333,12 +359,13 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                     <div className="flex items-center">
                                         <input
                                             type="number"
-                                            value={quantity}
+                                            value={inputValue}
                                             onChange={(e) =>
                                                 handleQuantityChange(
                                                     e.target.value
                                                 )
                                             }
+                                            onBlur={handleBlur}
                                             min="1"
                                             max={
                                                 getLeftInStock(
@@ -348,6 +375,7 @@ const ProductDetailCard: React.FC<ProductDetailCardProps> = ({ id }) => {
                                             }
                                             className="border rounded-l-lg px-3 py-2 focus:outline-none focus:border-primary w-20 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
+
                                         <button
                                             onClick={() =>
                                                 setIsDropdownOpen(

@@ -385,8 +385,9 @@
     "terms_of_service": "Terms of Service",
     "all_rights_reserved": "All rights reserved.",
     "hello": "Hello",
+    "bunna_enter_your_pin_description": "Please open bunna bank mobile banking app and enter your 6 digit pin of bunna bank mobile banking",
     "bunna_step_two": "Navigate  Seregela Gebeya",
-    "bunna_step_two_description": "After gaining access navigate towards the \"Utilities\" menu. Then select Seregela Gebeya",
+    "bunna_step_two_description": "After gaining access navigate towards the \"Payments\" menu. Then select Seregela Gebeya under \"E-commerce\"",
     "bunna_step_three": "Order ID",
     "bunna_step_three_description": "Enter the order ID displayed below",
     "bunna_step_four": "Go home",
@@ -415,5 +416,12 @@
     "latest": "Latest",
     "search_packages": "Search for Packages...",
     "submit": "Submit",
-    "register_profile": "Register your profile"
+    "register_profile": "Register your profile",
+    "you_can": "You can only order up to ",
+    "this_product": " quantity of this product.",
+    "redirecting": "Redirecting to payment gateway.",
+    "this_order_id": "Your order ID ",
+    "boa": "Bank of Abyssinia",
+    "view_all_packages": "View All Packages",
+    "explore_more_deals": "Explore More Deals!"
 }

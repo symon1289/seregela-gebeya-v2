@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import bunna from "../../assets/bunna-for-payment.png";
+import bunna_logo from "../../assets/payment-option-11.png";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { useOrder } from "../../hooks/useOrder";
@@ -53,6 +54,13 @@ const Bunna: React.FC = () => {
             <div className="bg-transparent mx-auto min-h-dvh  bg-gray-400 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10">
                 <div className="max-w-screen-md mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between bg-white ">
                     <div className="text-center">
+                        <div className="w-56 h-24 mx-auto">
+                            <img
+                                src={bunna_logo}
+                                alt="bunna"
+                                className="w-full h-full"
+                            />
+                        </div>
                         <h3 className="text-xl sm:text-2xl leading-normal font-extrabold tracking-tight text-gray-900">
                             <span className="text-primary">
                                 {t("steps_to_follow_bunna")}
@@ -73,7 +81,9 @@ const Bunna: React.FC = () => {
                                             {t("enter_your_pin")}
                                         </h4>
                                         <p className="mt-2 text-base leading-6 text-gray-500">
-                                            {t("enter_your_pin_description")}
+                                            {t(
+                                                "bunna_enter_your_pin_description"
+                                            )}
                                         </p>
                                     </div>
                                 </div>

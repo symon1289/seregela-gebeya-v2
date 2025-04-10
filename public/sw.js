@@ -1,57 +1,64 @@
 // Cache name for static assets
-const CACHE_NAME = "seregela-gebeya-cache-v2";
+const CACHE_NAME = "seregela-gebeya-cache-v3";
 
 // Install event: Cache static assets
 self.addEventListener("install", (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll([
-                "/",
-                "/index.html",
-                "/seregela-gebeya-v2",
-                "/seregela-gebeya-v2/products",
-                "/seregela-gebeya-v2/cart",
-                "/seregela-gebeya-v2/products/:id",
-                "/seregela-gebeya-v2/category/:id",
-                "/seregela-gebeya-v2/subcategory/:id",
-                "/seregela-gebeya-v2/wishlist",
-                "/seregela-gebeya-v2/privacy-policy",
-                "/seregela-gebeya-v2/terms-of-service",
-                "/seregela-gebeya-v2/faq",
-                "/seregela-gebeya-v2/return-policy",
-                "/seregela-gebeya-v2/contact",
-                "/seregela-gebeya-v2/login",
-                "/seregela-gebeya-v2/profile",
-                "/seregela-gebeya-v2/checkout/shipping",
-                // "/seregela-gebeya-v2/checkout/payment",
-                // "/seregela-gebeya-v2/checkout/payment/cbebanking",
-                // "/seregela-gebeya-v2/checkout/payment/apollo",
-                "/seregela-gebeya-v2/test",
-                "/manifest.json",
-                "/apple-touch-icon.png",
-                "/favicon.ico",
-                "/favicon-16x16.png",
-                "/pwa-192x192.png",
-                "/pwa-512x512.png",
-                "/pwa-maskable-192x192.png",
-                "/pwa-maskable-512x512.png",
-            ]);
-        })
+        caches
+            .open(CACHE_NAME)
+            .then((cache) => {
+                return cache.addAll([
+                    "/",
+                    "/index.html",
+                    "/seregela-gebeya-v2",
+                    "/seregela-gebeya-v2/products",
+                    "/seregela-gebeya-v2/cart",
+                    "/seregela-gebeya-v2/products/:id",
+                    "/seregela-gebeya-v2/packages",
+                    "/seregela-gebeya-v2/packages/:id",
+                    "/seregela-gebeya-v2/tags/:id/packages",
+                    "/seregela-gebeya-v2/category/:id",
+                    "/seregela-gebeya-v2/subcategory/:id",
+                    "/seregela-gebeya-v2/wishlist",
+                    "/seregela-gebeya-v2/privacy-policy",
+                    "/seregela-gebeya-v2/terms-of-service",
+                    "/seregela-gebeya-v2/faq",
+                    "/seregela-gebeya-v2/return-policy",
+                    "/seregela-gebeya-v2/contact",
+                    "/seregela-gebeya-v2/login",
+                    "/seregela-gebeya-v2/profile",
+                    // "/seregela-gebeya-v2/checkout/shipping",
+                    // "/seregela-gebeya-v2/checkout/payment",
+                    // "/seregela-gebeya-v2/checkout/payment/cbebanking",
+                    // "/seregela-gebeya-v2/checkout/payment/apollo",
+                    "/manifest.json",
+                    "/apple-touch-icon.png",
+                    "/favicon.ico",
+                    "/favicon-16x16.png",
+                    "/pwa-192x192.png",
+                    "/pwa-512x512.png",
+                    "/pwa-maskable-192x192.png",
+                    "/pwa-maskable-512x512.png",
+                ]);
+            })
+            .then(() => self.skipWaiting())
     );
 });
 
 // Fetch event: Serve cached assets or fetch from network
 self.addEventListener("fetch", (event) => {
+    const url = new URL(event.request.url);
+
+    if (url.pathname.startsWith("/payments/orders/")) {
+        return;
+    }
     event.respondWith(
         caches.match(event.request).then((response) => {
-            // Return cached response if available
             if (response) {
                 return response;
             }
 
-            // Fetch from network for navigation requests
             return fetch(event.request).then((networkResponse) => {
-                // Cache the fetched response for future use
                 const clonedResponse = networkResponse.clone();
                 caches.open(CACHE_NAME).then((cache) => {
                     cache.put(event.request, clonedResponse);
@@ -77,16 +84,15 @@ self.addEventListener("push", (event) => {
 
 // Notification click event: Handle notification interactions
 self.addEventListener("notificationclick", (event) => {
-    event.notification.close(); // Close the notification
+    event.notification.close();
 
-    // Handle the notification click
     event.waitUntil(
         clients.matchAll({ type: "window" }).then((clientList) => {
             if (clientList.length > 0) {
                 const client = clientList[0];
                 client.focus();
             } else {
-                clients.openWindow("/"); // Open the app in a new window
+                clients.openWindow("/");
             }
         })
     );
