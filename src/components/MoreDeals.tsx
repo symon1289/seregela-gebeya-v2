@@ -174,15 +174,17 @@ const MoreDeals: React.FC = () => {
                     <h2 className="explore-more-deals font-semibold text-black">
                         {t("explore_more_deals")}
                     </h2>
-                    <button
-                        className="flex items-center gap-2 text-primary hover:bg-primary hover:text-white py-2 px-4 rounded-md"
-                        onClick={() => navigate("/packages")}
-                    >
-                        <Clock className="w-5 h-5" />
-                        <span className="font-semibold">
-                            {t("view_all_packages")}
-                        </span>
-                    </button>
+                    {packages.length > 0 && (
+                        <button
+                            className="flex items-center gap-2 text-primary hover:bg-primary hover:text-white py-2 px-4 rounded-md"
+                            onClick={() => navigate("/packages")}
+                        >
+                            <Clock className="w-5 h-5" />
+                            <span className="font-semibold">
+                                {t("view_all_packages")}
+                            </span>
+                        </button>
+                    )}
                 </div>
 
                 {/* Regular Deals Grid */}
